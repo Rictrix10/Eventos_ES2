@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BusinessLogic.Context;
 using BusinessLogic.Entities;
+using BusinessLogic.Models;
 
 namespace Backend.Controllers
 {

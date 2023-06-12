@@ -118,3 +118,5 @@ create table public.mensagem
     data_envio     date
 );
 
+alter table utilizador
+    add idade integer;

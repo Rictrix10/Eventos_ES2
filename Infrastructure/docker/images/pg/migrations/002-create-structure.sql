@@ -6,8 +6,7 @@
         unique
 );
 
-alter table public.tipo_utilizador
-    owner to postgres;
+
 
 create table public.utilizador
 (
@@ -20,8 +19,7 @@ create table public.utilizador
         references public.tipo_utilizador
 );
 
-alter table public.utilizador
-    owner to postgres;
+
 
 create table public.organizador
 (
@@ -30,8 +28,7 @@ create table public.organizador
         references public.utilizador
 );
 
-alter table public.organizador
-    owner to postgres;
+
 
 create table public.participante
 (
@@ -40,8 +37,7 @@ create table public.participante
         references public.utilizador
 );
 
-alter table public.participante
-    owner to postgres;
+
 
 create table public.evento
 (
@@ -58,8 +54,7 @@ create table public.evento
     preco_ingresso numeric(10, 2)
 );
 
-alter table public.evento
-    owner to postgres;
+
 
 create table public.tipo_ingresso
 (
@@ -72,8 +67,7 @@ create table public.tipo_ingresso
     preco                 numeric(10, 2)
 );
 
-alter table public.tipo_ingresso
-    owner to postgres;
+
 
 create table public.atividade
 (
@@ -87,8 +81,7 @@ create table public.atividade
     descricao text
 );
 
-alter table public.atividade
-    owner to postgres;
+
 
 create table public.participante_evento
 (
@@ -100,8 +93,6 @@ create table public.participante_evento
     primary key (id_participante, id_evento)
 );
 
-alter table public.participante_evento
-    owner to postgres;
 
 create table public.participante_atividade
 (
@@ -112,8 +103,7 @@ create table public.participante_atividade
     primary key (id_participante, id_atividade)
 );
 
-alter table public.participante_atividade
-    owner to postgres;
+
 
 create table public.mensagem
 (
@@ -128,5 +118,3 @@ create table public.mensagem
     data_envio     date
 );
 
-alter table public.mensagem
-    owner to postgres;

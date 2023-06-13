@@ -1,0 +1,55 @@
+﻿@page "/utilizadores"
+@inject HttpClient Http
+
+<h3>Utilizadores</h3>
+
+@if (utilizadores == null)
+{
+    <p>Carregando...</p>
+}
+else if (utilizadores.Count == 0)
+{
+    <p>Nenhum utilizador encontrado.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var utilizador in utilizadores)
+        {
+            <tr>
+                <td>@utilizador.Username</td>
+                <td>@utilizador.Nome</td>
+                <td>@utilizador.Email</td>
+                <td>@utilizador.Telefone</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Utilizador> utilizadores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        utilizadores = await Http.GetFromJsonAsync<List<Utilizador>>("/api/utilizadores");
+    }
+
+    public class Utilizador
+    {
+        public int IdUtilizador { get; set; }
+        public string Username { get; set; }
+        public string Nome { get; set; }
+        public string Email { get; set; }
+        public string Telefone { get; set; }
+    }
+}

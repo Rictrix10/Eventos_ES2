@@ -1,0 +1,116 @@
+﻿@page "/create-event"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavigationManager
+
+<h3>Create Event</h3>
+
+<EditForm Model="@eventModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Event Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="@eventModel.Name" />
+        <ValidationMessage For="@(() => eventModel.Name)" />
+    </div>
+
+    <div class="form-group">
+        <label for="date">Event Date:</label>
+        <InputDate id="date" class="form-control" @bind-Value="@eventModel.Date" />
+        <ValidationMessage For="@(() => eventModel.Date)" />
+    </div>
+
+    <div class="form-group">
+        <label for="time">Event Time:</label>
+        <InputTime id="time" class="form-control" @bind-Value="@eventModel.Time" />
+        <ValidationMessage For="@(() => eventModel.Time)" />
+    </div>
+
+    <div class="form-group">
+        <label for="location">Event Location:</label>
+        <InputText id="location" class="form-control" @bind-Value="@eventModel.Location" />
+        <ValidationMessage For="@(() => eventModel.Location)" />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Event Description:</label>
+        <InputText id="description" class="form-control" @bind-Value="@eventModel.Description" />
+        <ValidationMessage For="@(() => eventModel.Description)" />
+    </div>
+
+    <div class="form-group">
+        <label for="capacity">Max Capacity:</label>
+        <InputNumber id="capacity" class="form-control" @bind-Value="@eventModel.MaxCapacity" />
+        <ValidationMessage For="@(() => eventModel.MaxCapacity)" />
+    </div>
+
+    <div class="form-group">
+        <label for="ticketTypes">Ticket Types:</label>
+        @foreach (var ticketType in eventModel.TicketTypes)
+        {
+            <div class="form-row">
+                <div class="col">
+                    <label for="ticketType.name">Type Name:</label>
+                    <InputText id="ticketType.name" class="form-control" @bind-Value="@ticketType.Name" />
+                    <ValidationMessage For="@(() => ticketType.Name)" />
+                </div>
+                <div class="col">
+                    <label for="ticketType.quantity">Quantity:</label>
+                    <InputNumber id="ticketType.quantity" class="form-control" @bind-Value="@ticketType.Quantity" />
+                    <ValidationMessage For="@(() => ticketType.Quantity)" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Event</button>
+</EditForm>
+
+@code {
+    private EventModel eventModel = new EventModel();
+
+    private void HandleValidSubmit()
+    {
+        // Lógica para processar a criação do evento aqui
+        // Exemplo básico: salvar as informações do evento em algum lugar
+        // como um banco de dados ou serviço
+
+        // Faça o que for necessário para salvar as informações do evento
+        // por exemplo, chamar um serviço para lidar com a persistência
+
+        // Após a criação do evento, redirecionar para uma página de confirmação ou detalhes do evento
+        NavigationManager.NavigateTo("/event-details");
+    }
+
+    public class EventModel
+    {
+        [Required(ErrorMessage = "O nome do evento é obrigatório.")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "A data do evento é obrigatória.")]
+        public DateTime Date { get; set; }
+
+        [Required(ErrorMessage = "A hora do evento é obrigatória.")]
+        public TimeSpan Time { get; set; }
+
+        [Required(ErrorMessage = "O local do evento é obrigatório.")]
+        public string Location { get; set; }
+
+        [Required(ErrorMessage = "A descrição do evento é obrigatória.")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "A capacidade máxima do evento é obrigatória.")]
+        public int MaxCapacity { get; set; }
+
+        public List<TicketType> TicketTypes { get; set; } = new List<TicketType>();
+
+        public class TicketType
+        {
+            [Required(ErrorMessage = "O nome do tipo de ingresso é obrigatório.")]
+            public string Name { get; set; }
+
+            [Required(ErrorMessage = "A quantidade disponível é obrigatória.")]
+            public int Quantity { get; set; }
+        }
+    }
+}

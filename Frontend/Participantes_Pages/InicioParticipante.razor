@@ -1,0 +1,181 @@
+﻿@page "/dashboard"
+@inject NavigationManager NavigationManager
+
+<h3>Dashboard</h3>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" @onclick="(() => ChangeTab(1))">Search Events</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" @onclick="(() => ChangeTab(2))">My Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" @onclick="(() => ChangeTab(3))">My Registrations</a>
+    </li>
+</ul>
+
+@if (activeTab == 1)
+{
+    <h4>Search Events</h4>
+
+    <div class="form-group">
+        <label for="eventName">Event Name:</label>
+        <InputText id="eventName" class="form-control" @bind-Value="@eventName" />
+    </div>
+
+    <div class="form-group">
+        <label for="eventDate">Event Date:</label>
+        <InputDate id="eventDate" class="form-control" @bind-Value="@eventDate" />
+    </div>
+
+    <div class="form-group">
+        <label for="eventLocation">Event Location:</label>
+        <InputText id="eventLocation" class="form-control" @bind-Value="@eventLocation" />
+    </div>
+
+    <div class="form-group">
+        <label for="eventCategory">Event Category:</label>
+        <InputText id="eventCategory" class="form-control" @bind-Value="@eventCategory" />
+    </div>
+
+    <button type="button" class="btn btn-primary" @onclick="SearchEvents">Search</button>
+
+    <h5>Search Results:</h5>
+
+    @if (searchResults != null && searchResults.Count > 0)
+    {
+        <ul>
+            @foreach (var eventResult in searchResults)
+            {
+                <li>@eventResult.EventName - @eventResult.EventDate.ToString("dd/MM/yyyy") - @eventResult.EventLocation</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No events found.</p>
+    }
+}
+else if (activeTab == 2)
+{
+    <h4>My Profile</h4>
+
+    <div class="form-group">
+        <label for="fullName">Full Name:</label>
+        <InputText id="fullName" class="form-control" @bind-Value="@profileModel.FullName" />
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="@profileModel.Email" />
+    </div>
+
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <InputText id="phoneNumber" class="form-control" @bind-Value="@profileModel.PhoneNumber" />
+    </div>
+
+    <button type="button" class="btn btn-primary" @onclick="UpdateProfile">Save Changes</button>
+}
+else if (activeTab == 3)
+{
+    <h4>My Registrations</h4>
+
+    @if (registeredEvents != null && registeredEvents.Count > 0)
+    {
+        <ul>
+            @foreach (var registration in registeredEvents)
+            {
+                <li>@registration.EventName - @registration.EventDate.ToString("dd/MM/yyyy")</li>
+                <ul>
+                    @foreach (var activity in registration.Activities)
+                    {
+                        <li>@activity.ActivityName</li>
+                    }
+                </ul>
+                <button type="button" class="btn btn-danger" @onclick="(() => CancelRegistration(registration.EventId))">Cancel Registration</button>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No registrations found.</p>
+    }
+}
+
+@code {
+    private int activeTab = 1;
+    private string eventName;
+    private DateTime? eventDate;
+    private string eventLocation;
+    private string eventCategory;
+    private List<EventModel> searchResults;
+    private List<RegistrationModel> registeredEvents;
+    private ProfileModel profileModel = new ProfileModel();
+
+    private void ChangeTab(int tab)
+    {
+        activeTab = tab;
+    }
+
+    private void SearchEvents()
+    {
+        // Lógica para pesquisar eventos com base nos critérios de pesquisa fornecidos
+
+        // Exemplo básico: Simular a pesquisa retornando eventos de exemplo
+        searchResults = new List<EventModel>()
+        {
+            new EventModel() { EventName = "Event 1", EventDate = new DateTime(2023, 6, 15), EventLocation = "Location 1" },
+            new EventModel() { EventName = "Event 2", EventDate = new DateTime(2023, 6, 16), EventLocation = "Location 2" },
+            new EventModel() { EventName = "Event 3", EventDate = new DateTime(2023, 6, 17), EventLocation = "Location 3" }
+        };
+    }
+
+    private void UpdateProfile()
+    {
+        // Lógica para atualizar as informações do perfil do participante
+
+        // Exemplo básico: Simular a atualização do perfil
+
+        // Redirecionar para uma página de confirmação ou para a página inicial do perfil
+        NavigationManager.NavigateTo("/profile");
+    }
+
+    private void CancelRegistration(int eventId)
+    {
+        // Lógica para cancelar a inscrição do participante em um evento
+
+        // Exemplo básico: Simular o cancelamento da inscrição
+
+        // Atualizar a lista de eventos registrados
+        registeredEvents = registeredEvents.Where(r => r.EventId != eventId).ToList();
+    }
+
+    public class EventModel
+    {
+        public string EventName { get; set; }
+        public DateTime EventDate { get; set; }
+        public string EventLocation { get; set; }
+    }
+
+    public class RegistrationModel
+    {
+        public int EventId { get; set; }
+        public string EventName { get; set; }
+        public DateTime EventDate { get; set; }
+        public List<ActivityModel> Activities { get; set; }
+    }
+
+    public class ActivityModel
+    {
+        public string ActivityName { get; set; }
+    }
+
+    public class ProfileModel
+    {
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+    }
+}

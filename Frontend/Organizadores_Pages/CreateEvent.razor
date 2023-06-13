@@ -1,0 +1,45 @@
+﻿@page "/create-event"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavigationManager
+
+<h3>Create Event</h3>
+
+<EditForm Model="@eventModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="eventName">Event Name:</label>
+        <InputText id="eventName" class="form-control" @bind-Value="@eventModel.EventName" />
+        <ValidationMessage For="@(() => eventModel.EventName)" />
+    </div>
+
+    <!-- Resto do código da página -->
+
+    <button type="submit" class="btn btn-primary">Create Event</button>
+</EditForm>
+
+@code {
+    private EventModel eventModel = new EventModel();
+
+    private void HandleValidSubmit()
+    {
+    // Lógica para processar a criação do evento aqui
+    // Exemplo básico: salvar as informações do evento em algum lugar
+    // como um banco de dados ou serviço
+
+    // Faça o que for necessário para salvar as informações do evento
+    // por exemplo, chamar um serviço para lidar com a persistência
+
+    // Após a criação do evento, redirecionar para uma página de confirmação ou detalhes do evento
+        NavigationManager.NavigateTo("/event-details");
+    }
+
+    public class EventModel
+    {
+        [Required(ErrorMessage = "The event name is required.")]
+        public string EventName { get; set; }
+
+    // Resto das propriedades do evento
+    }
+}

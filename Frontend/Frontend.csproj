@@ -16,6 +16,8 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="Pages\Create-Event.razor" />
+      <Content Remove="Pages\Counter.razor" />
     </ItemGroup>
 
 </Project>

@@ -1,122 +1,122 @@
 ﻿create table public.tipo_utilizador
 (
-    id   serial
+    id_tipo_utilizador serial
         primary key,
-    tipo varchar(20)
-        unique
+    tipo               varchar(255)
 );
 
+
+create table public.autenticacao
+(
+    id_autenticacao serial
+        primary key,
+    tipo            varchar(255)
+);
 
 
 create table public.utilizador
 (
-    id       integer not null
+    id_utilizador      serial
         primary key,
-    nome     varchar(50),
-    email    varchar(50),
-    password varchar(50),
-    id_tipo  integer
-        references public.tipo_utilizador
+    username           varchar(255),
+    nome               varchar(255),
+    email              varchar(255),
+    password           varchar(255),
+    telefone           varchar(255),
+    id_tipo_utilizador integer
+        references public.tipo_utilizador,
+    id_autenticacao    integer
+        references public.autenticacao
 );
-
-
-
-create table public.organizador
-(
-    id_utilizador integer not null
-        primary key
-        references public.utilizador
-);
-
-
-
-create table public.participante
-(
-    id_utilizador integer not null
-        primary key
-        references public.utilizador
-);
-
 
 
 create table public.evento
 (
-    id             integer not null
+    id_evento      serial
         primary key,
-    id_organizador integer
-        references public.organizador,
-    nome           varchar(50),
+    nome           varchar(255),
     data           date,
     hora           time,
-    local          varchar(50),
+    local          varchar(255),
     descricao      text,
-    capacidade_max integer,
-    preco_ingresso numeric(10, 2)
+    capacidademax  integer,
+    categoria      varchar(255),
+    id_organizador integer
+        references public.utilizador
 );
-
 
 
 create table public.tipo_ingresso
 (
-    id                    integer not null
+    id_tipo_ingresso serial
         primary key,
-    id_evento             integer
-        references public.evento,
-    nome                  varchar(50),
-    quantidade_disponivel integer,
-    preco                 numeric(10, 2)
+    nome             varchar(255),
+    preco            numeric(10, 2)
 );
-
 
 
 create table public.atividade
 (
-    id        integer not null
+    id_atividade serial
         primary key,
-    id_evento integer
-        references public.evento,
-    nome      varchar(50),
-    data      date,
-    hora      time,
-    descricao text
+    nome         varchar(255),
+    data         date,
+    hora         time,
+    descricao    text,
+    id_evento    integer
+        references public.evento
 );
 
 
 
-create table public.participante_evento
+create table public.inscricao_evento
 (
-    id_participante integer not null
-        references public.participante,
-    id_evento       integer not null
-        references public.evento,
-    data_registro   date,
-    primary key (id_participante, id_evento)
+    id_inscricao_evento serial
+        primary key,
+    id_participante     integer
+        references public.utilizador,
+    id_evento           integer
+        references public.evento
 );
 
 
-create table public.participante_atividade
+create table public.inscricao_atividade
 (
-    id_participante integer not null
-        references public.participante,
-    id_atividade    integer not null
-        references public.atividade,
-    primary key (id_participante, id_atividade)
+    id_inscricao_atividade serial
+        primary key,
+    id_participante        integer
+        references public.utilizador,
+    id_atividade           integer
+        references public.atividade
 );
 
 
 
 create table public.mensagem
 (
-    id             integer not null
+    id_mensagem     serial
         primary key,
-    id_organizador integer
-        references public.organizador,
-    id_evento      integer
-        references public.evento,
-    assunto        varchar(50),
-    corpo          text,
-    data_envio     date
+    mensagem        text,
+    id_organizador  integer
+        references public.utilizador,
+    id_participante integer
+        references public.utilizador,
+    id_evento       integer
+        references public.evento
 );
 
-alter table utilizador
-    add idade integer;
+
+
+create table public.feedback
+(
+    id_feedback     serial
+        primary key,
+    feedback        text,
+    id_participante integer
+        references public.utilizador,
+    id_evento       integer
+        references public.evento
+);
+
+
+

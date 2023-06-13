@@ -17,7 +17,7 @@ namespace Frontend.Pages
             if (_context.Utilizadors != null)
             {
                 Utilizador = await _context.Utilizadors
-                    .Include(m => m.IdUtilizador)
+                    .Include(m => m.IdTipoUtilizador)
                     .Select(m => new UtilizadorViewModel(m)).ToListAsync();
             }
         }

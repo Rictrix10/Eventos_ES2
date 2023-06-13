@@ -16,7 +16,13 @@ public class UtilizadorViewModel
         Nome = utilizador.Nome;
         Email = utilizador.Email;
         Telefone = utilizador.Telefone;
+        Tipoutilizador = utilizador.IdUtilizador;
+        Tipoautenticao = utilizador.IdAutenticacao;
     }
+
+    public int? Tipoautenticao { get; set; }
+
+    public int Tipoutilizador { get; set; }
 
     public string? Telefone { get; set; }
 

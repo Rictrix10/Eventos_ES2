@@ -118,5 +118,12 @@ create table public.feedback
         references public.evento
 );
 
+create table public.evento_ingresso
+(
+    id_evento integer references public.evento (id_evento),
+    id_ingresso integer references public.tipo_ingresso (id_tipo_ingresso),
+    quantidade integer,
+    PRIMARY KEY (id_evento, id_ingresso)
+)
 
 

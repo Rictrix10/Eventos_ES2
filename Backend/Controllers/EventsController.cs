@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BusinessLogic.Context;
 using BusinessLogic.Entities;
+using BusinessLogic.Models;
 
 namespace Backend.Controllers
 {
@@ -26,16 +27,21 @@ namespace Backend.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<dynamic>>> GetEventos()
+        public async Task<ActionResult<EventoViewModel[]>> GetEventos()
         {
             if (_context.Eventos == null)
             {
                 return NotFound();
             }
 
-            return await _context
-                .Eventos.Select(a => new
+            var events = await _context
+                .Eventos.ToListAsync();
+                
+            return events
+                .Select(a => new EventoViewModel() 
                 {   
+                    Organizador = a.IdOrganizador
+                        /*
                     a.IdEvento,
                     a.Nome,
                     a.Data,
@@ -49,8 +55,8 @@ namespace Backend.Controllers
                         
                         Email = a.IdOrganizadorNavigation!.Email ?? "sem organizador"
 
-                    }
-                }).ToListAsync();
+                    }*/
+                }).ToArray();
             
         }
 

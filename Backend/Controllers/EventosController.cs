@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using BusinessLogic.Context;
 using BusinessLogic.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers
 {
@@ -26,8 +28,20 @@ namespace Backend.Controllers
                 // Aqui você pode implementar a lógica para recuperar todos os eventos existentes
                 // Exemplo: List<Evento> eventos = suaLógicaDeRecuperacao();
 
-                // Supondo que você tenha uma lista de eventos, você pode retorná-la como resposta
-                var eventos = new List<Evento>();
+                // Supondo que
+                // você tenha uma lista de eventos, você pode retorná-la como resposta
+                var db = new EventosDBContext();
+                var eventos = db.Eventos.Select(e=>new
+                {
+                    e.Categoria,
+                    e.Descricao,
+                    Organizador = new {
+                        Nome = e.IdOrganizadorNavigation!.Nome ?? "sem organizador",
+                        
+                        Email = e.IdOrganizadorNavigation!.Email ?? "sem organizador"
+
+                    }
+                }).ToList();
                 return Ok(eventos);
             }
             catch (Exception ex)

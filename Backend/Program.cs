@@ -16,9 +16,10 @@ builder.Services.AddSwaggerGen();
 
 // Add default connection string for the Web API controllers
 
-builder.Services.AddDbContext<ES2DbContext>(options => 
+builder.Services.AddDbContext<EventosDBContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection"))
 );
+
 
 builder.Services.AddAuthentication(options =>
 {

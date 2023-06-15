@@ -1,6 +1,9 @@
 @page "/register"
 @using System.ComponentModel.DataAnnotations
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
 @inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
 
 <h3>Register</h3>
 
@@ -10,14 +13,8 @@
 
     <div class="form-group">
         <label for="name">Name:</label>
-        <InputText id="name" class="form-control" @bind-Value="@registerModel.Name" />
-        <ValidationMessage For="@(() => registerModel.Name)" />
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" />
-        <ValidationMessage For="@(() => registerModel.Password)" />
+        <InputText id="name" class="form-control" @bind-Value="@registerModel.Nome" />
+        <ValidationMessage For="@(() => registerModel.Nome)" />
     </div>
 
     <div class="form-group">
@@ -27,44 +24,71 @@
     </div>
 
     <div class="form-group">
+        <label for="username">Username:</label>
+        <InputText id="username" class="form-control" @bind-Value="@registerModel.Username" />
+        <ValidationMessage For="@(() => registerModel.Username)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" />
+        <ValidationMessage For="@(() => registerModel.Password)" />
+    </div>
+
+    <div class="form-group">
         <label for="userType">User Type:</label>
-        <InputText id="userType" class="form-control" @bind-Value="@registerModel.UserType" />
-        <ValidationMessage For="@(() => registerModel.UserType)" />
+        <select id="userType" class="form-control" @bind="@registerModel.Tipo_Utilizador">
+            <option value="">-- Select User Type --</option>
+            <option value="Organizador">Organizador</option>
+            <option value="Participante">Participante</option>
+        </select>
     </div>
 
     <button type="submit" class="btn btn-primary">Register</button>
 </EditForm>
 
 @code {
-    private RegisterModel registerModel = new RegisterModel();
+    private RegisterViewModel registerModel = new RegisterViewModel();
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Lógica para processar o registro aqui
-        // Exemplo básico: criar uma conta de usuário com os dados fornecidos
-        // e redirecionar para a página de login
-
         // Faça o que for necessário para salvar o novo usuário no banco de dados
         // por exemplo, chamar um serviço para lidar com a persistência
 
-        // Após o registro, redirecionar para a página de login
-        NavigationManager.NavigateTo("/login");
+        try
+        {
+            // Mapear o valor do User Type selecionado para o código correspondente
+            registerModel.Id_Tipo_Utilizador = GetUserTypeCode(registerModel.Tipo_Utilizador);
+
+            var response = await HttpClient.PostAsJsonAsync("/api/Utilizadores", registerModel);
+            response.EnsureSuccessStatusCode();
+
+            // Após o registro, redirecionar para a página de login
+            NavigationManager.NavigateTo("/login");
+        }
+        catch (Exception ex)
+        {
+            // Lidar com qualquer erro de requisição ou validação aqui
+            Console.WriteLine(ex.Message);
+        }
     }
 
-    public class RegisterModel
+    private int GetUserTypeCode(string userType)
     {
-        [Required(ErrorMessage = "O nome é obrigatório.")]
-        public string Name { get; set; }
-
-        [Required(ErrorMessage = "A senha é obrigatória.")]
-        [MinLength(6, ErrorMessage = "A senha deve ter pelo menos 6 caracteres.")]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "O email é obrigatório.")]
-        [EmailAddress(ErrorMessage = "O email fornecido não é válido.")]
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "O tipo de usuário é obrigatório.")]
-        public string UserType { get; set; }
+        // Mapear o User Type selecionado para o código correspondente
+        // Aqui você pode usar uma lógica específica do seu sistema para mapear o valor
+        // Para fins de exemplo, estou retornando um valor fixo para cada User Type
+        switch (userType)
+        {
+            case "Organizador":
+                return 1;
+            case "Participante":
+                return 2;
+            default:
+                return 0; // Código padrão para um User Type inválido
+        }
     }
 }
+
+
+

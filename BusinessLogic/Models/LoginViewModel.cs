@@ -14,6 +14,8 @@ namespace BusinessLogic.Models
             Username = utilizador.Username;
             Password = utilizador.Password;
         }
+        
+
         public string? Password { get; set; }
         public string? Username { get; set; }
 

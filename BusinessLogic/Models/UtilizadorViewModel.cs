@@ -20,16 +20,24 @@ namespace BusinessLogic.Models
             Tipo_Utilizador = utilizador.IdTipoUtilizadorNavigation?.Tipo;
             Tipo_Autenticacao = utilizador.IdAutenticacaoNavigation?.Tipo;
         }
-
+        
+        public string? Nome { get; set; }
+        
+        public string? Email { get; set; }
+        public string? Username { get; set; }
+        
+        public string? Password { get; set; }
+        
+        public string? Telefone { get; set; }
         public int? Id_Tipo_Utilizador { get; set; }
 
         public string? Tipo_Autenticacao { get; set; }
         public string? Tipo_Utilizador { get; set; }
-        public string? Telefone { get; set; }
-        public string? Password { get; set; }
-        public string? Email { get; set; }
-        public string? Nome { get; set; }
-        public string? Username { get; set; }
+        
+        
+        
+        
+        
 
         public bool VerifyCredentials(string username, string password)
         {

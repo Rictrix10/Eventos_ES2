@@ -27,7 +27,7 @@ namespace Backend.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<UtilizadorViewModel[]> GetUtilizadores()
+        public async Task<ActionResult<UtilizadorViewModel[]>> GetUtilizador()
         {
             if (_context.Utilizadors == null)
             {
@@ -65,7 +65,7 @@ namespace Backend.Controllers
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Utilizador>> GetUtilizadores(int id)
+        public async Task<ActionResult<Utilizador>> GetUtilizador(int id)
         {
             if (_context.Utilizadors == null)
             {
@@ -85,7 +85,7 @@ namespace Backend.Controllers
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAuthor(int id, Utilizador utilizador)
+        public async Task<IActionResult> PutUtilizador(int id, Utilizador utilizador)
         {
             if (id != utilizador.IdUtilizador)
             {
@@ -116,7 +116,7 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Utilizador>> PostAuthor(Utilizador utilizador)
+        public async Task<ActionResult<Utilizador>> PostUtilizador(Utilizador utilizador)
         {
             if (_context.Utilizadors == null)
             {
@@ -126,12 +126,12 @@ namespace Backend.Controllers
             _context.Utilizadors.Add(utilizador);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUtilizadores", new { id = utilizador.IdUtilizador }, utilizador);
+            return CreatedAtAction("GetUtilizador", new { id = utilizador.IdUtilizador }, utilizador);
         }
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAuthor(int id)
+        public async Task<IActionResult> DeleteUtilizador(int id)
         {
             if (_context.Utilizadors == null)
             {
@@ -150,7 +150,7 @@ namespace Backend.Controllers
             return NoContent();
         }
 
-        private bool EventoExists(int id)
+        private bool UtilizadorExists(int id)
         {
             return (_context.Utilizadors?.Any(e => e.IdUtilizador == id)).GetValueOrDefault();
         }

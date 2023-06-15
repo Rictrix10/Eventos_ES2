@@ -64,7 +64,7 @@ namespace Backend.Controllers
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Evento>> GetAuthor(int id)
+        public async Task<ActionResult<Evento>> GetEvento(int id)
         {
             if (_context.Eventos == null)
             {
@@ -84,7 +84,7 @@ namespace Backend.Controllers
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAuthor(int id, Evento evento)
+        public async Task<IActionResult> PutEvento(int id, Evento evento)
         {
             if (id != evento.IdEvento)
             {
@@ -115,7 +115,7 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Evento>> PostAuthor(Evento evento)
+        public async Task<ActionResult<Evento>> PostEvento(Evento evento)
         {
             if (_context.Eventos == null)
             {
@@ -130,7 +130,7 @@ namespace Backend.Controllers
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAuthor(int id)
+        public async Task<IActionResult> DeleteEvento(int id)
         {
             if (_context.Eventos == null)
             {

@@ -1,6 +1,12 @@
 @page "/login"
 @using System.ComponentModel.DataAnnotations
+@using System.Net
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
+
+
 
 <h3>Login</h3>
 
@@ -25,21 +31,28 @@
 
 @code {
     private LoginModel loginModel = new LoginModel();
+    private UtilizadorViewModel[]? utilizadores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        utilizadores = await Http.GetFromJsonAsync<UtilizadorViewModel[]>("http://localhost:5052/api/Utilizadores");
+    }
 
     private void HandleValidSubmit()
     {
-    // Lógica para processar o login aqui
-    // Exemplo básico: verificar as credenciais e redirecionar para outra página
-        if (loginModel.Username == "admin" && loginModel.Password == "password")
+        // Verificar as credenciais
+        var user = utilizadores.FirstOrDefault(u => u.VerifyCredentials(loginModel.Username, loginModel.Password));
+
+        if (user != null)
         {
-    // Redirecionar para a página de sucesso após o login
-            NavigationManager.NavigateTo("/success");
+            // Redirecionar para a página de sucesso após o login
+            NavigationManager.NavigateTo("/");
         }
         else
         {
-    // Exibir uma mensagem de erro ou tomar outras ações necessárias
-    // Por exemplo, definir uma propriedade de erro para exibi-la na tela
-    // loginModel.ErrorMessage = "Credenciais inválidas";
+            // Exibir uma mensagem de erro ou tomar outras ações necessárias
+            // Por exemplo, definir uma propriedade de erro para exibi-la na tela
+            // loginModel.ErrorMessage = "Credenciais inválidas";
         }
     }
 

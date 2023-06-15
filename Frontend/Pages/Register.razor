@@ -1,5 +1,6 @@
 @page "/register"
 @using System.ComponentModel.DataAnnotations
+@using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
 @inject NavigationManager NavigationManager
@@ -52,16 +53,15 @@
 
     private async Task HandleValidSubmit()
     {
-        // Faça o que for necessário para salvar o novo usuário no banco de dados
-        // por exemplo, chamar um serviço para lidar com a persistência
-
         try
         {
             // Mapear o valor do User Type selecionado para o código correspondente
             registerModel.Id_Tipo_Utilizador = GetUserTypeCode(registerModel.Tipo_Utilizador);
 
-            var response = await HttpClient.PostAsJsonAsync("/api/Utilizadores", registerModel);
+            var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Utilizadores", registerModel);
             response.EnsureSuccessStatusCode();
+
+            var utilizador = await response.Content.ReadFromJsonAsync<Utilizador>();
 
             // Após o registro, redirecionar para a página de login
             NavigationManager.NavigateTo("/login");
@@ -89,6 +89,3 @@
         }
     }
 }
-
-
-

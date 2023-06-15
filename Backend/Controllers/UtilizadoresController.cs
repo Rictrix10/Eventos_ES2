@@ -15,42 +15,43 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     
-    public class EventsController : ControllerBase
+    public class UtilizadoresController : ControllerBase
     {
         
         private readonly  EventosDBContext _context;
 
-        public EventsController(EventosDBContext context)
+        public UtilizadoresController(EventosDBContext context)
         {
             _context = context;
         }
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<EventoViewModel[]>> GetEventos()
+        public async Task<UtilizadorViewModel[]> GetUtilizadores()
         {
-            if (_context.Eventos == null)
+            if (_context.Utilizadors == null)
             {
                 return NotFound();
             }
 
-            var events = await _context
-                .Eventos.Include(e => e.IdOrganizadorNavigation).ToListAsync();
+            var utilizadores = await _context
+                .Utilizadors
+                .Include(e => e.IdTipoUtilizadorNavigation)
+                .Include(e => e.IdAutenticacaoNavigation)
+                .ToListAsync();
                 
-            return events
-                .Select(a => new EventoViewModel() 
+            return utilizadores
+                .Select(a => new UtilizadorViewModel() 
                 {   
                     //Organizador = a.IdOrganizador
                         
+                    Username = a.Username,
                     Nome = a.Nome,
-                    Data = a.Data,
-                    Hora = a.Hora,
-                    Local = a.Local,
-                    Descricao = a.Descricao,
-                    Capacidademax = a.Capacidademax,
-                    Categoria = a.Categoria,
-                    Organizador = a.IdOrganizador,
-                    NomeOrganizador = a.IdOrganizadorNavigation?.Nome
+                    Email = a.Email,
+                    Password = a.Password,
+                    Telefone = a.Telefone,
+                    Tipo_Utilizador = a.IdTipoUtilizadorNavigation?.Tipo,
+                    Tipo_Autenticacao = a.IdAutenticacaoNavigation?.Tipo
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",
@@ -64,34 +65,34 @@ namespace Backend.Controllers
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Evento>> GetAuthor(int id)
+        public async Task<ActionResult<Utilizador>> GetUtilizadores(int id)
         {
-            if (_context.Eventos == null)
+            if (_context.Utilizadors == null)
             {
                 return NotFound();
             }
 
-            var evento = await _context.Eventos.FindAsync(id);
+            var utilizador = await _context.Utilizadors.FindAsync(id);
 
-            if (evento == null)
+            if (utilizador == null)
             {
                 return NotFound();
             }
 
-            return evento;
+            return utilizador;
         }
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAuthor(int id, Evento evento)
+        public async Task<IActionResult> PutAuthor(int id, Utilizador utilizador)
         {
-            if (id != evento.IdEvento)
+            if (id != utilizador.IdUtilizador)
             {
                 return BadRequest();
             }
 
-            _context.Entry(evento).State = EntityState.Modified;
+            _context.Entry(utilizador).State = EntityState.Modified;
 
             try
             {
@@ -99,7 +100,7 @@ namespace Backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EventoExists(id))
+                if (!UtilizadorExists(id))
                 {
                     return NotFound();
                 }
@@ -115,35 +116,35 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Evento>> PostAuthor(Evento evento)
+        public async Task<ActionResult<Utilizador>> PostAuthor(Utilizador utilizador)
         {
-            if (_context.Eventos == null)
+            if (_context.Utilizadors == null)
             {
                 return Problem("Entity set 'ES2DbContext.Authors'  is null.");
             }
 
-            _context.Eventos.Add(evento);
+            _context.Utilizadors.Add(utilizador);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEventos", new { id = evento.IdEvento }, evento);
+            return CreatedAtAction("GetUtilizadores", new { id = utilizador.IdUtilizador }, utilizador);
         }
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
-            if (_context.Eventos == null)
+            if (_context.Utilizadors == null)
             {
                 return NotFound();
             }
 
-            var evento = await _context.Eventos.FindAsync(id);
-            if (evento == null)
+            var utilizador = await _context.Utilizadors.FindAsync(id);
+            if (utilizador == null)
             {
                 return NotFound();
             }
 
-            _context.Eventos.Remove(evento);
+            _context.Utilizadors.Remove(utilizador);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -151,7 +152,7 @@ namespace Backend.Controllers
 
         private bool EventoExists(int id)
         {
-            return (_context.Eventos?.Any(e => e.IdEvento == id)).GetValueOrDefault();
+            return (_context.Utilizadors?.Any(e => e.IdUtilizador == id)).GetValueOrDefault();
         }
     }
     

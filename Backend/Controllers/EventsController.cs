@@ -35,22 +35,24 @@ namespace Backend.Controllers
             }
 
             var events = await _context
-                .Eventos.ToListAsync();
+                .Eventos.Include(e => e.IdOrganizadorNavigation).ToListAsync();
                 
             return events
                 .Select(a => new EventoViewModel() 
                 {   
-                    Organizador = a.IdOrganizador
-                        /*
-                    a.IdEvento,
-                    a.Nome,
-                    a.Data,
-                    a.Hora,
-                    a.Local,
-                    a.Descricao,
-                    a.Capacidademax,
-                    a.Categoria,
-                    Organizador = new {
+                    //Organizador = a.IdOrganizador
+                        
+                    Nome = a.Nome,
+                    Data = a.Data,
+                    Hora = a.Hora,
+                    Local = a.Local,
+                    Descricao = a.Descricao,
+                    Capacidademax = a.Capacidademax,
+                    Categoria = a.Categoria,
+                    Organizador = a.IdOrganizador,
+                    NomeOrganizador = a.IdOrganizadorNavigation?.Nome
+                    /*
+                    NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",
                         
                         Email = a.IdOrganizadorNavigation!.Email ?? "sem organizador"

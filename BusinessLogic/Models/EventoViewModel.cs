@@ -19,6 +19,7 @@ public class EventoViewModel
         Capacidademax = evento.Capacidademax;
         Categoria = evento.Categoria;
         Organizador = evento.IdOrganizador;
+        NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
 
     }
 
@@ -37,4 +38,8 @@ public class EventoViewModel
     public DateOnly? Data { get; set; }
 
     public string? Nome { get; set; }
+    
+    public string? NomeOrganizador { get; set; }
+
+
 }

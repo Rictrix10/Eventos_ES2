@@ -3,77 +3,82 @@
 @using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
 <h3>Criar evento</h3>
 
-<EditForm Model="@registerModel" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@addeventModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="form-group">
-        <label for="name">Name:</label>
-        <InputText id="name" class="form-control" @bind-Value="@registerModel.Nome" />
-        <ValidationMessage For="@(() => registerModel.Nome)" />
-    </div>
-
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <InputText id="email" class="form-control" @bind-Value="@registerModel.Email" />
-        <ValidationMessage For="@(() => registerModel.Email)" />
-    </div>
-
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <InputText id="username" class="form-control" @bind-Value="@registerModel.Username" />
-        <ValidationMessage For="@(() => registerModel.Username)" />
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" />
-        <ValidationMessage For="@(() => registerModel.Password)" />
+        <label for="name">Nome:</label>
+        <InputText id="name" class="form-control" @bind-Value="@addeventModel.Nome" />
+        <ValidationMessage For="@(() => addeventModel.Nome)" />
     </div>
 
 <div class="form-group">
-    <label for="userType">User Type:</label>
-    <select id="userType" class="form-control" @bind="@registerModel.Tipo" required>
-        <option value="Organizador">Organizador</option>
-        <option value="Participante">Participante</option>
-    </select>
-    <ValidationMessage For="@(() => registerModel.Tipo)" />
+    <label for="data">Data:</label>
+    <InputText id="data" class="form-control" @bind-Value="@addeventModel.DataString" />
+    <ValidationMessage For="@(() => addeventModel.DataString)" />
+</div>
+
+<div class="form-group">
+    <label for="hora">Hora:</label>
+    <InputText id="hora" class="form-control" @bind-Value="@addeventModel.HoraString" />
+    <ValidationMessage For="@(() => addeventModel.HoraString)" />
 </div>
 
     <div class="form-group">
-        <p>Já tem conta? <a href="/login">Login</a></p>
+        <label for="local">Local:</label>
+        <InputText id="local" class="form-control" @bind-Value="@addeventModel.Local" />
+        <ValidationMessage For="@(() => addeventModel.Local)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <InputText id="descricao" class="form-control" @bind-Value="@addeventModel.Descricao" />
+        <ValidationMessage For="@(() => addeventModel.Descricao)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="capacidademax">Capacidade máxima:</label>
+        <InputText id="capacidademax" class="form-control" @bind-Value="@addeventModel.CapacidademaxString" />
+        <ValidationMessage For="@(() => addeventModel.CapacidademaxString)" />
     </div>
 
     <button type="submit" class="btn btn-primary">Registar</button>
 </EditForm>
 
 @code {
-    private RegisterViewModel registerModel = new RegisterViewModel();
+    private AddEventViewModel addeventModel = new AddEventViewModel();
 
     private async Task HandleValidSubmit()
     {
         try
         {
-            var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Utilizadores", registerModel);
+            var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Events", addeventModel);
             response.EnsureSuccessStatusCode();
 
-            var utilizador = await response.Content.ReadFromJsonAsync<Utilizador>();
+            var evento = await response.Content.ReadFromJsonAsync<Evento>();
 
             // Após o registro, redirecionar para a página de login
-            NavigationManager.NavigateTo("/login");
+            //NavigationManager.NavigateTo("/login");
 
             Console.WriteLine("Registro concluído com sucesso!");
             Console.WriteLine("Dados registrados:");
-            Console.WriteLine($"Nome: {registerModel.Nome}");
-            Console.WriteLine($"Email: {registerModel.Email}");
-            Console.WriteLine($"Username: {registerModel.Username}");
-            Console.WriteLine($"Password: {registerModel.Password}");
-            Console.WriteLine($"Tipo: {registerModel.Tipo}");
+            Console.WriteLine($"Nome: {addeventModel.Nome}");
+            Console.WriteLine($"Data: {addeventModel.Data}");
+            Console.WriteLine($"Hora: {addeventModel.Hora}");
+            Console.WriteLine($"Local: {addeventModel.Local}");
+            Console.WriteLine($"Descrição: {addeventModel.Descricao}");
+            Console.WriteLine($"Capacidade Máxima: {addeventModel.Capacidademax}");
+            
+
         }
         catch (Exception ex)
         {

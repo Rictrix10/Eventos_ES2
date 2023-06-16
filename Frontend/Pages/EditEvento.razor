@@ -1,0 +1,121 @@
+﻿@page "/editar-evento/{eventId}"
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<h3>Editar Evento</h3>
+
+@if (dadosSalvos)
+{
+    <p class="text-success">Os dados foram salvos com sucesso!</p>
+}
+
+<EditForm Model="@editeventoModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Nome:</label>
+        <InputText id="name" class="form-control" @bind-Value="@editeventoModel.Nome" />
+        <ValidationMessage For="@(() => editeventoModel.Nome)" />
+    </div>
+
+    <div class="form-group">
+        <label for="data">Data:</label>
+        <InputText id="data" class="form-control" @bind-Value="@editeventoModel.DataString" />
+        <ValidationMessage For="@(() => editeventoModel.DataString)" />
+    </div>
+
+    <div class="form-group">
+        <label for="hora">Hora:</label>
+        <InputText id="hora" class="form-control" @bind-Value="@editeventoModel.HoraString" />
+        <ValidationMessage For="@(() => editeventoModel.HoraString)" />
+    </div>
+
+    <div class="form-group">
+        <label for="local">Local:</label>
+        <InputText id="local" class="form-control" @bind-Value="@editeventoModel.Local" />
+        <ValidationMessage For="@(() => editeventoModel.Local)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <InputText id="descricao" class="form-control" @bind-Value="@editeventoModel.Descricao" />
+        <ValidationMessage For="@(() => editeventoModel.Descricao)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="capacidademax">Capacidade máxima:</label>
+        <InputText id="capacidademax" class="form-control" @bind-Value="@editeventoModel.CapacidademaxString" />
+        <ValidationMessage For="@(() => editeventoModel.CapacidademaxString)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="categoria">Categoria:</label>
+        <InputText id="categoria" class="form-control" @bind-Value="@editeventoModel.Categoria" />
+        <ValidationMessage For="@(() => editeventoModel.Categoria)" />
+    </div>
+    
+</EditForm>
+
+<button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+
+    private int eventId;
+    
+    private bool dadosSalvos;
+    
+    private AddEventViewModel editeventoModel = new AddEventViewModel();
+
+    protected override void OnInitialized()
+    {
+        eventId = Convert.ToInt32(EventId);
+        
+        HandleValidSubmit();
+    }
+    
+    private async Task HandleValidSubmit()
+    {   
+        
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Events/{eventId}");
+        response.EnsureSuccessStatusCode();
+        
+        var evento = await response.Content.ReadFromJsonAsync<AddEventViewModel>();
+
+        if (evento != null)
+        {
+            editeventoModel = evento;
+        }
+    }
+
+    private async Task SalvarDados()
+    {
+        if (IsValid())
+        {
+            try
+            {
+                var response = await HttpClient.PutAsJsonAsync($"http://localhost:5052/api/Events/{eventId}", editeventoModel);
+                response.EnsureSuccessStatusCode();
+
+                dadosSalvos = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+
+    private bool IsValid()
+    {
+        var validationContext = new ValidationContext(editeventoModel);
+        var validationResults = new List<ValidationResult>();
+        return Validator.TryValidateObject(editeventoModel, validationContext, validationResults, true);
+    }
+}

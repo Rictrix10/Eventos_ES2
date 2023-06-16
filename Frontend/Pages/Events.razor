@@ -39,7 +39,7 @@ else
         <tbody>
         @foreach (var evt in events)
         {
-            <tr>
+            <tr>    @evt.IdEvento
                 <td>@evt.Nome</td>
                 <td>@evt.Data</td>
                 <td>@evt.Hora</td>
@@ -86,8 +86,8 @@ else
 
     private void EditEvent(int eventId)
     {
-        // Logic to edit the event
-        Console.WriteLine($"Editing event with ID: {eventId}");
+        var url = $"/editar-evento/{eventId}";
+        NavigationManager.NavigateTo(url);
     }
 
     private void AddActivities(int eventId)

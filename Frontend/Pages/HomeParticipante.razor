@@ -5,6 +5,9 @@
 <h3>Bem-vindo, @nome!</h3>
 <p>IdUtilizador: @idUtilizador</p>
 
+<button class="btn btn-primary" @onclick="EditarDados">Editar Dados</button>
+<button class="btn btn-primary" @onclick="Eventos">Eventos</button>
+
 @code {
     [Parameter]
     public string IdUtilizador { get; set; }
@@ -19,5 +22,17 @@
     {
         idUtilizador = Convert.ToInt32(IdUtilizador);
         nome = Nome;
+    }
+
+    private void EditarDados()
+    {
+        var url = $"/editar-dados/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+
+    private void Eventos()
+    {
+        // Lógica para redirecionar para a página de eventos
+        NavigationManager.NavigateTo("/eventos/" + idUtilizador);
     }
 }

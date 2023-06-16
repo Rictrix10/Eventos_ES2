@@ -16,6 +16,10 @@ public partial class Utilizador
     public string? Password { get; set; }
 
     public string? Telefone { get; set; }
+    
+    public string? Tipo { get; set; }
+    
+    public string? Autenticacao { get; set; }
 
     public int? IdTipoUtilizador { get; set; }
 

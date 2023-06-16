@@ -23,6 +23,8 @@ create table public.utilizador
     email              varchar(255),
     password           varchar(255),
     telefone           varchar(255),
+    tipo                varchar(255),
+    autenticacao        varchar(255),
     id_tipo_utilizador integer
         references public.tipo_utilizador,
     id_autenticacao    integer
@@ -73,6 +75,7 @@ create table public.inscricao_evento
 (
     id_inscricao_evento serial
         primary key,
+    tipo_ingresso varchar(255),
     id_participante     integer
         references public.utilizador,
     id_evento           integer
@@ -123,6 +126,8 @@ create table public.evento_ingresso
     id_evento integer references public.evento (id_evento),
     id_ingresso integer references public.tipo_ingresso (id_tipo_ingresso),
     quantidade integer,
+    preco            numeric(10, 2),
+    tipo_ingresso       varchar(255),
     PRIMARY KEY (id_evento, id_ingresso)
 )
 

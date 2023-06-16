@@ -41,7 +41,7 @@ namespace Backend.Controllers
                 .Select(a => new EventoViewModel() 
                 {   
                     //Organizador = a.IdOrganizador
-                        
+                    IdEvento = a.IdEvento,    
                     Nome = a.Nome,
                     Data = a.Data,
                     Hora = a.Hora,

@@ -1,4 +1,4 @@
-﻿@page "/fetchevents"
+﻿@page "/events"
 @using BusinessLogic.Models
 @inject HttpClient Http
 
@@ -27,7 +27,7 @@ else
             <th>Categoria</th>
             <th>Id Organizador</th>
             <th>Organizador</th>
-            
+            <th></th> <!-- Column for Register/Edit buttons -->
         </tr>
         <tbody>
         @foreach (var evt in events)
@@ -42,8 +42,10 @@ else
                 <td>@evt.Categoria</td>
                 <td>@evt.Organizador</td>
                 <td>@evt.NomeOrganizador</td>
-                
-                
+                <td>
+                    
+                    <button class="btn btn-secondary" @onclick="() => EditEvent(evt.IdEvento)">Edit</button>
+                </td>
             </tr>
         }
         </tbody>
@@ -57,6 +59,16 @@ else
     {
         events = await Http.GetFromJsonAsync<EventoViewModel[]>("http://localhost:5052/api/Events");
     }
+
+    private void RegisterEvent(int eventId)
+    {
+    // Logic to register for the event
+        Console.WriteLine($"Registered for event with ID: {eventId}");
+    }
+
+    private void EditEvent(int eventId)
+    {
+    // Logic to edit the event
+        Console.WriteLine($"Editing event with ID: {eventId}");
+    }
 }
-
-

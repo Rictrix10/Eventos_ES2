@@ -11,6 +11,7 @@ public class EventoViewModel
     
     public EventoViewModel(Evento evento)
     {
+        IdEvento = evento.IdEvento;
         Nome = evento.Nome;
         Data = evento.Data;
         Hora = evento.Hora;
@@ -22,6 +23,8 @@ public class EventoViewModel
         NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
 
     }
+
+    public int IdEvento { get; set; }
 
     public int? Organizador { get; set; }
 

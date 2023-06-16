@@ -50,6 +50,12 @@
         <InputText id="capacidademax" class="form-control" @bind-Value="@addeventModel.CapacidademaxString" />
         <ValidationMessage For="@(() => addeventModel.CapacidademaxString)" />
     </div>
+    
+        <div class="form-group">
+            <label for="categoria">Categoria:</label>
+            <InputText id="categoria" class="form-control" @bind-Value="@addeventModel.Categoria" />
+            <ValidationMessage For="@(() => addeventModel.Categoria)" />
+        </div>
 
     <button type="submit" class="btn btn-primary">Registar</button>
 </EditForm>
@@ -77,6 +83,8 @@
             Console.WriteLine($"Local: {addeventModel.Local}");
             Console.WriteLine($"Descrição: {addeventModel.Descricao}");
             Console.WriteLine($"Capacidade Máxima: {addeventModel.Capacidademax}");
+            Console.WriteLine($"Categoria: {addeventModel.Categoria}");
+            
             
 
         }

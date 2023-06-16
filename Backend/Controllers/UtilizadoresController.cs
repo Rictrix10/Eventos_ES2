@@ -50,6 +50,8 @@ namespace Backend.Controllers
                     Email = a.Email,
                     Password = a.Password,
                     Telefone = a.Telefone,
+                    Tipo = a.Tipo,
+                    Autenticacao_tipo = a.Autenticacao,
                     Id_Tipo_Utilizador = a.IdTipoUtilizador,
                     Tipo_Utilizador = a.IdTipoUtilizadorNavigation?.Tipo,
                     Tipo_Autenticacao = a.IdAutenticacaoNavigation?.Tipo

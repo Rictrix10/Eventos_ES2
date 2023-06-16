@@ -17,10 +17,16 @@ namespace BusinessLogic.Models
             Email = utilizador.Email;
             Username = utilizador.Username;
             Password = utilizador.Password;
+            Tipo = utilizador.Tipo;
+            Autenticacao_tipo = utilizador.Autenticacao;
             Id_Tipo_Utilizador = utilizador.IdTipoUtilizador;
             Tipo_Utilizador = utilizador.IdTipoUtilizadorNavigation?.Tipo;
 
         }
+
+        public string? Autenticacao_tipo { get; set; }
+
+        public string? Tipo { get; set; }
 
         public int? Id_Tipo_Utilizador { get; set; }
 

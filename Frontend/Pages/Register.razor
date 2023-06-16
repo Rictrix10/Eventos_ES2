@@ -38,7 +38,7 @@
 
     <div class="form-group">
         <label for="userType">User Type:</label>
-        <select id="userType" class="form-control" @bind="@registerModel.Tipo_Utilizador">
+        <select id="userType" class="form-control" @bind="@registerModel.Tipo">
             <option value="">-- Select User Type --</option>
             <option value="Organizador">Organizador</option>
             <option value="Participante">Participante</option>
@@ -55,9 +55,6 @@
     {
         try
         {
-            // Mapear o valor do User Type selecionado para o código correspondente
-            registerModel.Id_Tipo_Utilizador = GetUserTypeCode(registerModel.Tipo_Utilizador);
-
             var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Utilizadores", registerModel);
             response.EnsureSuccessStatusCode();
 
@@ -72,7 +69,7 @@
             Console.WriteLine($"Email: {registerModel.Email}");
             Console.WriteLine($"Username: {registerModel.Username}");
             Console.WriteLine($"Password: {registerModel.Password}");
-            Console.WriteLine($"Id_Tipo_Utilizador: {registerModel.Id_Tipo_Utilizador}");
+            Console.WriteLine($"Tipo: {registerModel.Tipo}");
         }
         catch (Exception ex)
         {
@@ -80,21 +77,6 @@
             Console.WriteLine(ex.Message);
         }
     }
-
-    private int GetUserTypeCode(string userType)
-    {
-        // Mapear o User Type selecionado para o código correspondente
-        // Aqui você pode usar uma lógica específica do seu sistema para mapear o valor
-        // Para fins de exemplo, estou retornando um valor fixo para cada User Type
-        switch (userType)
-        {
-            case "Organizador":
-                return 1;
-            case "Participante":
-                return 2;
-            default:
-                return 0; // Código padrão para um User Type inválido
-        }
-    }
 }
+
 

@@ -44,19 +44,22 @@
 
     private void HandleValidSubmit()
     {
-        // Verificar as credenciais
+    // Verificar as credenciais
         var user = utilizadores.FirstOrDefault(u => u.VerifyCredentials(loginModel.Username, loginModel.Password));
 
         if (user != null)
         {
-            // Redirecionar para a página de sucesso após o login
+    // Redirecionar para a página de sucesso após o login
             NavigationManager.NavigateTo("/");
+            
+    // Exibir os dados do login na console
+            Console.WriteLine($"Login successful: Username={loginModel.Username}, Password={loginModel.Password}");
         }
         else
         {
-            // Exibir uma mensagem de erro ou tomar outras ações necessárias
-            // Por exemplo, definir uma propriedade de erro para exibi-la na tela
-            // loginModel.ErrorMessage = "Credenciais inválidas";
+    // Exibir uma mensagem de erro ou tomar outras ações necessárias
+    // Por exemplo, definir uma propriedade de erro para exibi-la na tela
+    // loginModel.ErrorMessage = "Credenciais inválidas";
         }
     }
 

@@ -44,7 +44,7 @@ namespace Backend.Controllers
                 .Select(a => new UtilizadorViewModel() 
                 {   
                     //Organizador = a.IdOrganizador
-                        
+                    IdUtilizador = a.IdUtilizador,    
                     Username = a.Username,
                     Nome = a.Nome,
                     Email = a.Email,

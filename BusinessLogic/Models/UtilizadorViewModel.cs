@@ -11,6 +11,7 @@ namespace BusinessLogic.Models
 
         public UtilizadorViewModel(Utilizador utilizador)
         {
+            IdUtilizador = utilizador.IdUtilizador;
             Username = utilizador.Username;
             Nome = utilizador.Nome;
             Email = utilizador.Email;
@@ -22,6 +23,8 @@ namespace BusinessLogic.Models
             Tipo_Utilizador = utilizador.IdTipoUtilizadorNavigation?.Tipo;
             Tipo_Autenticacao = utilizador.IdAutenticacaoNavigation?.Tipo;
         }
+
+        public int IdUtilizador { get; set; }
 
         public string? Autenticacao_tipo { get; set; }
 

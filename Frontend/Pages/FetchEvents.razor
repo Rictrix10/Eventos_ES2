@@ -1,12 +1,17 @@
 ﻿@page "/events"
 @using BusinessLogic.Models
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 
 <PageTitle>Eventos</PageTitle>
 
 <h1>Eventos</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="AddNewEvent">Adicionar Evento</button>
+</div>
 
 @if (events == null)
 {
@@ -62,13 +67,22 @@ else
 
     private void RegisterEvent(int eventId)
     {
-    // Logic to register for the event
+        // Logic to register for the event
         Console.WriteLine($"Registered for event with ID: {eventId}");
     }
 
     private void EditEvent(int eventId)
-    {
-    // Logic to edit the event
+    {   
+        
+        // Logic to edit the event
         Console.WriteLine($"Editing event with ID: {eventId}");
+        
+        
+    }
+
+    private void AddNewEvent()
+    {
+        // Logic to add a new event
+        Console.WriteLine("Adding a new event");
     }
 }

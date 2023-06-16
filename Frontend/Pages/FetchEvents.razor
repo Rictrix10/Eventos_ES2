@@ -64,6 +64,10 @@ else
 
     [Parameter]
     public string Nome { get; set; }
+    
+    private int idUtilizador;
+    
+    private string nome;
 
     private EventoViewModel[]? events;
 
@@ -86,10 +90,16 @@ else
         // Logic to edit the event
         Console.WriteLine($"Editing event with ID: {eventId}");
     }
+    
+    protected override void OnInitialized()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+    }
 
     private void AddNewEvent()
     {
-        // Logic to add a new event
-        Console.WriteLine("Adding a new event");
+        var url = $"/addevent/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/addevent"
+﻿@page "/addevent/{idUtilizador}/{nome}"
 @using System.ComponentModel.DataAnnotations
 @using BusinessLogic.Entities
 @using BusinessLogic.Models
@@ -61,6 +61,16 @@
 </EditForm>
 
 @code {
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+    
     private AddEventViewModel addeventModel = new AddEventViewModel();
 
     private async Task HandleValidSubmit()

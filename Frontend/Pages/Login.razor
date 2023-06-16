@@ -42,27 +42,32 @@
 
     private void HandleValidSubmit()
     {
-        // Verificar as credenciais
+    // Verificar as credenciais
         var user = utilizadores.FirstOrDefault(u => u.VerifyCredentials(loginModel.Username, loginModel.Password));
 
         if (user != null)
         {
-            // Acessar as propriedades IdUtilizador e Tipo do utilizador logado
             int idUtilizador = user.IdUtilizador;
             string nome = user.Nome;
             string tipo = user.Tipo;
 
+            string url = "";
+
             if (tipo == "Organizador")
             {
-                NavigationManager.NavigateTo("/home-org");
+                url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
-            if (tipo == "Participante")
+            else if (tipo == "Participante")
             {
-                NavigationManager.NavigateTo("/home-par");
+                url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+            }
+            else
+            {
+    // Caso não haja um tipo válido, redirecione para a página inicial
+                url = "/";
             }
 
-            // Redirecionar para a página de sucesso após o login
-            //NavigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo(url);
 
             // Exibir os dados do login na console
             Console.WriteLine($"Login successful: Username={loginModel.Username}, Password={loginModel.Password}");

@@ -1,9 +1,23 @@
-﻿@page "/home-par"
+﻿@page "/home-par/{idUtilizador}/{nome}"
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavigationManager
 
-<PageTitle>Index</PageTitle>
+<h3>Bem-vindo, @nome!</h3>
+<p>IdUtilizador: @idUtilizador</p>
 
-<h1>Ola, world!</h1>
+@code {
+    [Parameter]
+    public string IdUtilizador { get; set; }
 
-Welcome to your new app.
+    [Parameter]
+    public string Nome { get; set; }
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+    private int idUtilizador;
+    private string nome;
+
+    protected override void OnInitialized()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+    }
+}

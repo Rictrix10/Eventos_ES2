@@ -48,9 +48,11 @@ namespace Backend.Controllers
                     Local = a.Local,
                     Descricao = a.Descricao,
                     Capacidademax = a.Capacidademax,
-                    Categoria = a.Categoria,
+                    Categoria = a.Categoria
+                        /*
                     Organizador = a.IdOrganizador,
                     NomeOrganizador = a.IdOrganizadorNavigation?.Nome
+                    */
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",

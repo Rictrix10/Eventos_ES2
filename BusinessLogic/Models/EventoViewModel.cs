@@ -19,8 +19,10 @@ public class EventoViewModel
         Descricao = evento.Descricao;
         Capacidademax = evento.Capacidademax;
         Categoria = evento.Categoria;
+        /*
         Organizador = evento.IdOrganizador;
         NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
+        */
 
     }
 

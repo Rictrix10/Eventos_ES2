@@ -12,10 +12,13 @@ namespace BusinessLogic.Models
         public LoginViewModel(Utilizador utilizador)
         {
             IdUtilizador = utilizador.IdUtilizador;
+            Nome = utilizador.Nome;
             Username = utilizador.Username;
             Password = utilizador.Password;
             Tipo = utilizador.Tipo;
         }
+
+        public string? Nome { get; set; }
 
         public string? Tipo { get; set; }
 

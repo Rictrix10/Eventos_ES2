@@ -6,8 +6,6 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 
-
-
 <h3>Login</h3>
 
 <EditForm Model="@loginModel" OnValidSubmit="@HandleValidSubmit">
@@ -25,11 +23,11 @@
         <InputText id="password" class="form-control" @bind-Value="@loginModel.Password" />
         <ValidationMessage For="@(() => loginModel.Password)" />
     </div>
-    
+
     <div class="form-group">
         <p>Não tem conta? <a href="/register">Criar conta</a></p>
     </div>
-    
+
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
 
@@ -44,22 +42,28 @@
 
     private void HandleValidSubmit()
     {
-    // Verificar as credenciais
+        // Verificar as credenciais
         var user = utilizadores.FirstOrDefault(u => u.VerifyCredentials(loginModel.Username, loginModel.Password));
 
         if (user != null)
         {
-    // Redirecionar para a página de sucesso após o login
+            // Acessar as propriedades IdUtilizador e Tipo do utilizador logado
+            int idUtilizador = user.IdUtilizador;
+            string tipo = user.Tipo;
+
+            // Redirecionar para a página de sucesso após o login
             NavigationManager.NavigateTo("/");
-            
-    // Exibir os dados do login na console
+
+            // Exibir os dados do login na console
             Console.WriteLine($"Login successful: Username={loginModel.Username}, Password={loginModel.Password}");
+            Console.WriteLine($"IdUtilizador: {idUtilizador}");
+            Console.WriteLine($"Tipo: {tipo}");
         }
         else
         {
-    // Exibir uma mensagem de erro ou tomar outras ações necessárias
-    // Por exemplo, definir uma propriedade de erro para exibi-la na tela
-    // loginModel.ErrorMessage = "Credenciais inválidas";
+            // Exibir uma mensagem de erro ou tomar outras ações necessárias
+            // Por exemplo, definir uma propriedade de erro para exibi-la na tela
+            // loginModel.ErrorMessage = "Credenciais inválidas";
         }
     }
 

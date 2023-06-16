@@ -33,6 +33,8 @@ else
             <th>Categoria</th>
 
             <th></th> <!-- Column for Register/Edit buttons -->
+            <th></th> <!-- Column for Add Activities button -->
+            <th></th> <!-- Column for Add Tickets button -->
         </tr>
         <tbody>
         @foreach (var evt in events)
@@ -47,7 +49,13 @@ else
                 <td>@evt.Categoria</td>
 
                 <td>
-                    <button class="btn btn-secondary" @onclick="() => EditEvent(evt.IdEvento)">Edit</button>
+                    <button class="btn btn-info" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
+                </td>
+                <td>
+                    <button class="btn btn-info" @onclick="() => AddActivities(evt.IdEvento)">Adicionar Atividades</button>
+                </td>
+                <td>
+                    <button class="btn btn-info" @onclick="() => AddTickets(evt.IdEvento)">Adicionar Ingressos</button>
                 </td>
             </tr>
         }
@@ -62,25 +70,18 @@ else
 
     [Parameter]
     public string Nome { get; set; }
-    
+
     private int idUtilizador;
-    
     private string nome;
 
     private EventoViewModel[]? events;
 
     protected override async Task OnInitializedAsync()
     {
-        var idUtilizador = Convert.ToInt32(IdUtilizador);
-        var nome = Nome;
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
 
         events = await Http.GetFromJsonAsync<EventoViewModel[]>($"http://localhost:5052/api/Events");
-    }
-
-    private void RegisterEvent(int eventId)
-    {
-        // Logic to register for the event
-        Console.WriteLine($"Registered for event with ID: {eventId}");
     }
 
     private void EditEvent(int eventId)
@@ -88,11 +89,17 @@ else
         // Logic to edit the event
         Console.WriteLine($"Editing event with ID: {eventId}");
     }
-    
-    protected override void OnInitialized()
+
+    private void AddActivities(int eventId)
     {
-        idUtilizador = Convert.ToInt32(IdUtilizador);
-        nome = Nome;
+        // Logic to add activities to the event
+        Console.WriteLine($"Adding activities to event with ID: {eventId}");
+    }
+
+    private void AddTickets(int eventId)
+    {
+        // Logic to add tickets to the event
+        Console.WriteLine($"Adding tickets to event with ID: {eventId}");
     }
 
     private void AddNewEvent()

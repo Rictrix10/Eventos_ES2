@@ -49,13 +49,13 @@ else
                 <td>@evt.Categoria</td>
 
                 <td>
-                    <button class="btn btn-info" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
+                    <button class="btn btn-primary" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
                 </td>
                 <td>
-                    <button class="btn btn-info" @onclick="() => AddActivities(evt.IdEvento)">Adicionar Atividades</button>
+                    <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">+ Atividades</button>
                 </td>
                 <td>
-                    <button class="btn btn-info" @onclick="() => AddTickets(evt.IdEvento)">Adicionar Ingressos</button>
+                    <button class="btn btn-primary" @onclick="() => AddTickets(evt.IdEvento)">+ Ingressos</button>
                 </td>
             </tr>
         }

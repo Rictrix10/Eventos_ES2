@@ -65,6 +65,14 @@
 
             // Após o registro, redirecionar para a página de login
             NavigationManager.NavigateTo("/login");
+
+            Console.WriteLine("Registro concluído com sucesso!");
+            Console.WriteLine("Dados registrados:");
+            Console.WriteLine($"Nome: {registerModel.Nome}");
+            Console.WriteLine($"Email: {registerModel.Email}");
+            Console.WriteLine($"Username: {registerModel.Username}");
+            Console.WriteLine($"Password: {registerModel.Password}");
+            Console.WriteLine($"Id_Tipo_Utilizador: {registerModel.Id_Tipo_Utilizador}");
         }
         catch (Exception ex)
         {

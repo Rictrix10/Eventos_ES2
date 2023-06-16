@@ -46,10 +46,7 @@ namespace BusinessLogic.Models
             "Organizador",
             "Participante",
         };
-
-        public bool VerifyCredentials(string username, string password)
-        {
-            return Username == username && Password == password;
-        }
+        
+        
     }
 }

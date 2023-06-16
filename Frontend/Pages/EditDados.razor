@@ -41,14 +41,11 @@
         <ValidationMessage For="@(() => editdadosModel.Password)" />
     </div>
     
-        <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <InputText id="telefone" class="form-control" @bind-Value="@editdadosModel.Telefone" />
-            <ValidationMessage For="@(() => editdadosModel.Telefone)" />
-        </div>
-
-
-    
+    <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <InputText id="telefone" class="form-control" @bind-Value="@editdadosModel.Telefone" />
+        <ValidationMessage For="@(() => editdadosModel.Telefone)" />
+    </div>
 </EditForm>
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
@@ -69,16 +66,40 @@
 
     protected override void OnInitialized()
     {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        
+        HandleValidSubmit();
+    }
+    
+    private async Task HandleValidSubmit()
+    {
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}");
+        response.EnsureSuccessStatusCode();
 
+        var utilizador = await response.Content.ReadFromJsonAsync<UtilizadorViewModel>();
+
+        if (utilizador != null)
+        {
+            editdadosModel = utilizador;
+        }
     }
 
-    private void SalvarDados()
+    private async Task SalvarDados()
     {
         if (IsValid())
         {
-            // Lógica para salvar os dados do usuário
-            // Aqui, o exemplo apenas indica que os dados foram salvos com sucesso
-            dadosSalvos = true;
+            try
+            {
+                var response = await HttpClient.PutAsJsonAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}", editdadosModel);
+                response.EnsureSuccessStatusCode();
+
+                dadosSalvos = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 
@@ -88,31 +109,4 @@
         var validationResults = new List<ValidationResult>();
         return Validator.TryValidateObject(editdadosModel, validationContext, validationResults, true);
     }
-    
-        
-        private async Task HandleValidSubmit()
-        {
-            try
-            {
-                var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Utilizadores", editdadosModel);
-                response.EnsureSuccessStatusCode();
-
-                var evento = await response.Content.ReadFromJsonAsync<Utilizador>();
-
-                Console.WriteLine("Registro concluído com sucesso!");
-                Console.WriteLine("Dados registrados:");
-                Console.WriteLine($"Nome: {editdadosModel.Nome}");
-                Console.WriteLine($"Email: {editdadosModel.Email}");
-                Console.WriteLine($"Username: {editdadosModel.Username}");
-                Console.WriteLine($"Password: {editdadosModel.Password}");
-                Console.WriteLine($"Telefone: {editdadosModel.Telefone}");
-
-            
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-    
 }

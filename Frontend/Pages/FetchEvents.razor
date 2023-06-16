@@ -1,4 +1,4 @@
-﻿@page "/events"
+﻿@page "/events/{idUtilizador}/{nome}"
 @using BusinessLogic.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -12,6 +12,7 @@
 <div class="mb-3">
     <button class="btn btn-primary" @onclick="AddNewEvent">Adicionar Evento</button>
 </div>
+
 
 @if (events == null)
 {
@@ -48,7 +49,6 @@ else
                 <td>@evt.Organizador</td>
                 <td>@evt.NomeOrganizador</td>
                 <td>
-                    
                     <button class="btn btn-secondary" @onclick="() => EditEvent(evt.IdEvento)">Edit</button>
                 </td>
             </tr>
@@ -57,12 +57,22 @@ else
     </table>
 }
 
-@code {
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
     private EventoViewModel[]? events;
 
     protected override async Task OnInitializedAsync()
     {
-        events = await Http.GetFromJsonAsync<EventoViewModel[]>("http://localhost:5052/api/Events");
+        var idUtilizador = Convert.ToInt32(IdUtilizador);
+        var nome = Nome;
+
+        events = await Http.GetFromJsonAsync<EventoViewModel[]>($"http://localhost:5052/api/Events");
     }
 
     private void RegisterEvent(int eventId)
@@ -72,12 +82,9 @@ else
     }
 
     private void EditEvent(int eventId)
-    {   
-        
+    {
         // Logic to edit the event
         Console.WriteLine($"Editing event with ID: {eventId}");
-        
-        
     }
 
     private void AddNewEvent()

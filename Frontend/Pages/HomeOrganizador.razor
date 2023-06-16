@@ -5,6 +5,8 @@
 <h3>Bem-vindo, @nome!</h3>
 <p>IdUtilizador: @idUtilizador</p>
 
+<button class="btn btn-primary" @onclick="RedirectToEvents">Eventos</button>
+
 @code {
     [Parameter]
     public string IdUtilizador { get; set; }
@@ -19,5 +21,12 @@
     {
         idUtilizador = Convert.ToInt32(IdUtilizador);
         nome = Nome;
+    }
+    
+    private void RedirectToEvents()
+    {
+        
+        var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }

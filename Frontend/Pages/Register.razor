@@ -6,7 +6,7 @@
 @inject NavigationManager NavigationManager
 @inject HttpClient HttpClient
 
-<h3>Register</h3>
+<h3>Criar conta</h3>
 
 <EditForm Model="@registerModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -36,16 +36,20 @@
         <ValidationMessage For="@(() => registerModel.Password)" />
     </div>
 
+<div class="form-group">
+    <label for="userType">User Type:</label>
+    <select id="userType" class="form-control" @bind="@registerModel.Tipo" required>
+        <option value="Organizador">Organizador</option>
+        <option value="Participante">Participante</option>
+    </select>
+    <ValidationMessage For="@(() => registerModel.Tipo)" />
+</div>
+
     <div class="form-group">
-        <label for="userType">User Type:</label>
-        <select id="userType" class="form-control" @bind="@registerModel.Tipo">
-            <option value="">-- Select User Type --</option>
-            <option value="Organizador">Organizador</option>
-            <option value="Participante">Participante</option>
-        </select>
+        <p>Já tem conta? <a href="/login">Login</a></p>
     </div>
 
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary">Registar</button>
 </EditForm>
 
 @code {

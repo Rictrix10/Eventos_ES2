@@ -49,6 +49,7 @@
 </EditForm>
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
+<button class="btn btn-primary" @onclick="CarregarDados">Carregar Dados</button>
 
 @code {
     [Parameter]
@@ -100,6 +101,21 @@
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+    }
+    
+    
+    private async Task CarregarDados()
+    {
+        
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}");
+        response.EnsureSuccessStatusCode();
+
+        var utilizador = await response.Content.ReadFromJsonAsync<UtilizadorViewModel>();
+
+        if (utilizador != null)
+        {
+            editdadosModel = utilizador;
         }
     }
 

@@ -34,7 +34,8 @@ namespace Backend.Controllers
                 return NotFound();
             }
 
-            var eventsingresso = await _context.EventoIngressos.ToListAsync();
+            var eventsingresso = await _context.
+                EventoIngressos.ToListAsync();
                 
                 
             return eventsingresso

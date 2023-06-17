@@ -40,30 +40,29 @@
         <InputText id="local" class="form-control" @bind-Value="@editeventoModel.Local" />
         <ValidationMessage For="@(() => editeventoModel.Local)" />
     </div>
-    
+
     <div class="form-group">
         <label for="descricao">Descrição:</label>
         <InputText id="descricao" class="form-control" @bind-Value="@editeventoModel.Descricao" />
         <ValidationMessage For="@(() => editeventoModel.Descricao)" />
     </div>
-    
-    
+
     <div class="form-group">
         <label for="categoria">Categoria:</label>
         <InputText id="categoria" class="form-control" @bind-Value="@editeventoModel.Categoria" />
         <ValidationMessage For="@(() => editeventoModel.Categoria)" />
     </div>
-    
 
-<div class="form-group">
-    <label for="capacidademax">Capacidade máxima:</label>
-    <InputText id="capacidademax" class="form-control" @bind-Value="@editeventoModel.CapacidademaxAsString" />
-    <ValidationMessage For="@(() => editeventoModel.CapacidademaxAsString)" />
-</div>
+    <div class="form-group">
+        <label for="capacidademax">Capacidade máxima:</label>
+        <InputText id="capacidademax" class="form-control" @bind-Value="@editeventoModel.CapacidademaxAsString" />
+        <ValidationMessage For="@(() => editeventoModel.CapacidademaxAsString)" />
+    </div>
     
 </EditForm>
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
+<button class="btn btn-primary" @onclick="CarregarDados">Carregar Dados</button>
 
 @code {
     [Parameter]
@@ -89,7 +88,6 @@
         var response = await HttpClient.GetAsync($"http://localhost:5052/api/Events/{eventId}");
         response.EnsureSuccessStatusCode();
 
-
         var evento = await response.Content.ReadFromJsonAsync<EditEventViewModel>();
 
         if (evento != null)
@@ -113,6 +111,20 @@
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+    }
+
+    private async Task CarregarDados()
+    {
+        int eventId = Convert.ToInt32(EventId);
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Events/{eventId}");
+        response.EnsureSuccessStatusCode();
+
+        var evento = await response.Content.ReadFromJsonAsync<EditEventViewModel>();
+
+        if (evento != null)
+        {
+            editeventoModel = evento;
         }
     }
 

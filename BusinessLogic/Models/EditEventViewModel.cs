@@ -1,5 +1,5 @@
 ﻿using BusinessLogic.Entities;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.Models
@@ -8,11 +8,20 @@ namespace BusinessLogic.Models
     {
         public EditEventViewModel()
         {
-
+            // Define os valores iniciais dos campos
+            Nome = string.Empty;
+            Data = default;
+            HoraString = string.Empty;
+            CapacidademaxString = string.Empty;
+            Local = string.Empty;
+            Descricao = string.Empty;
+            Categoria = string.Empty;
+            Organizador = null;
+            NomeOrganizador = string.Empty;
         }
 
         public EditEventViewModel(Evento evento)
-        {   
+        {
             IdEvento = evento.IdEvento;
             Nome = evento.Nome;
             Data = evento.Data.HasValue ? evento.Data.Value : default;
@@ -51,9 +60,8 @@ namespace BusinessLogic.Models
         public string DataString { get; set; }
 
         public string HoraString { get; set; }
-        
+
         public string CapacidademaxString { get; set; }
-        
 
         public string HoraAsString
         {
@@ -69,7 +77,6 @@ namespace BusinessLogic.Models
 
         public DateOnly? Data { get; set; }
 
-
         public TimeOnly Hora
         {
             get
@@ -81,7 +88,7 @@ namespace BusinessLogic.Models
                 HoraString = value.ToString();
             }
         }
-        
+
         public string? Nome { get; set; }
 
         public int IdEvento { get; set; }

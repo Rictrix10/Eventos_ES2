@@ -52,6 +52,6 @@ INSERT INTO public.feedback (feedback, id_participante, id_evento) VALUES
                                                                        ('O workshop de programação foi muito informativo. Aprendi muito.', 1, 2);
 
 -- Inserir relação entre eventos e tipos de ingresso
-INSERT INTO public.evento_ingresso (id_evento, id_ingresso, quantidade, preco, tipo_ingresso) VALUES
-                                                                                                  (1, 1, 500, 20.00, 'Entrada Normal'),
-                                                                                                  (1, 2, 200, 50.00, 'Entrada VIP');
+INSERT INTO public.evento_ingresso (id_evento, quantidade, preco, tipo_ingresso) VALUES
+                                                                                                  (1, 500, 20.00, 'Entrada Normal'),
+                                                                                                  (1, 200, 50.00, 'Entrada VIP');

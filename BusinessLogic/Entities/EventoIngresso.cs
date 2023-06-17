@@ -16,6 +16,5 @@ public partial class EventoIngresso
     public string? TipoIngresso { get; set; }
 
     public virtual Evento IdEventoNavigation { get; set; } = null!;
-
-    public virtual TipoIngresso IdIngressoNavigation { get; set; } = null!;
+    
 }

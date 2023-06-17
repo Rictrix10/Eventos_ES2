@@ -110,7 +110,7 @@ public partial class EventosDBContext : DbContext
 
         modelBuilder.Entity<EventoIngresso>(entity =>
         {
-            entity.HasKey(e => new { e.IdEvento, e.IdIngresso }).HasName("evento_ingresso_pkey");
+            entity.HasKey(e => e.IdIngresso).HasName("evento_ingresso_pkey");
 
             entity.ToTable("evento_ingresso");
 
@@ -128,11 +128,7 @@ public partial class EventosDBContext : DbContext
                 .HasForeignKey(d => d.IdEvento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("evento_ingresso_id_evento_fkey");
-
-            entity.HasOne(d => d.IdIngressoNavigation).WithMany(p => p.EventoIngressos)
-                .HasForeignKey(d => d.IdIngresso)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("evento_ingresso_id_ingresso_fkey");
+            
         });
 
         modelBuilder.Entity<Feedback>(entity =>

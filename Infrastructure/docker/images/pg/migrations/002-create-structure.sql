@@ -123,12 +123,12 @@ create table public.feedback
 
 create table public.evento_ingresso
 (
-    id_evento integer references public.evento (id_evento),
-    id_ingresso integer references public.tipo_ingresso (id_tipo_ingresso),
+    id_ingresso serial primary key,
+    id_evento integer references public.evento,
     quantidade integer,
     preco            numeric(10, 2),
-    tipo_ingresso       varchar(255),
-    PRIMARY KEY (id_evento, id_ingresso)
-)
+    tipo_ingresso       varchar(255)
+    
+);
 
 

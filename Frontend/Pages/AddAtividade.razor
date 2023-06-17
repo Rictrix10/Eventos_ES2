@@ -1,0 +1,117 @@
+﻿@page "/addatividade/{eventId}"
+@using System.ComponentModel.DataAnnotations
+@using System.Text.RegularExpressions
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
+@using Blazorise.Bootstrap
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<h3>Criar Atividade</h3>
+
+<EditForm Model="@addatividadeModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Nome:</label>
+        <InputText id="name" class="form-control" @bind-Value="@addatividadeModel.Nome" />
+        <ValidationMessage For="@(() => addatividadeModel.Nome)" />
+    </div>
+
+    <div class="form-group">
+        <label for="dateTime">Data:</label>
+        <InputDate id="data" @bind-Value="@addatividadeModel.Data" class="form-control" TValue="DateOnly?" />
+        <ValidationMessage For="@(() => addatividadeModel.Data)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="hora">Hora:</label>
+        <InputText id="hora" class="form-control" @bind-Value="@addatividadeModel.HoraString" placeholder="Formato: hh:mm:ss" />
+        <ValidationMessage For="@(() => addatividadeModel.HoraString)" />
+        <small class="form-text text-muted">Insira a hora no formato hh:mm:ss.</small>
+    </div>
+    
+    <div class="form-group">
+        <label for="descricao">Descrição:</label>
+        <InputText id="descricao" class="form-control" @bind-Value="@addatividadeModel.Descricao" />
+        <ValidationMessage For="@(() => addatividadeModel.Descricao)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registar</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+
+    private int eventId;
+
+    private AddAtividadeViewModel addatividadeModel = new AddAtividadeViewModel();
+
+    protected override void OnInitialized()
+    {
+        eventId = Convert.ToInt32(EventId);
+
+        addatividadeModel.HoraString = "00:00:00"; // Valor padrão
+
+        base.OnInitialized();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // Verificar o formato e a faixa de hora
+        if (!ValidateTimeFormat(addatividadeModel.HoraString))
+        {
+            Console.WriteLine("Formato de hora inválido. Usando valor padrão.");
+            addatividadeModel.HoraString = "00:00:00"; // Valor padrão
+        }
+
+        // Verificar se a capacidade máxima é uma string com no máximo 6 caracteres numéricos
+
+        try
+        {
+            var response = await HttpClient.PostAsJsonAsync($"http://localhost:5052/api/Atividades", addatividadeModel);
+            response.EnsureSuccessStatusCode();
+
+            var atividade = await response.Content.ReadFromJsonAsync<Atividade>();
+
+            Console.WriteLine("Registro concluído com sucesso!");
+            Console.WriteLine("Dados registrados:");
+            Console.WriteLine($"Nome: {addatividadeModel.Nome}");
+            Console.WriteLine($"Data: {addatividadeModel.Data}");
+            Console.WriteLine($"Hora: {addatividadeModel.Hora}");
+            Console.WriteLine($"Descrição: {addatividadeModel.Descricao}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private bool ValidateTimeFormat(string timeString)
+    {
+        // Verificar se o formato é "hh:mm:ss"
+        if (!Regex.IsMatch(timeString, @"^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"))
+        {
+            return false;
+        }
+
+        // Verificar se as horas, minutos e segundos estão dentro da faixa correta
+        var timeParts = timeString.Split(':');
+        var hours = int.Parse(timeParts[0]);
+        var minutes = int.Parse(timeParts[1]);
+        var seconds = int.Parse(timeParts[2]);
+
+        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}

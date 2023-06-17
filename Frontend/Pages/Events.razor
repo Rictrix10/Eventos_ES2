@@ -93,8 +93,8 @@ else
 
     private void AddActivities(int eventId)
     {
-        // Logic to add activities to the event
-        Console.WriteLine($"Adding activities to event with ID: {eventId}");
+        var url = $"/addatividade/{eventId}";
+        NavigationManager.NavigateTo(url);
     }
 
     private void AddTickets(int eventId)

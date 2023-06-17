@@ -39,7 +39,7 @@ else
         <tbody>
         @foreach (var evt in events)
         {
-            <tr>    @evt.IdEvento
+            <tr>    
                 <td>@evt.Nome</td>
                 <td>@evt.Data</td>
                 <td>@evt.Hora</td>
@@ -52,10 +52,11 @@ else
                     <button class="btn btn-primary" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">+ Atividades</button>
+                    <button class="btn btn-primary" @onclick="() => AddTickets(evt.IdEvento)">+ Ingressos</button>
+                    
                 </td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => AddTickets(evt.IdEvento)">+ Ingressos</button>
+                    <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">+ Atividades</button>
                 </td>
             </tr>
         }
@@ -98,8 +99,8 @@ else
 
     private void AddTickets(int eventId)
     {
-        // Logic to add tickets to the event
-        Console.WriteLine($"Adding tickets to event with ID: {eventId}");
+        var url = $"/registar-ingressos/{eventId}";
+        NavigationManager.NavigateTo(url);
     }
 
     private void AddNewEvent()

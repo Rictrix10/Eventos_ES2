@@ -1,0 +1,39 @@
+﻿@page "/registar-ingressos/{eventId}"
+
+<PageTitle>Registar Ingressos</PageTitle>
+
+<h1>Registar Ingressos</h1>
+
+<div class="mb-3">
+    <label for="quantidade">Quantidade:</label>
+    <input id="quantidade" class="form-control" @bind="@quantidade" />
+</div>
+
+<div class="mb-3">
+    <label for="preco">Preço:</label>
+    <input id="preco" class="form-control" @bind="@preco" />
+</div>
+
+<div class="mb-3">
+    <label for="tipoIngresso">Tipo de Ingresso:</label>
+    <input id="tipoIngresso" class="form-control" @bind="@tipoIngresso" />
+</div>
+
+<button class="btn btn-primary" @onclick="RegistarIngressos">Registar</button>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+
+    private int eventId;
+    
+    private int quantidade;
+    private decimal preco;
+    private string tipoIngresso;
+
+    private void RegistarIngressos()
+    {
+    // Lógica para registar os ingressos
+        Console.WriteLine($"Registando ingressos: Quantidade={quantidade}, Preço={preco}, Tipo de Ingresso={tipoIngresso}");
+    }
+}

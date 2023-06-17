@@ -114,21 +114,19 @@ public partial class EventosDBContext : DbContext
 
             entity.ToTable("evento_ingresso");
 
-            entity.Property(e => e.IdEvento).HasColumnName("id_evento");
             entity.Property(e => e.IdIngresso).HasColumnName("id_ingresso");
-            entity.Property(e => e.Quantidade).HasColumnName("quantidade");
+            entity.Property(e => e.IdEvento).HasColumnName("id_evento");
             entity.Property(e => e.Preco)
                 .HasPrecision(10, 2)
                 .HasColumnName("preco");
+            entity.Property(e => e.Quantidade).HasColumnName("quantidade");
             entity.Property(e => e.TipoIngresso)
                 .HasMaxLength(255)
                 .HasColumnName("tipo_ingresso");
 
             entity.HasOne(d => d.IdEventoNavigation).WithMany(p => p.EventoIngressos)
                 .HasForeignKey(d => d.IdEvento)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("evento_ingresso_id_evento_fkey");
-            
         });
 
         modelBuilder.Entity<Feedback>(entity =>
@@ -177,11 +175,11 @@ public partial class EventosDBContext : DbContext
             entity.ToTable("inscricao_evento");
 
             entity.Property(e => e.IdInscricaoEvento).HasColumnName("id_inscricao_evento");
+            entity.Property(e => e.IdEvento).HasColumnName("id_evento");
+            entity.Property(e => e.IdParticipante).HasColumnName("id_participante");
             entity.Property(e => e.TipoIngresso)
                 .HasMaxLength(255)
                 .HasColumnName("tipo_ingresso");
-            entity.Property(e => e.IdEvento).HasColumnName("id_evento");
-            entity.Property(e => e.IdParticipante).HasColumnName("id_participante");
 
             entity.HasOne(d => d.IdEventoNavigation).WithMany(p => p.InscricaoEventos)
                 .HasForeignKey(d => d.IdEvento)
@@ -251,6 +249,9 @@ public partial class EventosDBContext : DbContext
             entity.ToTable("utilizador");
 
             entity.Property(e => e.IdUtilizador).HasColumnName("id_utilizador");
+            entity.Property(e => e.Autenticacao)
+                .HasMaxLength(255)
+                .HasColumnName("autenticacao");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
@@ -265,16 +266,12 @@ public partial class EventosDBContext : DbContext
             entity.Property(e => e.Telefone)
                 .HasMaxLength(255)
                 .HasColumnName("telefone");
-            entity.Property(e => e.Username)
-                .HasMaxLength(255)
-                .HasColumnName("username");
             entity.Property(e => e.Tipo)
                 .HasMaxLength(255)
                 .HasColumnName("tipo");
-            entity.Property(e => e.Autenticacao)
+            entity.Property(e => e.Username)
                 .HasMaxLength(255)
-                .HasColumnName("autenticacao");
-                
+                .HasColumnName("username");
 
             entity.HasOne(d => d.IdAutenticacaoNavigation).WithMany(p => p.Utilizadors)
                 .HasForeignKey(d => d.IdAutenticacao)

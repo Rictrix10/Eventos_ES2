@@ -25,7 +25,7 @@ public class EventoIngressoViewModel
 
     public int? Quantidade { get; set; }
 
-    public int IdEvento { get; set; }
+    public int ?IdEvento { get; set; }
 
     public int IdIngresso { get; set; }
 }

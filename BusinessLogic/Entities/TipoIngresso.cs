@@ -10,6 +10,4 @@ public partial class TipoIngresso
     public string? Nome { get; set; }
 
     public decimal? Preco { get; set; }
-
-    public virtual ICollection<EventoIngresso> EventoIngressos { get; set; } = new List<EventoIngresso>();
 }

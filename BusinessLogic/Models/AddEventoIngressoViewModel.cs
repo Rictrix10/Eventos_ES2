@@ -37,7 +37,7 @@ public class AddEventoIngressoViewModel
         get { return int.Parse(QuantidadeString); }
     }
 
-    public int IdEvento { get; set; }
+    public int ?IdEvento { get; set; }
 
     public int IdIngresso { get; set; }
 }

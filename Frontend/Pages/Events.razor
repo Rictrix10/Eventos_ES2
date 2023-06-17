@@ -104,7 +104,8 @@ else
 
     private void AddNewEvent()
     {
-        var url = $"/addevent/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        //var url = $"/addevent/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        var url = $"/addeventv2/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 }

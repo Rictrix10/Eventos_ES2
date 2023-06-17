@@ -19,11 +19,12 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="form-group">
-        <label for="tipo_ingresso">Tipo de Ingresso:</label>
-        <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.Tipo_Ingresso" />
-        <ValidationMessage For="@(() => addEventoIngressoViewModel.Tipo_Ingresso)" />
-    </div>
+ <div class="form-group">
+     <label for="tipo_ingresso">Tipo de Ingresso:</label>
+     <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.Tipo_Ingresso" />
+     <ValidationMessage For="@(() => addEventoIngressoViewModel.Tipo_Ingresso)" />
+ </div>
+
 
 
     <div class="form-group">

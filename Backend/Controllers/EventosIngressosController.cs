@@ -104,7 +104,7 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Utilizador>> PostEventoIngresso(EventoIngresso eventoingresso)
+        public async Task<ActionResult<EventoIngresso>> PostEventoIngresso(EventoIngresso eventoingresso)
         {
             if (_context.EventoIngressos == null)
             {

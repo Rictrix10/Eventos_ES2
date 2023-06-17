@@ -31,10 +31,10 @@ namespace BusinessLogic.Models
 
         public string? Categoria { get; set; }
 
-        public int Capacidademax
+        public int? Capacidademax
         {
             get { return int.Parse(CapacidademaxString); }
-            set { CapacidademaxString = value.ToString(); }
+            set { CapacidademaxString = value?.ToString(); }
         }
 
         public string? Descricao { get; set; }
@@ -47,18 +47,51 @@ namespace BusinessLogic.Models
         
         public string CapacidademaxString { get; set; }
 
-        public DateTime Data
+        public string DataAsString
         {
-            get { return DateTime.Parse(DataString); }
-            set { DataString = value.ToString(); }
+            get { return Data.ToString(); }
+            set { DataString = value; }
         }
 
-        public TimeSpan Hora
+        public string HoraAsString
         {
-            get { return TimeSpan.Parse(HoraString); }
-            set { HoraString = value.ToString(); }
+            get { return Hora.ToString(); }
+            set { HoraString = value; }
         }
 
+        public string CapacidademaxAsString
+        {
+            get { return Capacidademax.ToString(); }
+            set { CapacidademaxString = value; }
+        }
+
+        public DateOnly Data
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(DataString))
+                    return default; // Retorna o valor padrão se DataString for nulo ou vazio
+                return DateOnly.Parse(DataString);
+            }
+            set
+            {
+                DataString = value.ToString();
+            }
+        }
+
+
+        public TimeOnly Hora
+        {
+            get
+            {
+                return TimeOnly.Parse(HoraString);
+            }
+            set
+            {
+                HoraString = value.ToString();
+            }
+        }
+        
         public string? Nome { get; set; }
 
         public int IdEvento { get; set; }

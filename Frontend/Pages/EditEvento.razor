@@ -59,6 +59,24 @@
         <ValidationMessage For="@(() => editeventoModel.Categoria)" />
     </div>
     
+    <div class="form-group">
+        <label for="data">Data:</label>
+        <InputText id="data" class="form-control" @bind-Value="@editeventoModel.DataAsString" />
+        <ValidationMessage For="@(() => editeventoModel.DataAsString)" />
+    </div>
+
+    <div class="form-group">
+        <label for="hora">Hora:</label>
+        <InputText id="hora" class="form-control" @bind-Value="@editeventoModel.HoraAsString" />
+        <ValidationMessage For="@(() => editeventoModel.HoraAsString)" />
+    </div>
+
+    <div class="form-group">
+        <label for="capacidademax">Capacidade máxima:</label>
+        <InputText id="capacidademax" class="form-control" @bind-Value="@editeventoModel.CapacidademaxAsString" />
+        <ValidationMessage For="@(() => editeventoModel.CapacidademaxAsString)" />
+    </div>
+    
 </EditForm>
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
@@ -68,25 +86,23 @@
     public string EventId { get; set; }
 
     private int eventId;
-    
     private bool dadosSalvos;
     
-    private AddEventViewModel editeventoModel = new AddEventViewModel();
+    private EditEventViewModel editeventoModel = new EditEventViewModel();
 
     protected override void OnInitialized()
-    {
-        eventId = Convert.ToInt32(EventId);
-        
+    {   
         HandleValidSubmit();
     }
     
     private async Task HandleValidSubmit()
     {   
-        
+        int eventId = Convert.ToInt32(EventId);
         var response = await HttpClient.GetAsync($"http://localhost:5052/api/Events/{eventId}");
         response.EnsureSuccessStatusCode();
-        
-        var evento = await response.Content.ReadFromJsonAsync<AddEventViewModel>();
+
+
+        var evento = await response.Content.ReadFromJsonAsync<EditEventViewModel>();
 
         if (evento != null)
         {

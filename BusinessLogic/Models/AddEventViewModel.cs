@@ -53,6 +53,7 @@ namespace BusinessLogic.Models
             {
                 return DateOnly.Parse(DataString);
             }
+            
         }
 
         public TimeOnly Hora

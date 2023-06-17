@@ -9,27 +9,35 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<div class="mb-3">
-    <label for="pesquisaNome">Nome:</label>
-    <input id="pesquisaNome" class="form-control" @bind="@nomePesquisa" />
+<div class="row mb-3">
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Nome:</span>
+            <input id="pesquisaNome" class="form-control" @bind="@nomePesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Data:</span>
+            <input id="pesquisaData" type="date" class="form-control" @bind="@dataPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Local:</span>
+            <input id="pesquisaLocal" class="form-control" @bind="@localPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Categoria:</span>
+            <input id="pesquisaCategoria" class="form-control" @bind="@categoriaPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm-auto">
+        <button class="btn btn-primary" @onclick="PesquisarEventos">Pesquisar</button>
+    </div>
 </div>
-
-<div class="mb-3">
-    <label for="pesquisaData">Data:</label>
-    <input id="pesquisaData" type="date" class="form-control" @bind="@dataPesquisa" />
-</div>
-
-<div class="mb-3">
-    <label for="pesquisaLocal">Local:</label>
-    <input id="pesquisaLocal" class="form-control" @bind="@localPesquisa" />
-</div>
-
-<div class="mb-3">
-    <label for="pesquisaCategoria">Categoria:</label>
-    <input id="pesquisaCategoria" class="form-control" @bind="@categoriaPesquisa" />
-</div>
-
-<button class="btn btn-primary" @onclick="PesquisarEventos">Pesquisar</button>
 
 @if (events == null)
 {
@@ -149,5 +157,4 @@ else
         }
     }
 }
-
 

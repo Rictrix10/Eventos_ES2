@@ -12,20 +12,21 @@ public class EventoIngressoViewModel
     public EventoIngressoViewModel(EventoIngresso eventoIngresso)
     {   
         IdIngresso = eventoIngresso.IdIngresso;
-        IdEvento = eventoIngresso.IdEvento;
+        Tipo_Ingresso = eventoIngresso.TipoIngresso;
         Quantidade = eventoIngresso.Quantidade;
         Preco = eventoIngresso.Preco;
-        Tipo_Ingresso = eventoIngresso.TipoIngresso;
+        IdEvento = eventoIngresso.IdEvento;
 
     }
-
+    
+    public int IdIngresso { get; set; }
     public string? Tipo_Ingresso { get; set; }
-
-    public decimal? Preco { get; set; }
-
+    
     public int? Quantidade { get; set; }
 
-    public int ?IdEvento { get; set; }
+    public decimal? Preco { get; set; }
+    
 
-    public int IdIngresso { get; set; }
+    public int ?IdEvento { get; set; }
+    
 }

@@ -1,15 +1,15 @@
-using BusinessLogic.Entities;
+﻿using BusinessLogic.Entities;
 
 namespace BusinessLogic.Models
 {
-    public class AtividadeViewModel
+    public class AddAtividadeViewModel
     {
-        public AtividadeViewModel()
+        public AddAtividadeViewModel()
         {
 
         }
 
-        public AtividadeViewModel(Atividade atividade)
+        public AddAtividadeViewModel(Atividade atividade)
         {
             IdAtividade = atividade.IdAtividade;
             InscricaoAtividades = atividade.InscricaoAtividades;

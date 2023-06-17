@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,11 @@ namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class AtividadesController : ControllerBase
     {
-        
-        private readonly  EventosDBContext _context;
+
+        private readonly EventosDBContext _context;
 
         public AtividadesController(EventosDBContext context)
         {
@@ -27,34 +27,29 @@ namespace Backend.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<UtilizadorViewModel[]>> GetUtilizador()
+        public async Task<ActionResult<AtividadeViewModel[]>> GetAtividade()
         {
             if (_context.Atividades == null)
             {
                 return NotFound();
             }
 
-            var utilizadores = await _context
-                .Utilizadors
-                .Include(e => e.IdTipoUtilizadorNavigation)
-                .Include(e => e.IdAutenticacaoNavigation)
+            var atividades = await _context
+                .Atividades
+                .Include(e => e.IdEventoNavigation)
                 .ToListAsync();
-                
-            return utilizadores
-                .Select(a => new UtilizadorViewModel() 
-                {   
+
+            return atividades
+                .Select(a => new AtividadeViewModel()
+                {
                     //Organizador = a.IdOrganizador
-                    IdUtilizador = a.IdUtilizador,    
-                    Username = a.Username,
+                    IdAtividade = a.IdAtividade,
                     Nome = a.Nome,
-                    Email = a.Email,
-                    Password = a.Password,
-                    Telefone = a.Telefone,
-                    Tipo = a.Tipo,
-                    Autenticacao_tipo = a.Autenticacao,
-                    Id_Tipo_Utilizador = a.IdTipoUtilizador,
-                    Tipo_Utilizador = a.IdTipoUtilizadorNavigation?.Tipo,
-                    Tipo_Autenticacao = a.IdAutenticacaoNavigation?.Tipo
+                    Data = a.Data,
+                    Hora = a.Hora,
+                    Descricao = a.Descricao,
+                    IdEvento = a.IdEvento
+
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",
@@ -63,39 +58,39 @@ namespace Backend.Controllers
 
                     }*/
                 }).ToArray();
-            
+
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Utilizador>> GetUtilizador(int id)
+        public async Task<ActionResult<Utilizador>> GetAtividade(int id)
         {
-            if (_context.Utilizadors == null)
+            if (_context.Atividades == null)
             {
                 return NotFound();
             }
 
-            var utilizador = await _context.Utilizadors.FindAsync(id);
+            var atividade = await _context.Utilizadors.FindAsync(id);
 
-            if (utilizador == null)
+            if (atividade == null)
             {
                 return NotFound();
             }
 
-            return utilizador;
+            return atividade;
         }
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUtilizador(int id, Utilizador utilizador)
+        public async Task<IActionResult> PutAtividade(int id, Atividade atividade)
         {
-            if (id != utilizador.IdUtilizador)
+            if (id != atividade.IdAtividade)
             {
                 return BadRequest();
             }
 
-            _context.Entry(utilizador).State = EntityState.Modified;
+            _context.Entry(atividade).State = EntityState.Modified;
 
             try
             {
@@ -103,7 +98,7 @@ namespace Backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UtilizadorExists(id))
+                if (!AtividadeExists(id))
                 {
                     return NotFound();
                 }
@@ -119,44 +114,44 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Utilizador>> PostUtilizador(Utilizador utilizador)
+        public async Task<ActionResult<Atividade>> PostUtilizador(Atividade atividade)
         {
-            if (_context.Utilizadors == null)
+            if (_context.Atividades == null)
             {
                 return Problem("Entity set 'ES2DbContext.Authors'  is null.");
             }
 
-            _context.Utilizadors.Add(utilizador);
+            _context.Atividades.Add(atividade);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUtilizador", new { id = utilizador.IdUtilizador }, utilizador);
+            return CreatedAtAction("GetAtividade", new { id = atividade.IdAtividade }, atividade);
         }
 
         // DELETE: api/Authors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUtilizador(int id)
+        public async Task<IActionResult> DeleteAtividade(int id)
         {
-            if (_context.Utilizadors == null)
+            if (_context.Atividades == null)
             {
                 return NotFound();
             }
 
-            var utilizador = await _context.Utilizadors.FindAsync(id);
-            if (utilizador == null)
+            var atividade = await _context.Atividades.FindAsync(id);
+            if (atividade == null)
             {
                 return NotFound();
             }
 
-            _context.Utilizadors.Remove(utilizador);
+            _context.Atividades.Remove(atividade);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UtilizadorExists(int id)
+        private bool AtividadeExists(int id)
         {
-            return (_context.Utilizadors?.Any(e => e.IdUtilizador == id)).GetValueOrDefault();
+            return (_context.Atividades?.Any(e => e.IdAtividade == id)).GetValueOrDefault();
         }
     }
-    
+
 }

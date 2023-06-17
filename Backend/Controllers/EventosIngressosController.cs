@@ -40,12 +40,13 @@ namespace Backend.Controllers
                 
             return eventsingresso
                 .Select(a => new EventoIngressoViewModel() 
-                {
+                {   
                     IdIngresso = a.IdIngresso,
-                    IdEvento = a.IdEvento,
+                    Tipo_Ingresso = a.TipoIngresso,
                     Quantidade = a.Quantidade,
                     Preco = a.Preco,
-                    Tipo_Ingresso = a.TipoIngresso
+                    IdEvento = a.IdEvento
+                    
                 }).ToArray();
             
         }
@@ -125,13 +126,13 @@ namespace Backend.Controllers
                 return NotFound();
             }
 
-            var utilizador = await _context.EventoIngressos.FindAsync(id);
-            if (utilizador == null)
+            var eventoingresso = await _context.EventoIngressos.FindAsync(id);
+            if (eventoingresso == null)
             {
                 return NotFound();
             }
 
-            _context.EventoIngressos.Remove(utilizador);
+            _context.EventoIngressos.Remove(eventoingresso);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -15,7 +15,7 @@ namespace BusinessLogic.Models
         {   
             IdEvento = evento.IdEvento;
             Nome = evento.Nome;
-            DataString = evento.Data.ToString();
+            Data = evento.Data.HasValue ? evento.Data.Value : default;
             HoraString = evento.Hora.ToString();
             CapacidademaxString = evento.Capacidademax.ToString();
             Local = evento.Local;
@@ -33,7 +33,14 @@ namespace BusinessLogic.Models
 
         public int? Capacidademax
         {
-            get { return int.Parse(CapacidademaxString); }
+            get
+            {
+                if (int.TryParse(CapacidademaxString, out int result))
+                {
+                    return result;
+                }
+                return null; // Ou defina um valor padrão apropriado
+            }
             set { CapacidademaxString = value?.ToString(); }
         }
 
@@ -46,12 +53,7 @@ namespace BusinessLogic.Models
         public string HoraString { get; set; }
         
         public string CapacidademaxString { get; set; }
-
-        public string DataAsString
-        {
-            get { return Data.ToString(); }
-            set { DataString = value; }
-        }
+        
 
         public string HoraAsString
         {
@@ -65,19 +67,7 @@ namespace BusinessLogic.Models
             set { CapacidademaxString = value; }
         }
 
-        public DateOnly Data
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(DataString))
-                    return default; // Retorna o valor padrão se DataString for nulo ou vazio
-                return DateOnly.Parse(DataString);
-            }
-            set
-            {
-                DataString = value.ToString();
-            }
-        }
+        public DateOnly? Data { get; set; }
 
 
         public TimeOnly Hora

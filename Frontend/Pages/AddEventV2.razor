@@ -3,6 +3,7 @@
 @using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
+@using Blazorise.Bootstrap
 @using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
@@ -23,11 +24,19 @@
     
 
     <div class="form-group">
-        <label for="dateTime">Date and Time:</label>
+        <label for="dateTime">Data:</label>
         <InputDate id="data" @bind-Value="@addeventModel.Data" class="form-control" TValue="DateOnly?" />
         <ValidationMessage For="@(() => addeventModel.Data)" />
     </div>
+    
+<div class="form-group">
+    <label for="hora">Hora:</label>
+    <TimeEditWithSeconds @bind-Value="addeventModel.Hora" />
+    <ValidationMessage For="@(() => addeventModel.Hora)" />
+</div>
 
+
+    
     <div class="form-group">
         <label for="local">Local:</label>
         <InputText id="local" class="form-control" @bind-Value="@addeventModel.Local" />

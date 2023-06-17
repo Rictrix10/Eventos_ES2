@@ -1,0 +1,39 @@
+﻿@using System.Globalization
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
+
+<InputTime TValue="TimeOnly" id="hora" bind-Value="CurrentValue" class="form-control" ValueExpression="ValueExpression" ValueExpressionChanged="ValueExpressionChanged" />
+
+@code {
+    [Parameter] public TimeOnly? Value { get; set; }
+    [Parameter] public EventCallback<TimeOnly?> ValueChanged { get; set; }
+
+    private TimeOnly? CurrentValue
+    {
+        get => Value;
+        set
+        {
+            if (value != Value)
+            {
+                Value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+
+    [CascadingParameter] public EditContext CurrentEditContext { get; set; } = default!;
+
+    [Parameter] public string? Id { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private FieldIdentifier FieldIdentifier => FieldIdentifier.Create(ValueExpression);
+
+    [Parameter] public Expression<Func<TimeOnly?>> ValueExpression { get; set; } = default!;
+    private void ValueExpressionChanged(object value)
+    {
+        CurrentValue = (TimeOnly?)value;
+    }
+}

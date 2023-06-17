@@ -33,6 +33,7 @@
     private void Eventos()
     {
         // Lógica para redirecionar para a página de eventos
-        NavigationManager.NavigateTo("/eventos/" + idUtilizador);
+        var url = $"/eventospart/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }

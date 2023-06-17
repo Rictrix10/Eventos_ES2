@@ -1,0 +1,153 @@
+﻿@page "/eventospart/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Eventos</PageTitle>
+
+<h1>Eventos</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<div class="mb-3">
+    <label for="pesquisaNome">Nome:</label>
+    <input id="pesquisaNome" class="form-control" @bind="@nomePesquisa" />
+</div>
+
+<div class="mb-3">
+    <label for="pesquisaData">Data:</label>
+    <input id="pesquisaData" type="date" class="form-control" @bind="@dataPesquisa" />
+</div>
+
+<div class="mb-3">
+    <label for="pesquisaLocal">Local:</label>
+    <input id="pesquisaLocal" class="form-control" @bind="@localPesquisa" />
+</div>
+
+<div class="mb-3">
+    <label for="pesquisaCategoria">Categoria:</label>
+    <input id="pesquisaCategoria" class="form-control" @bind="@categoriaPesquisa" />
+</div>
+
+<button class="btn btn-primary" @onclick="PesquisarEventos">Pesquisar</button>
+
+@if (events == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table style="width: 100%">
+        <tr>
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Local</th>
+            <th>Descrição</th>
+            <th>Capacidade Máxima</th>
+            <th>Categoria</th>
+            <th></th> <!-- Column for Register/Edit buttons -->
+            <th></th> <!-- Column for Add Activities button -->
+            <th></th> <!-- Column for Add Tickets button -->
+        </tr>
+        <tbody>
+        @foreach (var evt in filteredEvents)
+        {
+            <tr>
+                <td>@evt.Nome</td>
+                <td>@evt.Data?.ToString("yyyy-MM-dd")</td>
+                <td>@evt.Hora</td>
+                <td>@evt.Local</td>
+                <td>@evt.Descricao</td>
+                <td>@evt.Capacidademax</td>
+                <td>@evt.Categoria</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">+ Atividades</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => AddTickets(evt.IdEvento)">+ Ingressos</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+
+    private EventoParticipanteViewModel[]? events;
+    private List<EventoParticipanteViewModel> filteredEvents;
+    private string nomePesquisa;
+    private DateOnly? dataPesquisa;
+    private string localPesquisa;
+    private string categoriaPesquisa;
+
+    protected override async Task OnInitializedAsync()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+
+        events = await Http.GetFromJsonAsync<EventoParticipanteViewModel[]>($"http://localhost:5052/api/Events");
+        filteredEvents = events.ToList();
+    }
+
+    private void EditEvent(int eventId)
+    {
+        var url = $"/editar-evento/{eventId}";
+        NavigationManager.NavigateTo(url);
+    }
+
+    private void AddActivities(int eventId)
+    {
+        // Logic to add activities to the event
+        Console.WriteLine($"Adding activities to event with ID: {eventId}");
+    }
+
+    private void AddTickets(int eventId)
+    {
+        // Logic to add tickets to the event
+        Console.WriteLine($"Adding tickets to event with ID: {eventId}");
+    }
+    
+
+    private void PesquisarEventos()
+    {
+        filteredEvents = events.ToList();
+
+        if (!string.IsNullOrEmpty(nomePesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Nome?.ToLower().Contains(nomePesquisa.ToLower()) == true).ToList();
+        }
+
+        if (dataPesquisa.HasValue)
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Data?.Equals(dataPesquisa.Value) == true).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(localPesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Local?.ToLower().Contains(localPesquisa.ToLower()) == true).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(categoriaPesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Categoria?.ToLower().Contains(categoriaPesquisa.ToLower()) == true).ToList();
+        }
+    }
+}
+
+

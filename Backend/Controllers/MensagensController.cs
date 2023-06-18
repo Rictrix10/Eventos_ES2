@@ -36,6 +36,8 @@ namespace Backend.Controllers
 
             var mensagens = await _context
                 .Mensagems
+                .Include(e => e.IdEventoNavigation)
+                .Include(e => e.IdOrganizadorNavigation)
                 .ToListAsync();
                 
             return mensagens
@@ -46,7 +48,9 @@ namespace Backend.Controllers
                     Mensagem1 = a.Mensagem1,
                     IdOrganizador = a.IdOrganizador,
                     IdParticipante = a.IdParticipante,
-                    IdEvento = a.IdEvento
+                    IdEvento = a.IdEvento,
+                    IdEventoNavigation = a.IdEventoNavigation?.Nome,
+                    IdOrganizadorNavigation = a.IdOrganizadorNavigation?.Nome
                 }).ToArray();
         }
 

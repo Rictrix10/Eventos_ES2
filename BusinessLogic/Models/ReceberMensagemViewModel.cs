@@ -2,23 +2,26 @@
 
 namespace BusinessLogic.Models
 {
-    public class AddMensagemViewModel
+    public class ReceberMensagemViewModel
     {
-        public AddMensagemViewModel()
+        public ReceberMensagemViewModel()
         {
 
         }
 
-        public AddMensagemViewModel(Mensagem mensagem)
+        public ReceberMensagemViewModel(Mensagem mensagem)
         {   
             IdMensagem = mensagem.IdMensagem;
             Mensagem1 = mensagem.Mensagem1;
             IdOrganizador = mensagem.IdOrganizador;
             IdParticipante = mensagem.IdParticipante;
             IdEvento = mensagem.IdEvento;
-            
+            IdEventoNavigation = mensagem.IdEventoNavigation?.Nome;
+            IdOrganizadorNavigation = mensagem.IdOrganizadorNavigation?.Nome;
         }
         
+
+
         public int IdMensagem { get; set; }
 
         public string? Mensagem1 { get; set; }
@@ -28,6 +31,10 @@ namespace BusinessLogic.Models
         public int? IdParticipante { get; set; }
         
         public int? IdEvento { get; set; }
+        
+        public string? IdEventoNavigation { get; set; }
+        
+        public string? IdOrganizadorNavigation { get; set; }
 
 
     }

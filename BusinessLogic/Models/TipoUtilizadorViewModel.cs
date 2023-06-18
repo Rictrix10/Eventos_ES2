@@ -11,7 +11,6 @@ namespace BusinessLogic.Models
 
         public TipoUtilizadorViewModel(TipoUtilizador tipoutilizador)
         {
-            Utilizadors = tipoutilizador.Utilizadors;
             IdTipoUtilizador = tipoutilizador.IdTipoUtilizador;
             Tipo = tipoutilizador.Tipo;
         }
@@ -19,7 +18,6 @@ namespace BusinessLogic.Models
         public string? Tipo { get; set; }
 
         public int IdTipoUtilizador { get; set; }
-
-        public ICollection<Utilizador> Utilizadors { get; set; }
+        
     }
 }

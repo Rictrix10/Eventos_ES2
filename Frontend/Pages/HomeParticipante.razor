@@ -4,10 +4,11 @@
 
 <h3>Bem-vindo, @Nome!</h3>
 
-
-<button class="btn btn-primary" @onclick="EditarDados">Editar Dados</button>
-<button class="btn btn-primary" @onclick="Eventos">Eventos</button>
-<button class="btn btn-primary" @onclick="IrParaInscricoes">Inscrições</button>
+<div class="button-group">
+    <button class="btn btn-primary narrow-button" @onclick="EditarDados">Editar Dados</button>
+    <button class="btn btn-primary narrow-button" @onclick="Eventos">Eventos</button>
+    <button class="btn btn-primary narrow-button" @onclick="IrParaInscricoes">Inscrições</button>
+</div>
 
 @code {
     [Parameter]
@@ -43,3 +44,16 @@
         NavigationManager.NavigateTo(url);
     }
 }
+
+<style>
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .narrow-button {
+        width: 150px;
+    }
+</style>
+

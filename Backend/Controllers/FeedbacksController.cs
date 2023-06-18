@@ -41,14 +41,13 @@ namespace Backend.Controllers
                 .ToListAsync();
                 
             return feedbacks
-                .Select(feedback => new FeedbackViewModel() 
+                .Select(a => new FeedbackViewModel() 
                 {   
-                    Feedback1 = feedback.Feedback1,
-                    IdFeedback = feedback.IdFeedback,
-                    IdEvento = feedback.IdEvento,
-                    IdParticipante = feedback.IdParticipante,
-                    IdParticipanteNavigation = feedback.IdParticipanteNavigation,
-                    IdEventoNavigation = feedback.IdEventoNavigation
+                    Feedback1 = a.Feedback1,
+                    IdFeedback = a.IdFeedback,
+                    IdEvento = a.IdEvento,
+                    IdParticipante = a.IdParticipante,
+
                 }).ToArray();
         }
 

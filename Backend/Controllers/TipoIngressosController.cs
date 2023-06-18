@@ -36,7 +36,6 @@ namespace Backend.Controllers
 
             var tipoingressos = await _context
                 .TipoIngressos
-                .Include(e => e.IdTipoIngresso)
                 .ToListAsync();
                 
             return tipoingressos

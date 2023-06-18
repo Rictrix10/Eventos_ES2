@@ -10,25 +10,20 @@ namespace BusinessLogic.Models
         }
 
         public FeedbackViewModel(Feedback feedback)
-        {
-            Feedback1 = feedback.Feedback1;
+        {   
             IdFeedback = feedback.IdFeedback;
-            IdEvento = feedback.IdEvento;
+            Feedback1 = feedback.Feedback1;
             IdParticipante = feedback.IdParticipante;
-            IdParticipanteNavigation = feedback.IdParticipanteNavigation;
-            IdEventoNavigation = feedback.IdEventoNavigation;
+            IdEvento = feedback.IdEvento;
+
         }
-
-        public Evento IdEventoNavigation { get; set; }
-
-        public Utilizador IdParticipanteNavigation { get; set; }
+        
+        public int IdFeedback { get; set; }
+        public string? Feedback1 { get; set; }
+        
 
         public int? IdParticipante { get; set; }
 
         public int? IdEvento { get; set; }
-
-        public int IdFeedback { get; set; }
-
-        public string? Feedback1 { get; set; }
     }
 }

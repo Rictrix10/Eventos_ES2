@@ -10,32 +10,25 @@ namespace BusinessLogic.Models
         }
 
         public MensagemViewModel(Mensagem mensagem)
-        {
-            Mensagem1 = mensagem.Mensagem1;
+        {   
             IdMensagem = mensagem.IdMensagem;
-            IdEvento = mensagem.IdEvento;
-            IdEventoNavigation = mensagem.IdEventoNavigation;
+            Mensagem1 = mensagem.Mensagem1;
             IdOrganizador = mensagem.IdOrganizador;
             IdParticipante = mensagem.IdParticipante;
-            IdOrganizadorNavigation = mensagem.IdOrganizadorNavigation;
-            IdParticipanteNavigation = mensagem.IdParticipanteNavigation;
+            IdEvento = mensagem.IdEvento;
             
         }
-
-        public Utilizador IdParticipanteNavigation { get; set; }
-
-        public Utilizador IdOrganizadorNavigation { get; set; }
-
-        public int? IdParticipante { get; set; }
-
-        public int? IdOrganizador { get; set; }
-
-        public Evento IdEventoNavigation { get; set; }
-
-        public int? IdEvento { get; set; }
-
+        
         public int IdMensagem { get; set; }
 
         public string? Mensagem1 { get; set; }
+        
+        public int? IdOrganizador { get; set; }
+        
+        public int? IdParticipante { get; set; }
+        
+        public int? IdEvento { get; set; }
+
+
     }
 }

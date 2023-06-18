@@ -36,16 +36,13 @@ namespace Backend.Controllers
 
             var tipoutilizadores = await _context
                 .TipoUtilizadors
-                .Include(e => e.Utilizadors)
-                .Include(e => e.IdTipoUtilizador)
                 .ToListAsync();
                 
             return tipoutilizadores
-                .Select(tipoutilizador => new TipoUtilizadorViewModel()
+                .Select(a => new TipoUtilizadorViewModel()
                 {
-                    Utilizadors = tipoutilizador.Utilizadors,
-                    IdTipoUtilizador = tipoutilizador.IdTipoUtilizador,
-                    Tipo = tipoutilizador.Tipo
+                    IdTipoUtilizador = a.IdTipoUtilizador,
+                    Tipo = a.Tipo
                 })
                 .ToArray();
         }

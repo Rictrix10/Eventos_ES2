@@ -48,7 +48,8 @@
 
     private void IrParaNotificacoes()
     {
-        
+        var url = $"/recebermensagem/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url); 
     }
     
     private void Logout()

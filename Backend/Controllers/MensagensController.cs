@@ -50,7 +50,9 @@ namespace Backend.Controllers
                     IdParticipante = a.IdParticipante,
                     IdEvento = a.IdEvento,
                     IdEventoNavigation = a.IdEventoNavigation?.Nome,
-                    IdOrganizadorNavigation = a.IdOrganizadorNavigation?.Nome
+                    IdOrganizadorNavigation = a.IdOrganizadorNavigation?.Nome,
+                    
+                    
                 }).ToArray();
         }
 

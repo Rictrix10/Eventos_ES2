@@ -72,7 +72,8 @@ else
                 <td>@evt.Capacidademax</td>
                 <td>@evt.Categoria</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => Inscrever(evt.IdEvento)">Inscrever</button>
+                    <button class="btn btn-primary" @onclick="() => Inscrever(evt.IdEvento, idUtilizador, nome)">Inscrever</button>
+
                 </td>
             </tr>
         }
@@ -107,11 +108,12 @@ else
         filteredEvents = events.ToList();
     }
 
-    private void Inscrever(int eventId)
+    private void Inscrever(int eventId, int idUtilizador, string nome)
     {
-        var url = $"/inscrever/{eventId}";
+        var url = $"/inscrever/{eventId}/{idUtilizador}/{nome}";
         NavigationManager.NavigateTo(url);
     }
+
     
 
 

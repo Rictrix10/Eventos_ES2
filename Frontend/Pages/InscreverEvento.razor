@@ -1,4 +1,4 @@
-﻿@page "/inscrever/{eventId}"
+﻿@page "/inscrever/{eventId}/{idUtilizador}/{nome}"
 @using System.Collections.Generic
 @using System.Linq
 @using BusinessLogic.Entities
@@ -40,6 +40,15 @@
     public string EventId { get; set; }
 
     private int eventId;
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private int idUtilizador;
+    private string nome;
 
     private List<AddEventoIngressoViewModel> ingressos;
     private List<EventoIngresso> tiposIngresso;
@@ -49,6 +58,8 @@
     protected override async Task OnInitializedAsync()
     {
         eventId = int.Parse(EventId);
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
 
         // Fetch the list of available ingressos and tiposIngresso from the server
         var eventoIngressos = await HttpClient.GetFromJsonAsync<List<EventoIngresso>>("http://localhost:5052/api/EventosIngressos");

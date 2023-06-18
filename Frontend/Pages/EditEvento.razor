@@ -68,7 +68,6 @@
     [Parameter]
     public string EventId { get; set; }
 
-    private int eventId;
     private bool dadosSalvos;
     
     private EditEventViewModel editeventoModel = new EditEventViewModel();
@@ -102,6 +101,7 @@
         {
             try
             {
+                int eventId = Convert.ToInt32(EventId);
                 var response = await HttpClient.PutAsJsonAsync($"http://localhost:5052/api/Events/{eventId}", editeventoModel);
                 response.EnsureSuccessStatusCode();
 

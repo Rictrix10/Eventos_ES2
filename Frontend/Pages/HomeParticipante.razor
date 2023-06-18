@@ -2,11 +2,12 @@
 @using Microsoft.AspNetCore.Components
 @inject NavigationManager NavigationManager
 
-<h3>Bem-vindo, @nome!</h3>
-<p>IdUtilizador: @idUtilizador</p>
+<h3>Bem-vindo, @Nome!</h3>
+<p>IdUtilizador: @IdUtilizador</p>
 
 <button class="btn btn-primary" @onclick="EditarDados">Editar Dados</button>
 <button class="btn btn-primary" @onclick="Eventos">Eventos</button>
+<button class="btn btn-primary" @onclick="IrParaInscricoes">Inscrições</button>
 
 @code {
     [Parameter]
@@ -32,8 +33,13 @@
 
     private void Eventos()
     {
-        // Lógica para redirecionar para a página de eventos
         var url = $"/eventospart/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+    
+    private void IrParaInscricoes()
+    {
+        var url = $"/inscricoes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 }

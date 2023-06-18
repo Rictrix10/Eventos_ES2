@@ -1,0 +1,90 @@
+﻿@page "/inscricoes/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@using BusinessLogic.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Inscrições</PageTitle>
+
+<h1>Inscrições</h1>
+
+@if (inscricoes == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (inscricoes.Count == 0)
+{
+    <p>Não está inscrito em nenhum evento</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Evento</th>
+            <th>Ingresso</th>
+            <th>Participante</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var inscricao in inscricoes)
+        {
+            @if (inscricao.IdParticipante == Convert.ToInt32(IdUtilizador))
+            {
+                <tr>
+                <td>@inscricao.IdEventoNavigation</td>
+                <td>@inscricao.TipoIngresso</td>
+                <td>@inscricao.IdParticipanteNavigation</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => Cancelar(inscricao.IdInscricaoEvento)">Cancelar Inscrição</button>
+                </td>
+            </tr>
+            }
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private List<InscricoesViewModel> inscricoes;
+    private string nome;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        await LoadInscricoes();
+    }
+    
+    private async Task Cancelar(int inscricaoId)
+    {
+        // Send a DELETE request to remove the activity
+        var response = await Http.DeleteAsync($"http://localhost:5052/api/InscricaoEventos/{inscricaoId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Activity removed successfully, refresh the activity list
+            await LoadInscricoes();
+        }
+        else
+        {
+            // Handle the error scenario
+            // Display an error message or perform other actions
+        }
+    }
+    
+    private async Task LoadInscricoes()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        inscricoes = await Http.GetFromJsonAsync<List<InscricoesViewModel>>($"http://localhost:5052/api/InscricaoEventos?idutilizador={idUtilizador}");
+    }
+}

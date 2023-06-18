@@ -21,11 +21,6 @@ INSERT INTO public.evento (nome, data, hora, local, descricao, capacidademax, ca
                                                                                                              ('Concerto de Rock', '2023-07-20', '19:30:00', 'Porto', 'Um concerto incrível com bandas de rock famosas.', 1000, 'Música', 2),
                                                                                                              ('Workshop de Programação', '2023-08-10', '14:00:00', 'Lisboa', 'Um workshop para aprender as melhores práticas de programação.', 50, 'Tecnologia', 3);
 
--- Inserir tipos de ingresso
-INSERT INTO public.tipo_ingresso (nome, preco) VALUES
-                                                   ('Entrada Normal', 20.00),
-                                                   ('Entrada VIP', 50.00);
-
 -- Inserir atividades
 INSERT INTO public.atividade (nome, data, hora, descricao, id_evento) VALUES
                                                                           ('Palestra sobre Tecnologia', '2023-08-10', '15:00:00', 'Uma palestra interessante sobre as últimas tendências tecnológicas.', 2),
@@ -35,11 +30,6 @@ INSERT INTO public.atividade (nome, data, hora, descricao, id_evento) VALUES
 INSERT INTO public.inscricao_evento (tipo_ingresso, id_participante, id_evento) VALUES
                                                                                     ('Entrada Normal', 1, 1),
                                                                                     ('Entrada VIP', 1, 2);
-
--- Inserir inscrições em atividades
-INSERT INTO public.inscricao_atividade (id_participante, id_atividade) VALUES
-                                                                           (1, 1),
-                                                                           (1, 2);
 
 -- Inserir mensagens
 INSERT INTO public.mensagem (mensagem, id_organizador, id_participante, id_evento) VALUES

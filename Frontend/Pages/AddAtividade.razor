@@ -1,4 +1,4 @@
-﻿@page "/addatividade/{EventId}"
+﻿@page "/addatividade/{EventId}/{idUtilizador}/{nome}"
 @using System.ComponentModel.DataAnnotations
 @using System.Text.RegularExpressions
 @using BusinessLogic.Entities
@@ -51,6 +51,15 @@
     public string EventId { get; set; }
 
     private int eventId;
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
     
     private AddAtividadeViewModel addatividadeModel = new AddAtividadeViewModel();
     private EditContext editContext;
@@ -138,8 +147,11 @@
     }
 
     private void GoBack()
-    {
+    {   
+        /*
         var url = $"/atividades/{eventId}";
         NavigationManager.NavigateTo(url);
+        */
+        NavigationManager.NavigateTo("javascript:history.back()");
     }
 }

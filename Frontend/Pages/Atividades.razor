@@ -1,4 +1,4 @@
-﻿@page "/atividades/{EventId}"
+﻿@page "/atividades/{EventId}/{idUtilizador}/{nome}"
 @using System.Collections.Generic
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
@@ -54,12 +54,23 @@ else
 @code {
     [Parameter]
     public string EventId { get; set; }
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
 
     private List<AtividadeViewModel> atividades;
 
     protected override async Task OnInitializedAsync()
     {
         int eventId = Convert.ToInt32(EventId);
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
 
         // Fetch activities for the given event ID from the server
         atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
@@ -68,7 +79,7 @@ else
     private void NavigateToAddAtividade()
     {
         int eventId = Convert.ToInt32(EventId);
-        NavigationManager.NavigateTo($"/addatividade/{EventId}");
+        NavigationManager.NavigateTo($"/addatividade/{EventId}/{idUtilizador}/{nome}");
     }
 
     private async Task RemoveAtividade(int atividadeId)
@@ -96,8 +107,8 @@ else
 
     private void GoBack()
     {
-        //NavigationManager.NavigateTo("javascript:history.back()");
-        //var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo("javascript:history.back()");
+        var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         //NavigationManager.NavigateTo(url);
     }
 }

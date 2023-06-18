@@ -91,7 +91,7 @@ else
 
     private void AddActivities(int eventId)
     {   
-        var url = $"/atividades/{eventId}";
+        var url = $"/atividades/{eventId}/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 

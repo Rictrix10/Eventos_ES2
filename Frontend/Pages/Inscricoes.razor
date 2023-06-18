@@ -8,6 +8,8 @@
 
 <h1>Inscrições</h1>
 
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
 @if (inscricoes == null)
 {
     <p>
@@ -55,6 +57,8 @@ else
     [Parameter]
     public string Nome { get; set; }
     
+    private int idUtilizador;
+    
     private List<InscricoesViewModel> inscricoes;
     private string nome;
 
@@ -86,5 +90,11 @@ else
     {
         int idUtilizador = Convert.ToInt32(IdUtilizador);
         inscricoes = await Http.GetFromJsonAsync<List<InscricoesViewModel>>($"http://localhost:5052/api/InscricaoEventos?idutilizador={idUtilizador}");
+    }
+    
+    private void Back()
+    {
+        var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }

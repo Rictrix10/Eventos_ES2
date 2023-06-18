@@ -7,7 +7,7 @@
 
 <h1>Eventos</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
 <div class="row mb-3">
     <div class="col-sm">
@@ -140,6 +140,12 @@ else
         {
             filteredEvents = filteredEvents.Where(evt => evt.Categoria?.ToLower().Contains(categoriaPesquisa.ToLower()) == true).ToList();
         }
+    }
+    
+    private void Back()
+    {
+        var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }
 

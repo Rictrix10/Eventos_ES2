@@ -8,6 +8,7 @@
     <button class="btn btn-primary narrow-button" @onclick="EditarDados">Editar Dados</button>
     <button class="btn btn-primary narrow-button" @onclick="Eventos">Eventos</button>
     <button class="btn btn-primary narrow-button" @onclick="IrParaInscricoes">Inscrições</button>
+    <button class="btn btn-danger narrow-button" @onclick="Logout">Logout</button>
 </div>
 
 @code {
@@ -43,6 +44,11 @@
         var url = $"/inscricoes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
+    
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
 }
 
 <style>
@@ -56,4 +62,3 @@
         width: 150px;
     }
 </style>
-

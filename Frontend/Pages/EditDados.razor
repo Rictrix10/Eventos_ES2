@@ -51,6 +51,8 @@
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
 <button class="btn btn-primary" @onclick="CarregarDados">Carregar Dados</button>
 
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
 @code {
     [Parameter]
     public string IdUtilizador { get; set; }
@@ -125,4 +127,11 @@
         var validationResults = new List<ValidationResult>();
         return Validator.TryValidateObject(editdadosModel, validationContext, validationResults, true);
     }
+    
+    private void Back()
+    {
+        var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
 }
+

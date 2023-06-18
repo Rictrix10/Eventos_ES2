@@ -34,6 +34,7 @@
 </div>
 
 <button class="btn btn-primary" @onclick="ComprarIngressos">Inscrever</button>
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
 @code {
     [Parameter]
@@ -136,6 +137,11 @@
                 // Exiba uma mensagem de erro ou faça alguma ação de tratamento de erro
             }
         }
+    }
+    private void Back()
+    {
+        var url = $"/eventospart/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }
 

@@ -24,11 +24,6 @@
 }
 
 <div class="form-group">
-    <label for="quantidade">Quantidade:</label>
-    <input class="form-control" type="number" id="quantidade" @bind="quantidade" />
-</div>
-
-<div class="form-group">
     <label for="precoTotal">Preço Total:</label>
     <input class="form-control" type="text" id="precoTotal" readonly value="@calcularPrecoTotal()" />
 </div>
@@ -53,7 +48,6 @@
     private List<AddEventoIngressoViewModel> ingressos;
     private List<EventoIngresso> tiposIngresso;
     private int selectedIngressoId;
-    private int quantidade;
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,7 +78,7 @@
 
             if (selectedIngresso != null)
             {
-                return selectedIngresso.Preco * quantidade;
+                return selectedIngresso.Preco;
             }
         }
 
@@ -94,7 +88,7 @@
     private void ComprarIngressos()
     {
         // Lógica para comprar os ingressos
-        // Utilize as informações selecionadas (selectedIngressoId, quantidade) para realizar a compra
+        // Utilize as informações selecionadas (selectedIngressoId) para realizar a compra
         // Exiba uma mensagem de sucesso ou erro dependendo do resultado da compra
     }
 }

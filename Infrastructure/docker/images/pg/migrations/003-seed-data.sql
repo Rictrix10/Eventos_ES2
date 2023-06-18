@@ -2,7 +2,6 @@
 INSERT INTO public.tipo_utilizador (tipo) VALUES
                                               ('Organizador'),
                                               ('Participante');
-                                                
 
 -- Inserir tipos de autenticação
 INSERT INTO public.autenticacao (tipo) VALUES
@@ -14,12 +13,12 @@ INSERT INTO public.autenticacao (tipo) VALUES
 INSERT INTO public.utilizador (username, nome, email, password, telefone, tipo, autenticacao, id_tipo_utilizador, id_autenticacao) VALUES
                                                                                                                                        ('joaosilva', 'João Silva', 'joao@example.com', 'joao123silva', '923456789', 'Participante', 'User', 2, 3),
                                                                                                                                        ('mariagomes', 'Maria Gomes', 'maria@example.com', 'gomesmaria2', '987654321', 'Organizador', 'UserManager', 1, 2),
-                                                                                                                                        ('luisteofilo', 'Luis Teofilo', 'teofilo@example.com', 'teofiloes2', '922494780', 'Organizador', 'Admin', 3, 1);
-                                                
+                                                                                                                                       ('luisteofilo', 'Luis Teofilo', 'teofilo@example.com', 'teofiloes2', '922494780', 'Organizador', 'Admin', 1, 2);
+
 -- Inserir eventos
 INSERT INTO public.evento (nome, data, hora, local, descricao, capacidademax, categoria, id_organizador) VALUES
                                                                                                              ('Concerto de Rock', '2023-07-20', '19:30:00', 'Porto', 'Um concerto incrível com bandas de rock famosas.', 1000, 'Música', 2),
-                                                                                                             ('Workshop de Programação', '2023-08-10', '14:00:00', 'Lisboa', 'Um workshop para aprender as melhores práticas de programação.', 50, 'Tecnologia', 3);
+                                                                                                             ('Workshop de Programação', '2023-08-10', '14:00:00', 'Lisboa', 'Um workshop para aprender as melhores práticas de programação.', 50, 'Tecnologia', 1);
 
 -- Inserir atividades
 INSERT INTO public.atividade (nome, data, hora, descricao, id_evento) VALUES
@@ -43,5 +42,5 @@ INSERT INTO public.feedback (feedback, id_participante, id_evento) VALUES
 
 -- Inserir relação entre eventos e tipos de ingresso
 INSERT INTO public.evento_ingresso (id_evento, quantidade, preco, tipo_ingresso) VALUES
-                                                                                                  (1, 500, 20.00, 'Entrada Normal'),
-                                                                                                  (1, 200, 50.00, 'Entrada VIP');
+                                                                                     (1, 500, 20.00, 'Entrada Normal'),
+                                                                                     (1, 200, 50.00, 'Entrada VIP');

@@ -32,18 +32,19 @@
 
     <div class="form-group">
         <label for="password">Password:</label>
-        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" />
+        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" type="password" />
         <ValidationMessage For="@(() => registerModel.Password)" />
+        <small class="form-text text-muted">A password deve ter pelo menos 8 caracteres e conter letras maiúsculas, minúsculas e números.</small>
     </div>
 
-<div class="form-group">
-    <label for="userType">User Type:</label>
-    <select id="userType" class="form-control" @bind="@registerModel.Tipo" required>
-        <option value="Organizador">Organizador</option>
-        <option value="Participante">Participante</option>
-    </select>
-    <ValidationMessage For="@(() => registerModel.Tipo)" />
-</div>
+    <div class="form-group">
+        <label for="userType">User Type:</label>
+        <select id="userType" class="form-control" @bind="@registerModel.Tipo" required>
+            <option value="Organizador">Organizador</option>
+            <option value="Participante">Participante</option>
+        </select>
+        <ValidationMessage For="@(() => registerModel.Tipo)" />
+    </div>
 
     <div class="form-group">
         <p>Já tem conta? <a href="/login">Login</a></p>
@@ -82,5 +83,3 @@
         }
     }
 }
-
-

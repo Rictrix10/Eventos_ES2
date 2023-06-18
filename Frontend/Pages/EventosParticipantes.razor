@@ -72,13 +72,7 @@ else
                 <td>@evt.Capacidademax</td>
                 <td>@evt.Categoria</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
-                </td>
-                <td>
-                    <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">+ Atividades</button>
-                </td>
-                <td>
-                    <button class="btn btn-primary" @onclick="() => AddTickets(evt.IdEvento)">+ Ingressos</button>
+                    <button class="btn btn-primary" @onclick="() => Inscrever(evt.IdEvento)">Inscrever</button>
                 </td>
             </tr>
         }
@@ -113,24 +107,13 @@ else
         filteredEvents = events.ToList();
     }
 
-    private void EditEvent(int eventId)
+    private void Inscrever(int eventId)
     {
-        var url = $"/editar-evento/{eventId}";
+        var url = $"/inscrever/{eventId}";
         NavigationManager.NavigateTo(url);
     }
-
-    private void AddActivities(int eventId)
-    {
-        // Logic to add activities to the event
-        Console.WriteLine($"Adding activities to event with ID: {eventId}");
-    }
-
-    private void AddTickets(int eventId)
-    {
-        // Logic to add tickets to the event
-        Console.WriteLine($"Adding tickets to event with ID: {eventId}");
-    }
     
+
 
     private void PesquisarEventos()
     {

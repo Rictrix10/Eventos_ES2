@@ -42,7 +42,7 @@ namespace Backend.Controllers
                 .Select(a => new EventoIngressoViewModel() 
                 {   
                     IdIngresso = a.IdIngresso,
-                    Tipo_Ingresso = a.TipoIngresso,
+                    TipoIngresso = a.TipoIngresso,
                     Quantidade = a.Quantidade,
                     Preco = a.Preco,
                     IdEvento = a.IdEvento

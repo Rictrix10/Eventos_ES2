@@ -1,0 +1,89 @@
+﻿@page "/inscrever/{eventId}"
+@using System.Collections.Generic
+@using System.Linq
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>Ingressos</PageTitle>
+
+<h1>Inscrever em evento</h1>
+
+@if (tiposIngresso != null)
+{
+    <div class="form-group">
+        <label for="tipoIngresso">Tipo de Ingresso:</label>
+        <select class="form-control" id="tipoIngresso" @bind="selectedIngressoId">
+            @foreach (var ingresso in tiposIngresso)
+            {
+                <option value="@ingresso.IdIngresso">@ingresso.TipoIngresso</option>
+            }
+        </select>
+    </div>
+}
+
+<div class="form-group">
+    <label for="quantidade">Quantidade:</label>
+    <input class="form-control" type="number" id="quantidade" @bind="quantidade" />
+</div>
+
+<div class="form-group">
+    <label for="precoTotal">Preço Total:</label>
+    <input class="form-control" type="text" id="precoTotal" readonly value="@calcularPrecoTotal()" />
+</div>
+
+<button class="btn btn-primary" @onclick="ComprarIngressos">Comprar</button>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+
+    private int eventId;
+
+    private List<AddEventoIngressoViewModel> ingressos;
+    private List<EventoIngresso> tiposIngresso;
+    private int selectedIngressoId;
+    private int quantidade;
+
+    protected override async Task OnInitializedAsync()
+    {
+        eventId = int.Parse(EventId);
+
+        // Fetch the list of available ingressos and tiposIngresso from the server
+        var eventoIngressos = await HttpClient.GetFromJsonAsync<List<EventoIngresso>>("http://localhost:5052/api/EventosIngressos");
+
+        ingressos = eventoIngressos.Select(ei => new AddEventoIngressoViewModel
+        {
+            IdIngresso = ei.IdIngresso,
+            TipoIngresso = ei.TipoIngresso,
+            PrecoString = ei.Preco.ToString(),
+            QuantidadeString = string.Empty,
+            IdEvento = eventId
+        }).ToList();
+
+        tiposIngresso = eventoIngressos;
+    }
+
+    private decimal? calcularPrecoTotal()
+    {
+        if (ingressos != null)
+        {
+            var selectedIngresso = ingressos.FirstOrDefault(i => i.IdIngresso == selectedIngressoId);
+
+            if (selectedIngresso != null)
+            {
+                return selectedIngresso.Preco * quantidade;
+            }
+        }
+
+        return null;
+    }
+
+    private void ComprarIngressos()
+    {
+        // Lógica para comprar os ingressos
+        // Utilize as informações selecionadas (selectedIngressoId, quantidade) para realizar a compra
+        // Exiba uma mensagem de sucesso ou erro dependendo do resultado da compra
+    }
+}

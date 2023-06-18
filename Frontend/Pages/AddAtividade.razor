@@ -42,7 +42,7 @@
         <ValidationMessage For="@(() => addatividadeModel.Descricao)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Registar</button>
+    <button type="submit" class="btn btn-primary" disabled="@IsFormInvalid()">Registar</button>
     <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
 
@@ -53,6 +53,7 @@
     private int eventId;
     
     private AddAtividadeViewModel addatividadeModel = new AddAtividadeViewModel();
+    private EditContext editContext;
 
     protected override void OnInitialized()
     {
@@ -61,11 +62,20 @@
         addatividadeModel.IdEvento = eventId;
         addatividadeModel.HoraString = "00:00:00"; // Valor padrão
 
+        editContext = new EditContext(addatividadeModel);
+
         base.OnInitialized();
     }
 
     private async Task HandleValidSubmit()
     {
+        // Verificar se todos os campos obrigatórios foram preenchidos
+        if (string.IsNullOrEmpty(addatividadeModel.Nome) || addatividadeModel.Data == null || string.IsNullOrEmpty(addatividadeModel.HoraString) || string.IsNullOrEmpty(addatividadeModel.Descricao))
+        {
+            Console.WriteLine("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
         // Verificar o formato e a faixa de hora
         if (!ValidateTimeFormat(addatividadeModel.HoraString))
         {
@@ -116,10 +126,20 @@
 
         return true;
     }
+    
+    private bool IsFormInvalid()
+    {
+        var validationContext = new ValidationContext(addatividadeModel);
+        var validationResults = new List<ValidationResult>();
+
+        Validator.TryValidateObject(addatividadeModel, validationContext, validationResults, true);
+
+        return validationResults.Any();
+    }
+
     private void GoBack()
     {
         var url = $"/atividades/{eventId}";
         NavigationManager.NavigateTo(url);
     }
 }
-

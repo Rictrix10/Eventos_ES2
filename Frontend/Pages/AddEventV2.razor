@@ -60,7 +60,7 @@
         <ValidationMessage For="@(() => addeventModel.Categoria)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Registar</button>
+    <button type="submit" class="btn btn-primary" disabled="@(!IsFormValid())">Registar</button>
     <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
 
@@ -129,6 +129,18 @@
             Console.WriteLine(ex.Message);
         }
     }
+    
+    private bool IsFormValid()
+    {
+        // Verificar se todos os campos obrigatórios foram preenchidos
+        return !string.IsNullOrWhiteSpace(addeventModel.Nome) &&
+               addeventModel.Data != null &&
+               !string.IsNullOrWhiteSpace(addeventModel.HoraString) &&
+               !string.IsNullOrWhiteSpace(addeventModel.Local) &&
+               !string.IsNullOrWhiteSpace(addeventModel.Descricao) &&
+               !string.IsNullOrWhiteSpace(addeventModel.CapacidademaxString) &&
+               !string.IsNullOrWhiteSpace(addeventModel.Categoria);
+    }
 
     private bool ValidateTimeFormat(string timeString)
     {
@@ -158,5 +170,6 @@
         NavigationManager.NavigateTo(url);
     }
 }
+
 
 

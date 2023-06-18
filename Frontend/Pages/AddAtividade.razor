@@ -43,6 +43,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Registar</button>
+    <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
 
 @code {
@@ -114,6 +115,11 @@
         }
 
         return true;
+    }
+    private void GoBack()
+    {
+        var url = $"/atividades/{eventId}";
+        NavigationManager.NavigateTo(url);
     }
 }
 

@@ -63,6 +63,7 @@
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
 <button class="btn btn-primary" @onclick="CarregarDados">Carregar Dados</button>
+<button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 
 @code {
     [Parameter]
@@ -133,5 +134,10 @@
         var validationContext = new ValidationContext(editeventoModel);
         var validationResults = new List<ValidationResult>();
         return Validator.TryValidateObject(editeventoModel, validationContext, validationResults, true);
+    }
+    
+    private void GoBack()
+    {
+        //NavigationManager.NavigateTo($"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}");
     }
 }

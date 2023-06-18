@@ -49,6 +49,7 @@ else
 }
 
 <button class="btn btn-primary" @onclick="NavigateToAddAtividade">Adicionar Atividade</button>
+<button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 
 @code {
     [Parameter]
@@ -91,6 +92,11 @@ else
     {
         int eventId = Convert.ToInt32(EventId);
         atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+
+    private void GoBack()
+    {
+        
     }
 }
 

@@ -1,0 +1,40 @@
+﻿@page "/home-admin/{idUtilizador}/{nome}"
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavigationManager
+
+<h3>Bem-vindo, @nome!</h3>
+
+
+<button class="btn btn-primary" @onclick="RedirectToOrganizadores">Organizadores</button>
+<button class="btn btn-primary" @onclick="RedirectToParticipantes">Participantes</button>
+
+@code {
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+
+    protected override void OnInitialized()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+    }
+    
+    private void RedirectToOrganizadores()
+    {
+        
+        var url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+    
+    private void RedirectToParticipantes()
+    {
+        
+        var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+}

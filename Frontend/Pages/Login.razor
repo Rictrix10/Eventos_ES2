@@ -71,7 +71,7 @@
             else
             {
                 // Caso não haja um tipo válido, redirecione para a página inicial
-                url = $"/home-admin{idUtilizador}/{Uri.EscapeDataString(nome)}";
+                url = $"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
 
             NavigationManager.NavigateTo(url);

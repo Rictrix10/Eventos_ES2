@@ -61,7 +61,9 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Registar</button>
+    <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
+
 
 @code {
     [Parameter]
@@ -75,18 +77,11 @@
 
     private AddEventViewModelV2 addeventModel = new AddEventViewModelV2();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        if (int.TryParse(IdUtilizador, out var userId))
-        {
-            addeventModel.Organizador = userId;
-        }
-        else
-        {
-            Console.WriteLine("Falha ao converter IdUtilizador para int.");
-        }
 
-        addeventModel.NomeOrganizador = Nome;
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
 
         addeventModel.HoraString = "00:00:00"; // Valor padrão
 
@@ -155,6 +150,12 @@
         }
 
         return true;
+    }
+    
+    private void GoBack()
+    {   
+        var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 }
 

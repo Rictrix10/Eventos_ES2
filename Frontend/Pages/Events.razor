@@ -7,12 +7,10 @@
 
 <h1>Eventos</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-
 <div class="mb-3">
-    <button class="btn btn-primary" @onclick="AddNewEvent">Adicionar Evento</button>
+    <button class="btn btn-primary" @onclick="AddNewEvent">Criar Evento</button>
+    <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </div>
-
 
 @if (events == null)
 {
@@ -93,7 +91,6 @@ else
 
     private void AddActivities(int eventId)
     {   
-        //var url = $"/addatividade/{eventId}";
         var url = $"/atividades/{eventId}";
         NavigationManager.NavigateTo(url);
     }
@@ -106,8 +103,12 @@ else
 
     private void AddNewEvent()
     {
-        //var url = $"/addevent/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         var url = $"/addeventv2/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
+    }
+    
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo($"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}");
     }
 }

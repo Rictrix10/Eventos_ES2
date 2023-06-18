@@ -111,6 +111,10 @@
 
         if (selectedIngresso != null)
         {
+            var updateUrl = $"http://localhost:5052/api/EventosIngressos/{selectedIngresso.IdIngresso}";
+            selectedIngresso.Quantidade -= 1;
+            await HttpClient.PutAsJsonAsync(updateUrl, selectedIngresso);
+
             var inscricaoEvento = new InscricaoEvento
             {
                 TipoIngresso = selectedIngresso.TipoIngresso,
@@ -134,4 +138,5 @@
         }
     }
 }
+
 

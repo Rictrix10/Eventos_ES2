@@ -21,6 +21,11 @@
             }
         </select>
     </div>
+    
+    <div class="form-group">
+        <label for="quantidadeDisponivel">Quantidade Disponível:</label>
+        <input class="form-control" type="text" id="quantidadeDisponivel" readonly value="@calcularQuantidadeDisponivel()" />
+    </div>
 }
 
 <div class="form-group">
@@ -28,7 +33,7 @@
     <input class="form-control" type="text" id="precoTotal" readonly value="@calcularPrecoTotal()" />
 </div>
 
-<button class="btn btn-primary" @onclick="ComprarIngressos">Comprar</button>
+<button class="btn btn-primary" @onclick="ComprarIngressos">Inscrever</button>
 
 @code {
     [Parameter]
@@ -68,6 +73,21 @@
         }).ToList();
 
         tiposIngresso = eventoIngressos;
+    }
+
+    private int calcularQuantidadeDisponivel()
+    {
+        if (tiposIngresso != null)
+        {
+            var selectedIngresso = tiposIngresso.FirstOrDefault(i => i.IdIngresso == selectedIngressoId);
+
+            if (selectedIngresso != null)
+            {
+                return (int)selectedIngresso.Quantidade;
+            }
+        }
+
+        return 0;
     }
 
     private decimal? calcularPrecoTotal()
@@ -114,3 +134,4 @@
         }
     }
 }
+

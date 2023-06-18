@@ -32,6 +32,7 @@ else
             <th>Telefone</th>
             <th>Id Evento</th>
             <th>Nome Evento</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -45,7 +46,9 @@ else
                 <td>@inscricao.IdParticipanteNavigationTelefone</td>
                 <td>@inscricao.IdEvento</td>
                 <td>@inscricao.IdEventoNavigation</td>
-
+                <td>
+                    <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation )">Notificar</button>
+                </td>
             </tr>
             
         }
@@ -84,4 +87,11 @@ else
         var url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
+    
+    private void Notificar(int? participanteId, int? eventoId, string organizadorId, string? inscricaoIdParticipanteNavigation)
+    {
+        var url = $"/mensagem/{participanteId}/{eventoId}/{organizadorId}/{inscricaoIdParticipanteNavigation}";
+        NavigationManager.NavigateTo(url);
+    }
 }
+

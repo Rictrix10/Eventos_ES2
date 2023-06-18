@@ -1,0 +1,75 @@
+﻿@inject HttpClient Http
+
+@page "/mensagem/{participanteId:int}/{eventoId:int}/{organizadorId:int}/{inscricaoIdParticipanteNavigation}"
+@using BusinessLogic.Models
+@inject NavigationManager NavigationManager
+
+<h3>Escrever Mensagem</h3>
+
+<div class="form-group">
+    <label for="message">Mensagem:</label>
+    <textarea id="message" class="form-control" @bind="@message"></textarea>
+</div>
+
+<button class="btn btn-primary" @onclick="EnviarMensagem">Enviar Mensagem</button>
+<button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
+@if (!string.IsNullOrEmpty(displayMessage))
+{
+    <div class="alert alert-info mt-3">
+        @displayMessage
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? participanteId { get; set; }
+
+    [Parameter]
+    public int? eventoId { get; set; }
+    
+    [Parameter]
+    public int? organizadorId { get; set; }
+    
+    [Parameter]
+    public string? inscricaoIdParticipanteNavigation { get; set; }
+    
+    private int idUtilizador;
+    
+    private string message;
+    private string displayMessage;
+
+    private async Task EnviarMensagem()
+    {
+        if (string.IsNullOrEmpty(message))
+        {
+            displayMessage = "Digite uma mensagem antes de enviar.";
+            return;
+        }
+
+        var mensagem = new MensagemViewModel
+        {
+            Mensagem1 = message,
+            IdOrganizador = organizadorId,
+            IdParticipante = participanteId,
+            IdEvento = eventoId
+        };
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("http://localhost:5052/api/Mensagens", mensagem);
+            response.EnsureSuccessStatusCode();
+
+            displayMessage = $"Mensagem enviada para {inscricaoIdParticipanteNavigation} com sucesso.";
+            message = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            displayMessage = $"Ocorreu um erro ao enviar a mensagem: {ex.Message}";
+        }
+    }
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+    }
+}
+

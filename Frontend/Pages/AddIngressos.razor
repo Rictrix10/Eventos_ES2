@@ -20,8 +20,8 @@
 
     <div class="form-group">
         <label for="tipo_ingresso">Tipo de Ingresso:</label>
-        <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.Tipo_Ingresso" />
-        <ValidationMessage For="@(() => addEventoIngressoViewModel.Tipo_Ingresso)" />
+        <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.TipoIngresso" />
+        <ValidationMessage For="@(() => addEventoIngressoViewModel.TipoIngresso)" />
     </div>
 
     <div class="form-group">
@@ -65,7 +65,7 @@
 
             var evento = await response.Content.ReadFromJsonAsync<EventoIngresso>();
 
-            Console.WriteLine($"Tipo: {addEventoIngressoViewModel.Tipo_Ingresso}");
+            Console.WriteLine($"Tipo: {addEventoIngressoViewModel.TipoIngresso}");
             Console.WriteLine($"Preço: {addEventoIngressoViewModel.Preco}");
             Console.WriteLine($"Quantidade: {addEventoIngressoViewModel.Quantidade}");
         }

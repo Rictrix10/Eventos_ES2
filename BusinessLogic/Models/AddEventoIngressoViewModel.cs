@@ -12,7 +12,7 @@ public class AddEventoIngressoViewModel
     public AddEventoIngressoViewModel(EventoIngresso eventoIngresso)
     {   
         IdIngresso = eventoIngresso.IdIngresso;
-        Tipo_Ingresso = eventoIngresso.TipoIngresso;
+        TipoIngresso = eventoIngresso.TipoIngresso;
         QuantidadeString = eventoIngresso.Quantidade.ToString();
         PrecoString = eventoIngresso.Preco.ToString();
         IdEvento = eventoIngresso.IdEvento;
@@ -23,7 +23,7 @@ public class AddEventoIngressoViewModel
 
     public string? QuantidadeString { get; set; }
 
-    public string? Tipo_Ingresso { get; set; }
+    public string? TipoIngresso { get; set; }
 
     
 

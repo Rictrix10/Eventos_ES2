@@ -104,17 +104,27 @@ namespace Backend.Controllers
         // POST: api/Authors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<EventoIngresso>> PostEventoIngresso(EventoIngresso eventoingresso)
+        public IActionResult Post([FromBody] EventoIngresso eventoIngresso)
         {
-            if (_context.EventoIngressos == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'ES2DbContext.Authors'  is null.");
+                var ingresso = new EventoIngresso()
+                {
+                    IdIngresso = eventoIngresso.IdIngresso,
+                    TipoIngresso = eventoIngresso.TipoIngresso,
+                    Quantidade = eventoIngresso.Quantidade,
+                    Preco = eventoIngresso.Preco,
+                    IdEvento = eventoIngresso.IdEvento
+
+                };
+
+                _context.EventoIngressos.Add(ingresso);
+                _context.SaveChanges();
+
+                return CreatedAtAction(nameof(GetEventoIngresso), new { id = ingresso.IdIngresso }, ingresso);
             }
 
-            _context.EventoIngressos.Add(eventoingresso);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEventoIngresso", new { id = eventoingresso.IdIngresso });
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Authors/5

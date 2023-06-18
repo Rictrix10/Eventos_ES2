@@ -35,13 +35,13 @@
     public string EventId { get; set; }
 
     private int eventId;
-    
+
     [Parameter]
     public string IdUtilizador { get; set; }
 
     [Parameter]
     public string Nome { get; set; }
-    
+
     private int idUtilizador;
     private string nome;
 
@@ -85,10 +85,32 @@
         return null;
     }
 
-    private void ComprarIngressos()
+    private async Task ComprarIngressos()
     {
-        // Lógica para comprar os ingressos
-        // Utilize as informações selecionadas (selectedIngressoId) para realizar a compra
-        // Exiba uma mensagem de sucesso ou erro dependendo do resultado da compra
+        var selectedIngresso = tiposIngresso.FirstOrDefault(i => i.IdIngresso == selectedIngressoId);
+
+        if (selectedIngresso != null)
+        {
+            var inscricaoEvento = new InscricaoEvento
+            {
+                TipoIngresso = selectedIngresso.TipoIngresso,
+                IdEvento = eventId,
+                IdParticipante = idUtilizador
+            };
+
+            var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/InscricaoEventos", inscricaoEvento);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Ingresso comprado com sucesso
+                // Redirecione para uma página de confirmação ou faça alguma ação adicional
+                NavigationManager.NavigateTo("/confirmacao-ingresso");
+            }
+            else
+            {
+                // Falha ao comprar o ingresso
+                // Exiba uma mensagem de erro ou faça alguma ação de tratamento de erro
+            }
+        }
     }
 }

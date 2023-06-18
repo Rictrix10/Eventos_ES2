@@ -1,8 +1,8 @@
 -- Inserir tipos de utilizador
 INSERT INTO public.tipo_utilizador (tipo) VALUES
                                               ('Organizador'),
-                                              ('Participante'),
-                                                ('Organizador e Participante');
+                                              ('Participante');
+                                                
 
 -- Inserir tipos de autenticação
 INSERT INTO public.autenticacao (tipo) VALUES
@@ -14,7 +14,7 @@ INSERT INTO public.autenticacao (tipo) VALUES
 INSERT INTO public.utilizador (username, nome, email, password, telefone, tipo, autenticacao, id_tipo_utilizador, id_autenticacao) VALUES
                                                                                                                                        ('joaosilva', 'João Silva', 'joao@example.com', 'joao123silva', '923456789', 'Participante', 'User', 2, 3),
                                                                                                                                        ('mariagomes', 'Maria Gomes', 'maria@example.com', 'gomesmaria2', '987654321', 'Organizador', 'UserManager', 1, 2),
-                                                                                                                                        ('luisteofilo', 'Luis Teofilo', 'teofilo@example.com', 'teofiloes2', '922494780', 'Organizador e Participante', 'Admin', 3, 1);
+                                                                                                                                        ('luisteofilo', 'Luis Teofilo', 'teofilo@example.com', 'teofiloes2', '922494780', 'Organizador', 'Admin', 3, 1);
                                                 
 -- Inserir eventos
 INSERT INTO public.evento (nome, data, hora, local, descricao, capacidademax, categoria, id_organizador) VALUES

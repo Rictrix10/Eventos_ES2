@@ -1,0 +1,87 @@
+﻿@page "/participantes/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@using BusinessLogic.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Participantes</PageTitle>
+
+<h1>Participantes</h1>
+
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
+@if (inscricoes == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (inscricoes.Count == 0)
+{
+    <p>Não existem participantes</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Id Evento</th>
+            <th>Nome Evento</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var inscricao in inscricoes)
+        {
+            <tr>
+                <td>@inscricao.IdParticipante</td>
+                <td>@inscricao.IdParticipanteNavigation</td>
+                <td>@inscricao.IdParticipanteNavigationUsername</td>
+                <td>@inscricao.IdParticipanteNavigationEmail</td>
+                <td>@inscricao.IdParticipanteNavigationTelefone</td>
+                <td>@inscricao.IdEvento</td>
+                <td>@inscricao.IdEventoNavigation</td>
+
+            </tr>
+            
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private int idUtilizador;
+    
+    private List<ParticipantesViewModel> inscricoes;
+    private string nome;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        await LoadParticipantes();
+    }
+    
+    
+    private async Task LoadParticipantes()
+    {
+        inscricoes = await Http.GetFromJsonAsync<List<ParticipantesViewModel>>($"http://localhost:5052/api/InscricaoEventos");
+    }
+    
+    private void Back()
+    {
+        var url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+}

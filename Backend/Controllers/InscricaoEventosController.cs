@@ -51,6 +51,9 @@ namespace Backend.Controllers
                     IdParticipante = a.IdParticipante,
                     IdEventoNavigation = a.IdEventoNavigation?.Nome,
                     IdParticipanteNavigation = a.IdParticipanteNavigation?.Nome,
+                    IdParticipanteNavigationUsername = a.IdParticipanteNavigation?.Username,
+                    IdParticipanteNavigationEmail = a.IdParticipanteNavigation?.Email,
+                    IdParticipanteNavigationTelefone = a.IdParticipanteNavigation?.Telefone
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",

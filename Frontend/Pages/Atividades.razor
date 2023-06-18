@@ -1,0 +1,98 @@
+﻿@page "/atividades/{EventId}"
+@using System.Collections.Generic
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>Atividades</PageTitle>
+
+<h1>Atividades</h1>
+
+@if (atividades == null)
+{
+    <p>Loading...</p>
+}
+else if (atividades.Count == 0)
+{
+    <p>No activities found for this event.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Descrição</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var atividade in atividades)
+            {
+                @if (atividade.IdEvento == Convert.ToInt32(EventId))
+                {
+                    <tr>
+                        <td>@atividade.Nome</td>
+                        <td>@atividade.Data</td>
+                        <td>@atividade.Hora</td>
+                        <td>@atividade.Descricao</td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => RemoveAtividade(atividade.IdAtividade)">Remover</button>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-primary" @onclick="NavigateToAddAtividade">Adicionar Atividade</button>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+
+    private List<AtividadeViewModel> atividades;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int eventId = Convert.ToInt32(EventId);
+
+        // Fetch activities for the given event ID from the server
+        atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+
+    private void NavigateToAddAtividade()
+    {
+        int eventId = Convert.ToInt32(EventId);
+        NavigationManager.NavigateTo($"/addatividade/{EventId}");
+    }
+
+    private async Task RemoveAtividade(int atividadeId)
+    {
+        // Send a DELETE request to remove the activity
+        var response = await HttpClient.DeleteAsync($"http://localhost:5052/api/Atividades/{atividadeId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Activity removed successfully, refresh the activity list
+            await LoadAtividades();
+        }
+        else
+        {
+            // Handle the error scenario
+            // Display an error message or perform other actions
+        }
+    }
+
+    private async Task LoadAtividades()
+    {
+        int eventId = Convert.ToInt32(EventId);
+        atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+}
+
+

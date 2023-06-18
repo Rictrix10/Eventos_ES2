@@ -1,6 +1,5 @@
 ﻿@page "/registar-ingressos/{EventId}"
 @using System.ComponentModel.DataAnnotations
-@using System.Text.RegularExpressions
 @using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
@@ -19,13 +18,11 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
- <div class="form-group">
-     <label for="tipo_ingresso">Tipo de Ingresso:</label>
-     <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.Tipo_Ingresso" />
-     <ValidationMessage For="@(() => addEventoIngressoViewModel.Tipo_Ingresso)" />
- </div>
-
-
+    <div class="form-group">
+        <label for="tipo_ingresso">Tipo de Ingresso:</label>
+        <InputText id="tipo_ingresso" class="form-control" @bind-Value="@addEventoIngressoViewModel.Tipo_Ingresso" />
+        <ValidationMessage For="@(() => addEventoIngressoViewModel.Tipo_Ingresso)" />
+    </div>
 
     <div class="form-group">
         <label for="preco">Preço:</label>
@@ -47,22 +44,18 @@
     public string EventId { get; set; }
 
     private int eventId;
-    
     private int quantidade;
     private decimal preco;
-    
 
     private AddEventoIngressoViewModel addEventoIngressoViewModel = new AddEventoIngressoViewModel();
 
     protected override void OnInitialized()
     {
         eventId = Convert.ToInt32(EventId);
-        
         addEventoIngressoViewModel.IdEvento = eventId;
-
         base.OnInitialized();
     }
-    
+
     private async Task HandleValidSubmit()
     {
         try
@@ -71,12 +64,10 @@
             response.EnsureSuccessStatusCode();
 
             var evento = await response.Content.ReadFromJsonAsync<EventoIngresso>();
-            
+
             Console.WriteLine($"Tipo: {addEventoIngressoViewModel.Tipo_Ingresso}");
             Console.WriteLine($"Preço: {addEventoIngressoViewModel.Preco}");
             Console.WriteLine($"Quantidade: {addEventoIngressoViewModel.Quantidade}");
-            
-            
         }
         catch (Exception ex)
         {
@@ -84,3 +75,5 @@
         }
     }
 }
+
+

@@ -45,6 +45,7 @@ else
                 <td>@evt.Descricao</td>
                 <td>@evt.Capacidademax</td>
                 <td>@evt.Categoria</td>
+                
 
                 <td>
                     <button class="btn btn-primary" @onclick="() => EditEvent(evt.IdEvento)">Editar Evento</button>
@@ -81,6 +82,7 @@ else
         nome = Nome;
 
         events = await Http.GetFromJsonAsync<EventoViewModel[]>($"http://localhost:5052/api/Events");
+        events = events.Where(e => e.IdOrganizador == idUtilizador).ToArray();
     }
 
     private void EditEvent(int eventId)

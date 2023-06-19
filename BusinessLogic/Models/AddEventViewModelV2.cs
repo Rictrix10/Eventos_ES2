@@ -19,16 +19,17 @@ public class AddEventViewModelV2
         Local = evento.Local;
         Descricao = evento.Descricao;
         Categoria = evento.Categoria;
-        /*
-        Organizador = evento.IdOrganizador;
+        IdOrganizador = evento.IdOrganizador;
         NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
-        */
+        
 
     }
+    
+
 
     public int IdEvento { get; set; }
-
-    public int? Organizador { get; set; }
+    
+    public string? Nome { get; set; }
 
     public string? Categoria { get; set; }
     
@@ -54,12 +55,9 @@ public class AddEventViewModelV2
     }
 
     public DateOnly? Data { get; set; }
-
-// Dentro do construtor
     
-
-    public string? Nome { get; set; }
     
+    public int? IdOrganizador { get; set; }
     public string? NomeOrganizador { get; set; }
 
 

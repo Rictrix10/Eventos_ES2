@@ -27,7 +27,7 @@ namespace Backend.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<EventoViewModel[]>> GetEventos()
+        public async Task<ActionResult<EventoViewModel[]>> GetEvento()
         {
             if (_context.Eventos == null)
             {
@@ -48,11 +48,10 @@ namespace Backend.Controllers
                     Local = a.Local,
                     Descricao = a.Descricao,
                     Capacidademax = a.Capacidademax,
-                    Categoria = a.Categoria
-                        /*
-                    Organizador = a.IdOrganizador,
+                    Categoria = a.Categoria,
+                    IdOrganizador = a.IdOrganizador,
                     NomeOrganizador = a.IdOrganizadorNavigation?.Nome
-                    */
+                    
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",
@@ -114,20 +113,32 @@ namespace Backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Authors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Evento>> PostEvento(Evento evento)
+        public IActionResult Post([FromBody] Evento evento)
         {
-            if (_context.Eventos == null)
+            if (ModelState.IsValid)
             {
-                return Problem("Entity set 'ES2DbContext.Authors'  is null.");
+                var addevento = new Evento()
+                {
+                    IdEvento = evento.IdEvento,
+                    Nome = evento.Nome,
+                    Data = evento.Data,
+                    Hora = evento.Hora,
+                    Local = evento.Local,
+                    Descricao = evento.Descricao,
+                    Capacidademax = evento.Capacidademax,
+                    Categoria = evento.Categoria,
+                    IdOrganizador = evento.IdOrganizador
+                    
+                };
+
+                _context.Eventos.Add(addevento);
+                _context.SaveChanges();
+
+                return CreatedAtAction(nameof(GetEvento), new { id = addevento.IdEvento }, addevento);
             }
 
-            _context.Eventos.Add(evento);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEventos", new { id = evento.IdEvento }, evento);
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Authors/5

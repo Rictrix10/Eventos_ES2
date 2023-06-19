@@ -77,36 +77,41 @@
 
     private AddEventViewModelV2 addeventModel = new AddEventViewModelV2();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
+        base.OnInitialized();
 
-        idUtilizador = Convert.ToInt32(IdUtilizador);
+        if (!int.TryParse(IdUtilizador, out idUtilizador))
+        {
+            // Handle invalid idUtilizador value
+        }
+
         nome = Nome;
 
-        addeventModel.HoraString = "00:00:00"; // Valor padrão
-
-        base.OnInitialized();
+        addeventModel.HoraString = "00:00:00"; // Default value
     }
 
     private async Task HandleValidSubmit()
     {
-
-    // Verificar o formato e a faixa de hora
+        // Check the time format and range
         if (!ValidateTimeFormat(addeventModel.HoraString))
         {
             Console.WriteLine("Formato de hora inválido. Usando valor padrão.");
-            addeventModel.HoraString = "00:00:00"; // Valor padrão
+            addeventModel.HoraString = "00:00:00"; // Default value
         }
-        
-    // Verificar se a capacidade máxima é uma string com no máximo 6 caracteres numéricos
+
+        // Check if CapacidademaxString is a string with up to 6 numeric characters
         if (!Regex.IsMatch(addeventModel.CapacidademaxString, "^[0-9]{1,6}$"))
         {
             Console.WriteLine("Capacidade máxima inválida. Ação cancelada.");
             return;
         }
-        
+
         try
         {
+            // Assign idUtilizador to the idOrganizador of the event
+            addeventModel.IdOrganizador = idUtilizador;
+
             var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Events", addeventModel);
             response.EnsureSuccessStatusCode();
 
@@ -121,7 +126,7 @@
             Console.WriteLine($"Descrição: {addeventModel.Descricao}");
             Console.WriteLine($"Capacidade Máxima: {addeventModel.Capacidademax}");
             Console.WriteLine($"Categoria: {addeventModel.Categoria}");
-            Console.WriteLine($"Id Organizador: {addeventModel.Organizador}");
+            Console.WriteLine($"Id Organizador: {addeventModel.IdOrganizador}");
             Console.WriteLine($"Nome do Organizador: {addeventModel.NomeOrganizador}");
         }
         catch (Exception ex)
@@ -129,10 +134,10 @@
             Console.WriteLine(ex.Message);
         }
     }
-    
+
     private bool IsFormValid()
     {
-        // Verificar se todos os campos obrigatórios foram preenchidos
+        // Check if all required fields have been filled
         return !string.IsNullOrWhiteSpace(addeventModel.Nome) &&
                addeventModel.Data != null &&
                !string.IsNullOrWhiteSpace(addeventModel.HoraString) &&
@@ -144,13 +149,13 @@
 
     private bool ValidateTimeFormat(string timeString)
     {
-        // Verificar se o formato é "hh:mm:ss"
+        // Check if the format is "hh:mm:ss"
         if (!Regex.IsMatch(timeString, @"^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"))
         {
             return false;
         }
 
-        // Verificar se as horas, minutos e segundos estão dentro da faixa correta
+        // Check if hours, minutes, and seconds are within the correct range
         var timeParts = timeString.Split(':');
         var hours = int.Parse(timeParts[0]);
         var minutes = int.Parse(timeParts[1]);
@@ -163,13 +168,10 @@
 
         return true;
     }
-    
+
     private void GoBack()
-    {   
+    {
         var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 }
-
-
-

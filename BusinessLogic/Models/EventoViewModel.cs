@@ -19,30 +19,30 @@ public class EventoViewModel
         Descricao = evento.Descricao;
         Capacidademax = evento.Capacidademax;
         Categoria = evento.Categoria;
-        /*
-        Organizador = evento.IdOrganizador;
+        IdOrganizador = evento.IdOrganizador;
         NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
-        */
+        
 
     }
+    
 
     public int IdEvento { get; set; }
-
-    public int? Organizador { get; set; }
-
-    public string? Categoria { get; set; }
-
-    public int? Capacidademax { get; set; }
-
-    public string? Descricao { get; set; }
-
-    public string? Local { get; set; }
-
-    public TimeOnly? Hora { get; set; }
-
-    public DateOnly? Data { get; set; }
-
+    
     public string? Nome { get; set; }
+    
+    public DateOnly? Data { get; set; }
+    
+    public TimeOnly? Hora { get; set; }
+    
+    public string? Local { get; set; }
+    
+    public string? Descricao { get; set; }
+    
+    public int? Capacidademax { get; set; }
+    
+    public string? Categoria { get; set; }
+    
+    public int? IdOrganizador { get; set; }
     
     public string? NomeOrganizador { get; set; }
 

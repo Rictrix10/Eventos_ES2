@@ -78,35 +78,32 @@
 
     private async Task HandleValidSubmit()
     {
-        // Verificar se todos os campos obrigatórios foram preenchidos
+    // Verificar se todos os campos obrigatórios foram preenchidos
         if (string.IsNullOrEmpty(addatividadeModel.Nome) || addatividadeModel.Data == null || string.IsNullOrEmpty(addatividadeModel.HoraString) || string.IsNullOrEmpty(addatividadeModel.Descricao))
         {
             Console.WriteLine("Por favor, preencha todos os campos obrigatórios.");
             return;
         }
 
-        // Verificar o formato e a faixa de hora
+    // Verificar o formato e a faixa de hora
         if (!ValidateTimeFormat(addatividadeModel.HoraString))
         {
             Console.WriteLine("Formato de hora inválido. Usando valor padrão.");
             addatividadeModel.HoraString = "00:00:00"; // Valor padrão
         }
 
-        // Verificar se a capacidade máxima é uma string com no máximo 6 caracteres numéricos
+    // Verificar se a capacidade máxima é uma string com no máximo 6 caracteres numéricos
 
         try
         {
             var response = await HttpClient.PostAsJsonAsync($"http://localhost:5052/api/Atividades", addatividadeModel);
             response.EnsureSuccessStatusCode();
 
-            var atividade = await response.Content.ReadFromJsonAsync<Atividade>();
-
             Console.WriteLine("Registro concluído com sucesso!");
-            Console.WriteLine("Dados registrados:");
-            Console.WriteLine($"Nome: {addatividadeModel.Nome}");
-            Console.WriteLine($"Data: {addatividadeModel.Data}");
-            Console.WriteLine($"Hora: {addatividadeModel.Hora}");
-            Console.WriteLine($"Descrição: {addatividadeModel.Descricao}");
+
+    // Reset the form
+            addatividadeModel = new AddAtividadeViewModel();
+            editContext = new EditContext(addatividadeModel);
         }
         catch (Exception ex)
         {

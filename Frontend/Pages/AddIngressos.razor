@@ -36,7 +36,7 @@
         <ValidationMessage For="@(() => addEventoIngressoViewModel.QuantidadeString)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Registar</button>
+    <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Registar</button>
     <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
 
@@ -47,6 +47,7 @@
     private int eventId;
     private int quantidade;
     private decimal preco;
+    private bool isSubmitting = false;
 
     private AddEventoIngressoViewModel addEventoIngressoViewModel = new AddEventoIngressoViewModel();
 
@@ -59,8 +60,16 @@
 
     private async Task HandleValidSubmit()
     {
+        if (isSubmitting)
+        {
+            return;
+        }
+
         try
         {
+            isSubmitting = true;
+            StateHasChanged();
+
             var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/EventosIngressos", addEventoIngressoViewModel);
             response.EnsureSuccessStatusCode();
 
@@ -74,6 +83,11 @@
         {
             Console.WriteLine(ex.Message);
         }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
     }
     
     private void GoBack()
@@ -81,5 +95,4 @@
         NavigationManager.NavigateTo("javascript:history.back()");
     }
 }
-
 

@@ -16,7 +16,7 @@ namespace BusinessLogic.Models
             Local = string.Empty;
             Descricao = string.Empty;
             Categoria = string.Empty;
-            Organizador = null;
+            IdOrganizador = null;
             NomeOrganizador = string.Empty;
         }
 
@@ -30,13 +30,15 @@ namespace BusinessLogic.Models
             Local = evento.Local;
             Descricao = evento.Descricao;
             Categoria = evento.Categoria;
-            Organizador = evento.IdOrganizador;
+            IdOrganizador = evento.IdOrganizador;
             NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
         }
 
+        public int? IdOrganizador { get; set; }
+
         public string? NomeOrganizador { get; set; }
 
-        public int? Organizador { get; set; }
+        
 
         public string? Categoria { get; set; }
 

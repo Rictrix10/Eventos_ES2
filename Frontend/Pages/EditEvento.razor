@@ -1,4 +1,4 @@
-﻿@page "/editar-evento/{eventId}"
+﻿@page "/editar-evento/{eventId}/{idUtilizador}/{nome}"
 @using Microsoft.AspNetCore.Components
 @using System.ComponentModel.DataAnnotations
 @using BusinessLogic.Entities
@@ -68,6 +68,15 @@
 @code {
     [Parameter]
     public string EventId { get; set; }
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
 
     private bool dadosSalvos;
     
@@ -75,6 +84,7 @@
 
     protected override void OnInitialized()
     {   
+        idUtilizador = Convert.ToInt32(idUtilizador);
         if (string.IsNullOrEmpty(editeventoModel.CapacidademaxAsString))
         {
             editeventoModel.CapacidademaxAsString = ""; // Define uma string vazia
@@ -85,8 +95,9 @@
     private async Task HandleValidSubmit()
     {   
         int eventId = Convert.ToInt32(EventId);
+        editeventoModel.IdOrganizador = idUtilizador;
         var response = await HttpClient.GetAsync($"http://localhost:5052/api/Events/{eventId}");
-        response.EnsureSuccessStatusCode();
+        
 
         var evento = await response.Content.ReadFromJsonAsync<EditEventViewModel>();
 
@@ -104,6 +115,7 @@
             {
                 int eventId = Convert.ToInt32(EventId);
                 var response = await HttpClient.PutAsJsonAsync($"http://localhost:5052/api/Events/{eventId}", editeventoModel);
+                
                 response.EnsureSuccessStatusCode();
 
                 dadosSalvos = true;

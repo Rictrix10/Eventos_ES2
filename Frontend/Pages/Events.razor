@@ -87,7 +87,7 @@ else
 
     private void EditEvent(int eventId)
     {
-        var url = $"/editar-evento/{eventId}";
+        var url = $"/editar-evento/{eventId}/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 

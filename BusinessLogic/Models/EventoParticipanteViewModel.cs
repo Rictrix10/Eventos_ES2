@@ -19,6 +19,7 @@ namespace BusinessLogic.Models
             Descricao = evento.Descricao;
             Capacidademax = evento.Capacidademax;
             Categoria = evento.Categoria;
+            NomeOrganizador = evento.IdOrganizadorNavigation?.Nome;
         }
 
         public int IdEvento { get; set; }

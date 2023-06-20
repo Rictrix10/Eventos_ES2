@@ -38,6 +38,7 @@ namespace Backend.Controllers
                 .InscricaoEventos
                 .Include(e => e.IdEventoNavigation)
                 .Include(e => e.IdParticipanteNavigation)
+                .Include(e => e.IdEventoNavigation.IdOrganizadorNavigation)
                 .ToListAsync();
                 
             return inscricaoeventos
@@ -53,7 +54,9 @@ namespace Backend.Controllers
                     IdParticipanteNavigation = a.IdParticipanteNavigation?.Nome,
                     IdParticipanteNavigationUsername = a.IdParticipanteNavigation?.Username,
                     IdParticipanteNavigationEmail = a.IdParticipanteNavigation?.Email,
-                    IdParticipanteNavigationTelefone = a.IdParticipanteNavigation?.Telefone
+                    IdParticipanteNavigationTelefone = a.IdParticipanteNavigation?.Telefone,
+                    IdOrganizador = a.IdEventoNavigation?.IdOrganizador,
+                    NomeOrganizador = a.IdEventoNavigation?.IdOrganizadorNavigation?.Nome
                     /*
                     NomeOrganizador = new {
                         Nome = a.IdOrganizadorNavigation!.Nome ?? "sem organizador",

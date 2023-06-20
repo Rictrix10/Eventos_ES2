@@ -32,25 +32,29 @@ else
             <th>Telefone</th>
             <th>Id Evento</th>
             <th>Nome Evento</th>
+            <th>Ingresso</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         @foreach (var inscricao in inscricoes)
         {
-            <tr>
-                <td>@inscricao.IdParticipante</td>
-                <td>@inscricao.IdParticipanteNavigation</td>
-                <td>@inscricao.IdParticipanteNavigationUsername</td>
-                <td>@inscricao.IdParticipanteNavigationEmail</td>
-                <td>@inscricao.IdParticipanteNavigationTelefone</td>
-                <td>@inscricao.IdEvento</td>
-                <td>@inscricao.IdEventoNavigation</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation )">Notificar</button>
-                </td>
-            </tr>
-            
+            @if (inscricao.IdOrganizador == Convert.ToInt32(IdUtilizador))
+            {
+                <tr>
+                    <td>@inscricao.IdParticipante</td>
+                    <td>@inscricao.IdParticipanteNavigation</td>
+                    <td>@inscricao.IdParticipanteNavigationUsername</td>
+                    <td>@inscricao.IdParticipanteNavigationEmail</td>
+                    <td>@inscricao.IdParticipanteNavigationTelefone</td>
+                    <td>@inscricao.IdEvento</td>
+                    <td>@inscricao.IdEventoNavigation</td>
+                    <td>@inscricao.TipoIngresso</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation)">Notificar</button>
+                    </td>
+                </tr>
+            }
         }
         </tbody>
     </table>

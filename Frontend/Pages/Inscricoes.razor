@@ -39,9 +39,14 @@ else
                 <td>@inscricao.IdEventoNavigation</td>
                 <td>@inscricao.TipoIngresso</td>
                 <td>@inscricao.IdParticipanteNavigation</td>
-                <td>
-                    <button class="btn btn-danger" @onclick="() => Cancelar(inscricao.IdInscricaoEvento)">Cancelar Inscrição</button>
-                </td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => Activities(inscricao.IdEvento)">Atividades</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => Cancelar(inscricao.IdInscricaoEvento)">Cancelar Inscrição</button>
+                    </td>
+                    
+                    
             </tr>
             }
         }
@@ -96,5 +101,13 @@ else
     {
         var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
+    }
+    
+    private void Activities(int ? eventId)
+    {   
+        /*
+        var url = $"/atividades/{eventId}/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+        */
     }
 }

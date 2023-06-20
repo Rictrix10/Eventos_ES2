@@ -20,7 +20,7 @@ IdParticipanteNavigation = inscricaoevento.IdParticipanteNavigation?.Nome;
 IdParticipanteNavigationUsername = inscricaoevento.IdParticipanteNavigation?.Username;
 IdParticipanteNavigationEmail = inscricaoevento.IdParticipanteNavigation?.Email;
 IdParticipanteNavigationTelefone = inscricaoevento.IdParticipanteNavigation?.Telefone;
-
+IdOrganizador = inscricaoevento.IdEventoNavigation?.IdOrganizador;
 
 }
 
@@ -41,6 +41,9 @@ public string? IdParticipanteNavigationUsername { get; set; }
 
 public string? IdParticipanteNavigationEmail { get; set; }
 public string? IdParticipanteNavigationTelefone { get; set; }
+
+public int? IdOrganizador { get; set; }
+
 
 
 

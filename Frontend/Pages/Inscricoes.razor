@@ -62,9 +62,9 @@ else
     private List<InscricoesViewModel> inscricoes;
     private string nome;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        idUtilizador = Convert.ToInt32(IdUtilizador);
         nome = Nome;
         await LoadInscricoes();
     }

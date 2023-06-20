@@ -73,11 +73,10 @@
             var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/EventosIngressos", addEventoIngressoViewModel);
             response.EnsureSuccessStatusCode();
 
-            var evento = await response.Content.ReadFromJsonAsync<EventoIngresso>();
+            Console.WriteLine("Ingresso registrado com sucesso!");
 
-            Console.WriteLine($"Tipo: {addEventoIngressoViewModel.TipoIngresso}");
-            Console.WriteLine($"Preço: {addEventoIngressoViewModel.Preco}");
-            Console.WriteLine($"Quantidade: {addEventoIngressoViewModel.Quantidade}");
+    // Reset the form
+            addEventoIngressoViewModel = new AddEventoIngressoViewModel();
         }
         catch (Exception ex)
         {
@@ -89,6 +88,7 @@
             StateHasChanged();
         }
     }
+
     
     private void GoBack()
     {

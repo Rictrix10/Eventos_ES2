@@ -26,6 +26,7 @@ else
         <thead>
         <tr>
             <th>Evento</th>
+            <th>Organizador</th>
             <th>Ingresso</th>
             <th>Participante</th>
         </tr>
@@ -36,7 +37,8 @@ else
             @if (inscricao.IdParticipante == Convert.ToInt32(IdUtilizador))
             {
                 <tr>
-                <td>@inscricao.IdEventoNavigation</td>
+                    <td>@inscricao.IdEventoNavigation</td>
+                    <td>@inscricao.NomeOrganizador</td>
                 <td>@inscricao.TipoIngresso</td>
                 <td>@inscricao.IdParticipanteNavigation</td>
                     <td>

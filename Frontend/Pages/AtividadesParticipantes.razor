@@ -4,11 +4,10 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<PageTitle>Inscrições</PageTitle>
+<PageTitle>Inscrições em Atividades</PageTitle>
 
-<h1>Inscrições</h1>
+<h1>Inscrições em Atividades</h1>
 
-<button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
 @if (inscricoes == null)
 {
@@ -18,7 +17,7 @@
 }
 else if (inscricoes.Count == 0)
 {
-    <p>Não está inscrito em nenhuma atividade</p>
+    <p>Não existem inscrições em atividades</p>
 }
 else
 {
@@ -45,6 +44,8 @@ else
         </tbody>
     </table>
 }
+
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
 @code
 {

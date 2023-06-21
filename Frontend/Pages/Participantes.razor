@@ -8,7 +8,7 @@
 
 <h1>Participantes</h1>
 
-<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
 
 @if (inscricoes == null)
 {
@@ -50,10 +50,7 @@ else
                     <td>@inscricao.IdEvento</td>
                     <td>@inscricao.IdEventoNavigation</td>
                     <td>@inscricao.TipoIngresso</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => Atividades()">Atividades</button>
-                    </td>
-                    
+
                     <td>
                         <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation)">Notificar</button>
                     </td>
@@ -63,6 +60,9 @@ else
         </tbody>
     </table>
 }
+
+<button class="btn btn-primary" @onclick="() => Atividades()">Atividades</button>                    
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
 @code
 {

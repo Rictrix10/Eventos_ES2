@@ -49,6 +49,7 @@ else
     </table>
 }
 
+<button class="btn btn-primary narrow-button" @onclick="IrParaInscricoes">Inscrições</button>
 <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 
 @code {
@@ -105,6 +106,12 @@ else
     {
         int eventId = Convert.ToInt32(EventId);
         atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+    
+    private void IrParaInscricoes()
+    {
+        var url = $"/atividadesinscritas/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
     }
 
     private void GoBack()

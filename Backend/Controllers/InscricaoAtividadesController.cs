@@ -36,6 +36,9 @@ namespace Backend.Controllers
 
             var inscricaoatividades = await _context
                 .InscricaoAtividades
+                .Include(e => e.IdAtividadeNavigation)
+                .Include(e=>e.IdParticipanteNavigation)
+                .Include(e=>e.IdAtividadeNavigation.IdEventoNavigation)
                 .ToListAsync();
                 
             return inscricaoatividades
@@ -43,7 +46,10 @@ namespace Backend.Controllers
                 {   
                     IdInscricaoAtividade = a.IdInscricaoAtividade,
                     IdParticipante = a.IdParticipante,
-                    IdAtividade = a.IdAtividade
+                    IdAtividade = a.IdAtividade,
+                    NomeAtividade = a.IdAtividadeNavigation?.Nome,
+                    NomeParticipante = a.IdParticipanteNavigation?.Nome,
+                    NomeEvento = a.IdAtividadeNavigation?.IdEventoNavigation?.Nome
                 }).ToArray();
         }
 

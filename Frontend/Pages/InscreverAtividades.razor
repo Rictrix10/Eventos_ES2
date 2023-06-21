@@ -1,5 +1,6 @@
 ﻿@page "/inscreveratividades/{EventId}/{idUtilizador}/{nome}"
 @using System.Collections.Generic
+@using BusinessLogic.Entities
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components
 @inject HttpClient HttpClient
@@ -39,7 +40,7 @@ else
                         <td>@atividade.Hora</td>
                         <td>@atividade.Descricao</td>
                         <td>
-                            <button class="btn btn-danger" @onclick="() => RemoveAtividade(atividade.IdAtividade)">Remover</button>
+                            <button class="btn btn-primary" @onclick="() => InscreverAtividade(atividade.IdAtividade)">Inscrever</button>
                         </td>
                     </tr>
                 }
@@ -48,7 +49,6 @@ else
     </table>
 }
 
-<button class="btn btn-primary" @onclick="NavigateToAddAtividade">Adicionar Atividade</button>
 <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 
 @code {
@@ -65,6 +65,7 @@ else
     private string nome;
 
     private List<AtividadeViewModel> atividades;
+    private int selectedAtividadeId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -75,17 +76,18 @@ else
         // Fetch activities for the given event ID from the server
         atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
     }
+    
 
-    private void NavigateToAddAtividade()
+    private async Task InscreverAtividade(int atividadeId)
     {
-        int eventId = Convert.ToInt32(EventId);
-        NavigationManager.NavigateTo($"/addatividade/{EventId}/{idUtilizador}/{nome}");
-    }
 
-    private async Task RemoveAtividade(int atividadeId)
-    {
-        // Send a DELETE request to remove the activity
-        var response = await HttpClient.DeleteAsync($"http://localhost:5052/api/Atividades/{atividadeId}");
+        var inscricaoAtividade = new InscricaoAtividade
+        {
+            IdParticipante = idUtilizador,
+            IdAtividade = atividadeId
+        };
+        
+        var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/InscricaoAtividades", inscricaoAtividade);
 
         if (response.IsSuccessStatusCode)
         {
@@ -108,7 +110,5 @@ else
     private void GoBack()
     {
         NavigationManager.NavigateTo("javascript:history.back()");
-        //var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-        //NavigationManager.NavigateTo(url);
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/events/{idUtilizador}/{nome}"
+﻿@page "/adminevents/{idUtilizador}/{nome}"
 @using BusinessLogic.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -85,7 +85,7 @@ else
         nome = Nome;
 
         events = await Http.GetFromJsonAsync<EventoViewModel[]>($"http://localhost:5052/api/Events");
-        events = events.Where(e => e.IdOrganizador == idUtilizador).ToArray();
+        //events = events.Where(e => e.IdOrganizador == idUtilizador).ToArray();
     }
 
     private void EditEvent(int eventId)

@@ -65,9 +65,13 @@
                 url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
                 
             }
-            else
+            else if(tipo == "Organizador")
             {
                 url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+            }
+            else
+            {
+                url = $"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
             /*
             else if (tipo == "Participante")

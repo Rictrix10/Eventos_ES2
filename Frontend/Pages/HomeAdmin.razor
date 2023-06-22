@@ -4,9 +4,11 @@
 
 <h3>Bem-vindo, @nome!</h3>
 
-
-<button class="btn btn-primary" @onclick="RedirectToOrganizadores">Organizadores</button>
-<button class="btn btn-primary" @onclick="RedirectToParticipantes">Participantes</button>
+<div class="button-group">
+    <button class="btn btn-primary narrow-button" @onclick="RedirectToEvents">Eventos</button>
+    <button class="btn btn-primary narrow-button" @onclick="RedirectToParticipants">Participantes</button>
+    <button class="btn btn-danger narrow-button" @onclick="Logout">Logout</button>
+</div>
 
 @code {
     [Parameter]
@@ -23,18 +25,33 @@
         idUtilizador = Convert.ToInt32(IdUtilizador);
         nome = Nome;
     }
-    
-    private void RedirectToOrganizadores()
+
+    private void RedirectToEvents()
     {
-        
-        var url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        var url = $"/adminevents/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
-    
-    private void RedirectToParticipantes()
+
+    private void RedirectToParticipants()
     {
-        
-        var url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        var url = $"/participantes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
+    }
+
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/login");
     }
 }
+
+<style>
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .narrow-button {
+        width: 150px;
+    }
+</style>

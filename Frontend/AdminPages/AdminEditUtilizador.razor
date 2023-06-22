@@ -1,0 +1,136 @@
+﻿@page "/admineditar-dados/{idUtilizador}/{nome}"
+@using Microsoft.AspNetCore.Components
+@using System.ComponentModel.DataAnnotations
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<h3>Editar Dados</h3>
+
+@if (dadosSalvos)
+{
+    <p class="text-success">Os dados foram salvos com sucesso!</p>
+}
+
+<EditForm Model="@editdadosModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Nome:</label>
+        <InputText id="name" class="form-control" @bind-Value="@editdadosModel.Nome" />
+        <ValidationMessage For="@(() => editdadosModel.Nome)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="@editdadosModel.Email" />
+        <ValidationMessage For="@(() => editdadosModel.Email)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <InputText id="username" class="form-control" @bind-Value="@editdadosModel.Username" />
+        <ValidationMessage For="@(() => editdadosModel.Username)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="password" class="form-control" @bind-Value="@editdadosModel.Password" />
+        <ValidationMessage For="@(() => editdadosModel.Password)" />
+    </div>
+    
+    <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <InputText id="telefone" class="form-control" @bind-Value="@editdadosModel.Telefone" />
+        <ValidationMessage For="@(() => editdadosModel.Telefone)" />
+    </div>
+</EditForm>
+
+<button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
+<button class="btn btn-primary" @onclick="CarregarDados">Carregar Dados</button>
+
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
+@code {
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+    
+    private bool dadosSalvos;
+    
+    private UtilizadorViewModel editdadosModel = new UtilizadorViewModel();
+
+    protected override void OnInitialized()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        
+        HandleValidSubmit();
+    }
+    
+    private async Task HandleValidSubmit()
+    {
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}");
+        response.EnsureSuccessStatusCode();
+
+        var utilizador = await response.Content.ReadFromJsonAsync<UtilizadorViewModel>();
+
+        if (utilizador != null)
+        {
+            editdadosModel = utilizador;
+        }
+    }
+
+    private async Task SalvarDados()
+    {
+        if (IsValid())
+        {
+            try
+            {
+                var response = await HttpClient.PutAsJsonAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}", editdadosModel);
+                response.EnsureSuccessStatusCode();
+
+                dadosSalvos = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    }
+    
+    
+    private async Task CarregarDados()
+    {
+        
+        var response = await HttpClient.GetAsync($"http://localhost:5052/api/Utilizadores/{idUtilizador}");
+        response.EnsureSuccessStatusCode();
+
+        var utilizador = await response.Content.ReadFromJsonAsync<UtilizadorViewModel>();
+
+        if (utilizador != null)
+        {
+            editdadosModel = utilizador;
+        }
+    }
+
+    private bool IsValid()
+    {
+        var validationContext = new ValidationContext(editdadosModel);
+        var validationResults = new List<ValidationResult>();
+        return Validator.TryValidateObject(editdadosModel, validationContext, validationResults, true);
+    }
+    
+    private void Back()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+    }
+}
+

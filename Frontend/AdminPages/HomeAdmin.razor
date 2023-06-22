@@ -6,6 +6,7 @@
 
 <div class="button-group">
     <button class="btn btn-primary narrow-button" @onclick="RedirectToEvents">Eventos</button>
+    <button class="btn btn-primary narrow-button" @onclick="RedirectToUtilizadores">Utilizadores</button>
     <button class="btn btn-primary narrow-button" @onclick="RedirectToParticipants">Participantes</button>
     <button class="btn btn-danger narrow-button" @onclick="Logout">Logout</button>
 </div>
@@ -35,6 +36,12 @@
     private void RedirectToParticipants()
     {
         var url = $"/adminparticipantes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+
+    private void RedirectToUtilizadores()
+    {
+        var url = $"/adminutilizadores/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 

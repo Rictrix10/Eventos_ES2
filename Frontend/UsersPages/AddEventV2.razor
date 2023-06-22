@@ -74,6 +74,7 @@
 
     private int idUtilizador;
     private string nome;
+    private bool isSaving = false;
 
     private AddEventViewModelV2 addeventModel = new AddEventViewModelV2();
 
@@ -93,6 +94,14 @@
 
     private async Task HandleValidSubmit()
     {
+        if (isSaving)
+        {
+        // Evitar salvar duas vezes consecutivas
+            return;
+        }
+        
+        isSaving = true;
+        
         // Check the time format and range
         if (!ValidateTimeFormat(addeventModel.HoraString))
         {
@@ -101,7 +110,7 @@
         }
 
         // Check if CapacidademaxString is a string with up to 6 numeric characters
-        if (!Regex.IsMatch(addeventModel.CapacidademaxString, "^[0-9]{1,6}$"))
+        if (addeventModel.CapacidademaxString != null && !Regex.IsMatch(addeventModel.CapacidademaxString, "^[0-9]{1,6}$"))
         {
             Console.WriteLine("Capacidade máxima inválida. Ação cancelada.");
             return;
@@ -171,7 +180,6 @@
 
     private void GoBack()
     {
-        var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-        NavigationManager.NavigateTo(url);
+        NavigationManager.NavigateTo("javascript:history.back()");
     }
 }

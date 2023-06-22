@@ -75,6 +75,7 @@ else
 
     private int idUtilizador;
     private string nome;
+    private bool isSaving = false;
 
     private EventoViewModel[]? events;
 
@@ -121,6 +122,6 @@ else
     
     private void GoBack()
     {
-        NavigationManager.NavigateTo($"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}");
+        NavigationManager.NavigateTo($"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}");
     }
 }

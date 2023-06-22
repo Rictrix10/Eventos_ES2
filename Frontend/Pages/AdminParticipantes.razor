@@ -1,0 +1,106 @@
+﻿@page "/adminparticipantes/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@using BusinessLogic.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Participantes em Eventos</PageTitle>
+
+<h1>Participantes em Eventos</h1>
+
+
+
+@if (inscricoes == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (inscricoes.Count == 0)
+{
+    <p>Não existem participantes em eventos</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Id Evento</th>
+            <th>Nome Evento</th>
+            <th>Ingresso</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var inscricao in inscricoes)
+        {
+            <tr>
+                    <td>@inscricao.IdParticipante</td>
+                    <td>@inscricao.IdParticipanteNavigation</td>
+                    <td>@inscricao.IdParticipanteNavigationUsername</td>
+                    <td>@inscricao.IdParticipanteNavigationEmail</td>
+                    <td>@inscricao.IdParticipanteNavigationTelefone</td>
+                    <td>@inscricao.IdEvento</td>
+                    <td>@inscricao.IdEventoNavigation</td>
+                    <td>@inscricao.TipoIngresso</td>
+
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation)">Notificar</button>
+                    </td>
+                </tr>
+            
+        }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-primary" @onclick="() => Atividades()">Atividades</button>                    
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private List<ParticipantesViewModel> inscricoes;
+    private string nome;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        await LoadParticipantes();
+    }
+    
+    
+    private async Task LoadParticipantes()
+    {
+        inscricoes = await Http.GetFromJsonAsync<List<ParticipantesViewModel>>("http://localhost:5052/api/InscricaoEventos");
+    }
+    
+    private void Back()
+    {
+        var url = $"/home-org/{IdUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+    
+    private void Notificar(int? participanteId, int? eventoId, string organizadorId, string? inscricaoIdParticipanteNavigation)
+    {
+        var url = $"/mensagem/{participanteId}/{eventoId}/{organizadorId}/{inscricaoIdParticipanteNavigation}";
+        NavigationManager.NavigateTo(url);
+    }
+
+    private void Atividades()
+    {
+        var url = $"/adminatividadesparticipantes/{IdUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+}

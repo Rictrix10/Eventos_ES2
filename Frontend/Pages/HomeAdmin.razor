@@ -34,7 +34,7 @@
 
     private void RedirectToParticipants()
     {
-        var url = $"/participantes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        var url = $"/adminparticipantes/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 

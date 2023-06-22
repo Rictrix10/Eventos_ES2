@@ -46,6 +46,14 @@
         <InputText id="telefone" class="form-control" @bind-Value="@editdadosModel.Telefone" />
         <ValidationMessage For="@(() => editdadosModel.Telefone)" />
     </div>
+    
+        <div class="form-group">
+            <label for="tipo">Tipo de Utilizador:</label>
+            <InputText id="tipo" class="form-control" @bind-Value="@editdadosModel.Tipo" />
+            <ValidationMessage For="@(() => editdadosModel.Tipo)" />
+        </div>
+    
+    
 </EditForm>
 
 <button class="btn btn-primary" @onclick="SalvarDados">Salvar</button>
@@ -133,4 +141,3 @@
         NavigationManager.NavigateTo("javascript:history.back()");
     }
 }
-

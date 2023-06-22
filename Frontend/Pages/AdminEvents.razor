@@ -29,10 +29,7 @@ else
             <th>Descrição</th>
             <th>Capacidade Máxima</th>
             <th>Categoria</th>
-
-            <th></th> <!-- Column for Register/Edit buttons -->
-            <th></th> <!-- Column for Add Activities button -->
-            <th></th> <!-- Column for Add Tickets button -->
+            
         </tr>
         <tbody>
         @foreach (var evt in events)
@@ -57,9 +54,11 @@ else
                 <td>
                     <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">Atividades</button>
                 </td>
-                <td>
-                    <button class="btn btn-primary" @onclick="() => Relatorio(evt.IdEvento)">Relatório</button>
-                </td>
+        <!--
+        <td>
+            <button class="btn btn-primary" @onclick="() => Relatorio(evt.IdEvento)">Relatório</button>
+        </td>
+        -->
             </tr>
         }
         </tbody>

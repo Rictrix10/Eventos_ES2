@@ -1,0 +1,91 @@
+﻿@page "/adminaddutilizador"
+@using System.ComponentModel.DataAnnotations
+@using BusinessLogic.Entities
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
+@inject NavigationManager NavigationManager
+@inject HttpClient HttpClient
+
+<h3>Criar Utilizador</h3>
+
+<EditForm Model="@registerModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <InputText id="name" class="form-control" @bind-Value="@registerModel.Nome" />
+        <ValidationMessage For="@(() => registerModel.Nome)" />
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="email" class="form-control" @bind-Value="@registerModel.Email" />
+        <ValidationMessage For="@(() => registerModel.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <InputText id="username" class="form-control" @bind-Value="@registerModel.Username" />
+        <ValidationMessage For="@(() => registerModel.Username)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="password" class="form-control" @bind-Value="@registerModel.Password" type="password" />
+        <ValidationMessage For="@(() => registerModel.Password)" />
+        <small class="form-text text-muted">A password deve ter pelo menos 8 caracteres e conter letras maiúsculas, minúsculas e números.</small>
+    </div>
+
+    <div class="form-group">
+        <label for="userType">Tipo de Utilizador:</label>
+        <select id="userType" class="form-control" @bind="@registerModel.Tipo" required>
+            <option value="" disabled selected>Selecione um tipo de utilizador</option>
+            <option value="Organizador">Organizador</option>
+            <option value="Participante">Participante</option>
+            <option value="UserManager">UserManager</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <ValidationMessage For="@(() => registerModel.Tipo)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registar</button>
+    <button class="btn btn-secondary" @onclick="Back">Voltar</button>
+</EditForm>
+
+
+
+@code {
+    private RegisterViewModel registerModel = new RegisterViewModel();
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var response = await HttpClient.PostAsJsonAsync("http://localhost:5052/api/Utilizadores", registerModel);
+            response.EnsureSuccessStatusCode();
+
+            var utilizador = await response.Content.ReadFromJsonAsync<Utilizador>();
+
+            // Após o registro, redirecionar para a página de login
+            NavigationManager.NavigateTo("javascript:history.back()");
+
+            Console.WriteLine("Registro concluído com sucesso!");
+            Console.WriteLine("Dados registrados:");
+            Console.WriteLine($"Nome: {registerModel.Nome}");
+            Console.WriteLine($"Email: {registerModel.Email}");
+            Console.WriteLine($"Username: {registerModel.Username}");
+            Console.WriteLine($"Password: {registerModel.Password}");
+            Console.WriteLine($"Tipo: {registerModel.Tipo}");
+        }
+        catch (Exception ex)
+        {
+            // Lidar com qualquer erro de requisição ou validação aqui
+            Console.WriteLine(ex.Message);
+        }
+    }
+    private void Back()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+    }
+}

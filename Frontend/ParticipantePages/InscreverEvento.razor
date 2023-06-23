@@ -133,7 +133,7 @@
             {
                 // Ingresso comprado com sucesso
                 // Redirecione para uma página de confirmação ou faça alguma ação adicional
-                NavigationManager.NavigateTo($"/eventospart/{idUtilizador}/{nome}");
+                NavigationManager.NavigateTo("javascript:history.back()");
             }
             else
             {
@@ -144,8 +144,7 @@
     }
     private void Back()
     {
-        var url = $"/eventospart/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-        NavigationManager.NavigateTo(url);
+        NavigationManager.NavigateTo("javascript:history.back()");
     }
 }
 

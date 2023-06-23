@@ -84,6 +84,9 @@ else
                 <td>
                     <button class="btn btn-primary" @onclick="() => AddActivities(evt.IdEvento)">Atividades</button>
                 </td>
+                                <td>
+                                    <button class="btn btn-primary" @onclick="() => Inscrever(evt.IdEvento, idUtilizador, nome)">Inscrever</button>
+                                </td>
         <!--
         <td>
             <button class="btn btn-primary" @onclick="() => Relatorio(evt.IdEvento)">Relatório</button>
@@ -146,6 +149,12 @@ else
     private void AddNewEvent()
     {
         var url = $"/addeventv2/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+    
+    private void Inscrever(int eventId, int idUtilizador, string nome)
+    {
+        var url = $"/inscrever/{eventId}/{idUtilizador}/{nome}";
         NavigationManager.NavigateTo(url);
     }
 

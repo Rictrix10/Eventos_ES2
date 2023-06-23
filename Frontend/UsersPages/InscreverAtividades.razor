@@ -110,7 +110,7 @@ else
     
     private void IrParaInscricoes()
     {
-        var url = $"/atividadesinscritas/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        var url = $"/atividadesinscritas/{EventId}/{idUtilizador}/{Uri.EscapeDataString(nome)}";
         NavigationManager.NavigateTo(url);
     }
 

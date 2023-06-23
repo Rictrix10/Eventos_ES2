@@ -16,6 +16,7 @@ namespace BusinessLogic.Models
             IdAtividade = inscricaoatividade.IdAtividade;
             NomeAtividade = inscricaoatividade.IdAtividadeNavigation?.Nome;
             NomeParticipante = inscricaoatividade.IdParticipanteNavigation?.Nome;
+            IdEvento = inscricaoatividade.IdAtividadeNavigation?.IdEvento;
             NomeEvento = inscricaoatividade.IdAtividadeNavigation?.IdEventoNavigation?.Nome;
             IdOrganizador = inscricaoatividade.IdAtividadeNavigation?.IdEventoNavigation?.IdOrganizador;
         }
@@ -31,6 +32,8 @@ namespace BusinessLogic.Models
         public string? NomeAtividade { get; set; }
         
         public string? NomeParticipante { get; set; }
+        
+        public int? IdEvento { get; set; }
         
         public string? NomeEvento { get; set; }
         

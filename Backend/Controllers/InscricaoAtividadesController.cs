@@ -49,6 +49,7 @@ namespace Backend.Controllers
                     IdAtividade = a.IdAtividade,
                     NomeAtividade = a.IdAtividadeNavigation?.Nome,
                     NomeParticipante = a.IdParticipanteNavigation?.Nome,
+                    IdEvento = a.IdAtividadeNavigation?.IdEvento,
                     NomeEvento = a.IdAtividadeNavigation?.IdEventoNavigation?.Nome,
                     IdOrganizador = a.IdAtividadeNavigation?.IdEventoNavigation?.IdOrganizador
                 }).ToArray();

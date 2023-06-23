@@ -1,12 +1,12 @@
-﻿@page "/atividadesinscritas/{idUtilizador}/{nome}"
+﻿@page "/atividadesinscritas/{EventId:int}/{idUtilizador}/{nome}"
 @using BusinessLogic.Models
 @using BusinessLogic.Entities
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
-<PageTitle>Inscrições</PageTitle>
+<PageTitle>Inscrições em Atividades</PageTitle>
 
-<h1>Inscrições</h1>
+<h1>Inscrições em Atividades</h1>
 
 <button class="btn btn-secondary" @onclick="Back">Voltar</button>
 
@@ -33,7 +33,7 @@ else
         <tbody>
         @foreach (var inscricao in inscricoes)
         {
-            @if (inscricao.IdParticipante == Convert.ToInt32(IdUtilizador))
+            @if (inscricao.IdParticipante == Convert.ToInt32(IdUtilizador) && (inscricao.IdEvento == Convert.ToInt32(EventId)))
             {
                 <tr>
                     <td>@inscricao.NomeParticipante</td>
@@ -59,6 +59,9 @@ else
 
     [Parameter]
     public string Nome { get; set; }
+    
+    [Parameter]
+    public int EventId { get; set; }
     
     private int idUtilizador;
     

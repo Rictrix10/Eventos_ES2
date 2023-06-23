@@ -49,9 +49,12 @@ else
                     <td>@inscricao.IdEventoNavigation</td>
                     <td>@inscricao.TipoIngresso</td>
 
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation)">Notificar</button>
-                    </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => Notificar(inscricao.IdParticipante, inscricao.IdEvento, IdUtilizador, inscricao.IdParticipanteNavigation)">Notificar</button>
+                </td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => Cancelar(inscricao.IdInscricaoEvento)">Cancelar Inscrição</button>
+                                    </td>
                 </tr>
             
         }
@@ -96,6 +99,23 @@ else
     {
         var url = $"/mensagem/{participanteId}/{eventoId}/{organizadorId}/{inscricaoIdParticipanteNavigation}";
         NavigationManager.NavigateTo(url);
+    }
+    
+    private async Task Cancelar(int inscricaoId)
+    {
+    // Send a DELETE request to remove the activity
+        var response = await Http.DeleteAsync($"http://localhost:5052/api/InscricaoEventos/{inscricaoId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+    // Activity removed successfully, refresh the activity list
+            await LoadParticipantes();
+        }
+        else
+        {
+    // Handle the error scenario
+    // Display an error message or perform other actions
+        }
     }
 
     private void Atividades()

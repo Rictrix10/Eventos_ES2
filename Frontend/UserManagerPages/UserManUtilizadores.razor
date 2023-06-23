@@ -1,0 +1,96 @@
+﻿@page "/usermanutilizadores/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Utilizadores</PageTitle>
+
+<h1>Utilizadores</h1>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="AddNewUtilizador">Criar Utilizador</button>
+    <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
+</div>
+
+@if (utilizadores == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table style="width: 100%">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Tipo de Utilizador</th>
+            
+        </tr>
+        <tbody>
+        @foreach (var utl in utilizadores)
+        {
+            <tr>    
+                <td>@utl.IdUtilizador</td>
+                <td>@utl.Nome</td>
+                <td>@utl.Username</td>
+                <td>@utl.Password</td>
+                <td>@utl.Email</td>
+                <td>@utl.Telefone</td>
+                <td>@utl.Tipo</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => EditUtilizador(utl.IdUtilizador)">Editar Utilizador</button>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+    private bool isSaving = false;
+
+    private UtilizadorViewModel[]? utilizadores;
+
+    protected override async Task OnInitializedAsync()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+
+        utilizadores = await Http.GetFromJsonAsync<UtilizadorViewModel[]>($"http://localhost:5052/api/Utilizadores");
+    }
+
+    private void EditUtilizador(int utilizadorId)
+    {   
+        
+        var url = $"/admineditar-dados/{utilizadorId}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+        
+    }
+
+    private void AddNewUtilizador()
+    {
+        NavigationManager.NavigateTo("/adminaddutilizador");
+        
+    }
+    
+    
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo($"/home-usermanager/{idUtilizador}/{Uri.EscapeDataString(nome)}");
+    }
+}

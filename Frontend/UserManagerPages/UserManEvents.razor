@@ -1,0 +1,153 @@
+﻿@page "/usermanevents/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Eventos</PageTitle>
+
+<h1>Eventos</h1>
+
+<div class="mb-3">
+    <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Nome:</span>
+            <input id="pesquisaNome" class="form-control" @bind="@nomePesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Data:</span>
+            <input id="pesquisaData" type="date" class="form-control" @bind="@dataPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Local:</span>
+            <input id="pesquisaLocal" class="form-control" @bind="@localPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="input-group">
+            <span class="input-group-text">Categoria:</span>
+            <input id="pesquisaCategoria" class="form-control" @bind="@categoriaPesquisa" />
+        </div>
+    </div>
+    <div class="col-sm-auto">
+        <button class="btn btn-primary" @onclick="PesquisarEventos">Pesquisar</button>
+    </div>
+</div>
+
+@if (events == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table style="width: 100%">
+        <tr>
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Local</th>
+            <th>Descrição</th>
+            <th>Capacidade Máxima</th>
+            <th>Categoria</th>
+            
+        </tr>
+        <tbody>
+        @foreach (var evt in filteredEvents)
+        {
+            <tr>    
+                <td>@evt.Nome</td>
+                <td>@evt.Data</td>
+                <td>@evt.Hora</td>
+                <td>@evt.Local</td>
+                <td>@evt.Descricao</td>
+                <td>@evt.Capacidademax</td>
+                <td>@evt.Categoria</td>
+                
+                <td>
+                    <button class="btn btn-primary" @onclick="() => Activities(evt.IdEvento)">Atividades</button>
+                </td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+    private bool isSaving = false;
+    private string nomePesquisa;
+    private DateOnly? dataPesquisa;
+    private string localPesquisa;
+    private string categoriaPesquisa;
+
+    private EventoViewModel[]? events;
+    private List<EventoViewModel> filteredEvents;
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+
+        events = await Http.GetFromJsonAsync<EventoViewModel[]>($"http://localhost:5052/api/Events");
+        //events = events.Where(e => e.IdOrganizador == idUtilizador).ToArray();
+        filteredEvents = new List<EventoViewModel>(events);
+    }
+    
+
+    private void Activities(int eventId)
+    {   
+        var url = $"/usermanatividades/{eventId}/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        NavigationManager.NavigateTo(url);
+    }
+    
+
+    
+    private void PesquisarEventos()
+    {
+        filteredEvents = events.ToList();
+
+        if (!string.IsNullOrEmpty(nomePesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Nome?.ToLower().Contains(nomePesquisa.ToLower()) == true).ToList();
+        }
+
+        if (dataPesquisa.HasValue)
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Data?.Equals(dataPesquisa.Value) == true).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(localPesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Local?.ToLower().Contains(localPesquisa.ToLower()) == true).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(categoriaPesquisa))
+        {
+            filteredEvents = filteredEvents.Where(evt => evt.Categoria?.ToLower().Contains(categoriaPesquisa.ToLower()) == true).ToList();
+        }
+    }
+    
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo($"/home-usermanager/{idUtilizador}/{Uri.EscapeDataString(nome)}");
+    }
+}

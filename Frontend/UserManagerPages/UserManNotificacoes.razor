@@ -1,0 +1,78 @@
+﻿@page "/usermannotificacoes/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@using BusinessLogic.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Notificações</PageTitle>
+
+<h1>Notificações</h1>
+
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
+@if (inscricoes == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (inscricoes.Count == 0)
+{
+    <p>Sem notificações</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Organizador</th>
+            <th>Evento</th>
+            <th>Mensagem</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var inscricao in inscricoes)
+        {
+            <tr>
+                    <td>@inscricao.IdOrganizadorNavigation</td>
+                    <td>@inscricao.IdEventoNavigation</td>
+                    <td>@inscricao.Mensagem1</td>
+
+                </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private int idUtilizador;
+    
+    private List<ReceberMensagemViewModel> inscricoes;
+    private string nome;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        await LoadInscricoes();
+    }
+    
+    
+    private async Task LoadInscricoes()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        inscricoes = await Http.GetFromJsonAsync<List<ReceberMensagemViewModel>>($"http://localhost:5052/api/Mensagens?idutilizador={idUtilizador}");
+    }
+    
+    private void Back()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+    }
+}

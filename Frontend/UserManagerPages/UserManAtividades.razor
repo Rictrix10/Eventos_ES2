@@ -1,0 +1,89 @@
+﻿@page "/usermanatividades/{EventId}/{idUtilizador}/{nome}"
+@using System.Collections.Generic
+@using BusinessLogic.Models
+@using Microsoft.AspNetCore.Components
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>Atividades</PageTitle>
+
+<h1>Atividades</h1>
+
+@if (atividades == null)
+{
+    <p>Loading...</p>
+}
+else if (atividades.Count == 0)
+{
+    <p>Sem atividades neste evento</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var atividade in atividades)
+            {
+                @if (atividade.IdEvento == Convert.ToInt32(EventId))
+                {
+                    <tr>
+                        <td>@atividade.Nome</td>
+                        <td>@atividade.Data</td>
+                        <td>@atividade.Hora</td>
+                        <td>@atividade.Descricao</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
+
+@code {
+    [Parameter]
+    public string EventId { get; set; }
+    
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+
+    private int idUtilizador;
+    private string nome;
+
+    private List<AtividadeViewModel> atividades;
+
+    protected override async Task OnInitializedAsync()
+    {
+        int eventId = Convert.ToInt32(EventId);
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+
+        // Fetch activities for the given event ID from the server
+        atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+
+
+
+    private async Task LoadAtividades()
+    {
+        int eventId = Convert.ToInt32(EventId);
+        atividades = await HttpClient.GetFromJsonAsync<List<AtividadeViewModel>>($"http://localhost:5052/api/Atividades?eventId={eventId}");
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+        //var url = $"/events/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+        //NavigationManager.NavigateTo(url);
+    }
+}

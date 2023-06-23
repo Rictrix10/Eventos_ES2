@@ -73,6 +73,10 @@
             {
                 url = $"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
+            if (tipo == "UserManager")
+            {
+                url = $"/home-usermanager/{idUtilizador}/{Uri.EscapeDataString(nome)}";
+            }
             /*
             else if (tipo == "Participante")
             {

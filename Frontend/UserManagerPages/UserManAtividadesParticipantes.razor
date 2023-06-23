@@ -1,0 +1,81 @@
+﻿@page "/usermanatividadesparticipantes/{idUtilizador}/{nome}"
+@using BusinessLogic.Models
+@using BusinessLogic.Entities
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<PageTitle>Participantes em Atividades</PageTitle>
+
+<h1>Participantes em Atividades</h1>
+
+
+@if (inscricoes == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (inscricoes.Count == 0)
+{
+    <p>Não existem participantes em atividades</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Participante</th>
+            <th>Atividade</th>
+            <th>Evento</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var inscricao in inscricoes)
+        {
+            <tr>
+                <td>@inscricao.NomeParticipante</td>
+                <td>@inscricao.NomeAtividade</td>
+                <td>@inscricao.NomeEvento</td>
+
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-secondary" @onclick="Back">Voltar</button>
+
+@code
+{
+    [Parameter]
+    public string IdUtilizador { get; set; }
+
+    [Parameter]
+    public string Nome { get; set; }
+    
+    private int idUtilizador;
+    
+    private List<InscricaoAtividadeViewModel> inscricoes;
+    private string nome;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        idUtilizador = Convert.ToInt32(IdUtilizador);
+        nome = Nome;
+        await LoadInscricoes();
+    }
+    
+    
+    private async Task LoadInscricoes()
+    {
+        int idUtilizador = Convert.ToInt32(IdUtilizador);
+        inscricoes = await Http.GetFromJsonAsync<List<InscricaoAtividadeViewModel>>($"http://localhost:5052/api/InscricaoAtividades?idutilizador={idUtilizador}");
+    }
+    
+    
+    private void Back()
+    {
+        NavigationManager.NavigateTo("javascript:history.back()");
+    }
+    
+}

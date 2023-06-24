@@ -41,7 +41,7 @@ namespace BusinessLogic.Models
         public string Username { get; set; }
 
         [Required(ErrorMessage = "A senha é obrigatória.")]
-        [MinLength(6, ErrorMessage = "A senha deve ter pelo menos 6 caracteres.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$", ErrorMessage = "A senha deve ter pelo menos 8 caracteres e conter letras maiúsculas, minúsculas e números.")]
         public string Password { get; set; }
 
         //[Required(ErrorMessage = "O tipo de usuário é obrigatório.")]

@@ -36,7 +36,7 @@
         <ValidationMessage For="@(() => addEventoIngressoViewModel.QuantidadeString)" />
     </div>
 
-    <button type="submit" class="btn btn-primary" disabled="@isSubmitting">Registar</button>
+    <button type="submit" class="btn btn-primary" disabled="@(!IsFormValid())">Registar</button>
     <button class="btn btn-secondary" @onclick="GoBack">Voltar</button>
 </EditForm>
 
@@ -87,6 +87,14 @@
             isSubmitting = false;
             StateHasChanged();
         }
+    }
+    
+    private bool IsFormValid()
+    {
+    // Check if all required fields have been filled
+        return !string.IsNullOrWhiteSpace(addEventoIngressoViewModel.TipoIngresso) &&
+               !string.IsNullOrWhiteSpace(addEventoIngressoViewModel.PrecoString) &&
+               !string.IsNullOrWhiteSpace(addEventoIngressoViewModel.QuantidadeString);
     }
 
     

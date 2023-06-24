@@ -77,17 +77,7 @@
             {
                 url = $"/home-usermanager/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
-            /*
-            else if (tipo == "Participante")
-            {
-                url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-            }
-            else
-            {
-                // Caso não haja um tipo válido, redirecione para a página inicial
-                url = $"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-            }
-            */
+
 
             NavigationManager.NavigateTo(url);
 

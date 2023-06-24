@@ -78,21 +78,26 @@
 
     private async Task HandleValidSubmit()
     {
-    // Verificar se todos os campos obrigatórios foram preenchidos
+        // Verificar se todos os campos obrigatórios foram preenchidos
         if (string.IsNullOrEmpty(addatividadeModel.Nome) || addatividadeModel.Data == null || string.IsNullOrEmpty(addatividadeModel.HoraString) || string.IsNullOrEmpty(addatividadeModel.Descricao))
         {
             Console.WriteLine("Por favor, preencha todos os campos obrigatórios.");
             return;
         }
 
-    // Verificar o formato e a faixa de hora
+        // Verificar o formato e a faixa de hora
         if (!ValidateTimeFormat(addatividadeModel.HoraString))
         {
             Console.WriteLine("Formato de hora inválido. Usando valor padrão.");
             addatividadeModel.HoraString = "00:00:00"; // Valor padrão
         }
 
-    // Verificar se a capacidade máxima é uma string com no máximo 6 caracteres numéricos
+        // Verificar se Data não é inferior a EventoData e se HoraString não é inferior a EventoHora
+        if (addatividadeModel.Data < addatividadeModel.EventoData || (addatividadeModel.Data == addatividadeModel.EventoData && addatividadeModel.Hora < addatividadeModel.EventoHora))
+        {
+            Console.WriteLine("A data e hora da atividade não podem ser anteriores à data e hora do evento.");
+            return;
+        }
 
         try
         {
@@ -101,7 +106,7 @@
 
             Console.WriteLine("Registro concluído com sucesso!");
 
-    // Reset the form
+            // Reset the form
             addatividadeModel = new AddAtividadeViewModel();
             editContext = new EditContext(addatividadeModel);
         }
@@ -145,10 +150,6 @@
 
     private void GoBack()
     {   
-        /*
-        var url = $"/atividades/{eventId}";
-        NavigationManager.NavigateTo(url);
-        */
         NavigationManager.NavigateTo("javascript:history.back()");
     }
 }

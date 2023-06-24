@@ -48,7 +48,9 @@ namespace Backend.Controllers
                     Data = a.Data,
                     Hora = a.Hora,
                     Descricao = a.Descricao,
-                    IdEvento = a.IdEvento
+                    IdEvento = a.IdEvento,
+                    EventoData = a.IdEventoNavigation?.Data,
+                    EventoHora = a.IdEventoNavigation?.Hora
 
                     /*
                     NomeOrganizador = new {

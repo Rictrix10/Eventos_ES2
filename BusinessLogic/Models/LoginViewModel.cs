@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace BusinessLogic.Models
 {
@@ -24,9 +25,13 @@ namespace BusinessLogic.Models
 
         public int IdUtilizador { get; set; }
 
+        [Required(ErrorMessage = "O username é obrigatório.")]
+        public string Username { get; set; }
 
-        public string? Password { get; set; }
-        public string? Username { get; set; }
+        [Required(ErrorMessage = "A password é obrigatória.")]
+        public string Password { get; set; }
+
+        public string ErrorMessage { get; set; }
 
         public bool VerifyCredentials(string username, string password)
         {
@@ -34,3 +39,4 @@ namespace BusinessLogic.Models
         }
     }
 }
+

@@ -1,6 +1,4 @@
 @page "/login"
-@using System.ComponentModel.DataAnnotations
-@using System.Net
 @using BusinessLogic.Models
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavigationManager
@@ -20,7 +18,7 @@
 
     <div class="form-group">
         <label for="password">Password:</label>
-        <input id="password" class="form-control" type="password" @bind="@loginModel.Password" />
+        <InputText id="password" class="form-control" type="password" @bind-Value="@loginModel.Password" />
         <ValidationMessage For="@(() => loginModel.Password)" />
     </div>
 
@@ -39,7 +37,7 @@
 </EditForm>
 
 @code {
-    private LoginModel loginModel = new LoginModel();
+    private LoginViewModel loginModel = new LoginViewModel();
     private UtilizadorViewModel[]? utilizadores;
 
     protected override async Task OnInitializedAsync()
@@ -61,23 +59,21 @@
             string url = "";
 
             if (tipo == "Participante")
-            {   
+            {
                 url = $"/home-par/{idUtilizador}/{Uri.EscapeDataString(nome)}";
-                
             }
-            if(tipo == "Organizador")
+            else if (tipo == "Organizador")
             {
                 url = $"/home-org/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
-            if(tipo == "Admin")
+            else if (tipo == "Admin")
             {
                 url = $"/home-admin/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
-            if (tipo == "UserManager")
+            else if (tipo == "UserManager")
             {
                 url = $"/home-usermanager/{idUtilizador}/{Uri.EscapeDataString(nome)}";
             }
-
 
             NavigationManager.NavigateTo(url);
 
@@ -92,16 +88,5 @@
             // As credenciais são inválidas, definir a mensagem de erro
             loginModel.ErrorMessage = "Credenciais inválidas";
         }
-    }
-
-    public class LoginModel
-    {
-        [Required(ErrorMessage = "O username é obrigatório.")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "A password é obrigatória.")]
-        public string Password { get; set; }
-
-        public string ErrorMessage { get; set; }
     }
 }
